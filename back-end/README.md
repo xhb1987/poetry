@@ -1,5 +1,3 @@
 # Express js project
-  This is the express test project.
-  
-  It is created to learn how to write express js application.
- 
+
+Express project for poet back end
