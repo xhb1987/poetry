@@ -4,7 +4,10 @@ import { Profile } from "../entity/profile.entity";
 @EntityRepository(Profile)
 export class ProfileRepository extends Repository<Profile> {
   async findById(id: number): Promise<Profile | undefined> {
-    return this.findOne(id);
+    return this.findOne(id, {
+      relations: ["favorites", "recites", "finished"],
+      where: { id },
+    });
   }
 
   async createAndSave(profile: Profile): Promise<Profile> {

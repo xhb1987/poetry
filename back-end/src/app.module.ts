@@ -11,6 +11,8 @@ import { Role } from "./user/entity/role.entity";
 import { AuthModule } from "./auth/auth.module";
 import { ProfileModule } from "./profile/profile.module";
 import { Profile } from "./profile/entity/profile.entity";
+import { PoetModule } from "./poet/poet.module";
+import { Poet } from "./poet/entity/poet.entity";
 @Module({
   providers: [
     {
@@ -31,13 +33,14 @@ import { Profile } from "./profile/entity/profile.entity";
         database: config.get("database.name"),
         autoLoadEntities: true,
         synchronize: true,
-        entities: [User, Role, Profile],
+        entities: [User, Role, Profile, Poet],
       }),
       inject: [ConfigService],
     }),
     UserModule,
     AuthModule,
     ProfileModule,
+    PoetModule,
   ],
 })
 export class AppModule {}

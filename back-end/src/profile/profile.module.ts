@@ -11,15 +11,21 @@ import UserService from "../user/service/user-service";
 import UserRepository from "../user/repository/user.repository";
 import { UserModule } from "../user/user.module";
 import { ProfileController } from "./controller/profile.controller";
+import PoetService from "../poet/service/poet.service";
+import PoetRepository from "../poet/repository/poet.repository";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProfileRepository, UserRepository]),
+    TypeOrmModule.forFeature([
+      ProfileRepository,
+      UserRepository,
+      PoetRepository,
+    ]),
     LoggerModule,
     ConfigModule,
     UserModule,
   ],
   controllers: [ProfileController],
-  providers: [ProfileService, UserService, JwtStrategy],
+  providers: [ProfileService, UserService, PoetService, JwtStrategy],
 })
 export class ProfileModule {}
