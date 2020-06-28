@@ -1,21 +1,31 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MyText from 'src/common/component/text';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectReciteCollections } from 'src/state/user/selector';
-import { ProfileReciteCollection } from 'src/state/user/types';
+import { ProfileReciteCollection, Profile } from 'src/state/user/types';
 import { ScrollView } from 'react-native-gesture-handler';
 import { MyButton } from 'src/common/component/button';
-import { CollectionItem } from '../component/collection-item';
+import { CollectionItem } from '../../component/collection-item';
+import { userActions } from 'src/state/user/actions';
+import { useNavigation } from '@react-navigation/native';
+import { routes } from 'src/screen/routes';
 
-export const RecitesPage = () => {
+export const ReciteCollectionPage = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const reciteCollections = useSelector(selectReciteCollections);
 
+  const goToCollection = (collection: ProfileReciteCollection) => {
+    dispatch(userActions.selectUserProfileReciteCollection(collection));
+    navigation.navigate(routes.collectionPoet);
+  };
   return (
     <View style={style.container}>
       <ScrollView>
         {reciteCollections.map((collection: ProfileReciteCollection) => (
-          <CollectionItem collection={collection} />
+          <CollectionItem key={collection.id} collection={collection} onPress={() => goToCollection(collection)} />
         ))}
       </ScrollView>
       <View>

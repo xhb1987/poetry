@@ -1,24 +1,34 @@
 import React, { FC } from 'react';
-import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { IPoet } from 'src/state/poet/types';
-import { useTheme } from '@react-navigation/native';
+import { View, StyleSheet, TouchableOpacity, Dimensions, GestureResponderEvent } from 'react-native';
+import { Poet } from 'src/state/poet/types';
+import { useTheme, useNavigation } from '@react-navigation/native';
 import { AppTheme } from 'src/common/types/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MyText from 'src/common/component/text';
+import { useDispatch, useSelector } from 'react-redux';
+import { poetActions } from 'src/state/poet/actions';
+import { routes } from 'src/screen/routes';
+import { selectFavorite } from 'src/state/user/selector';
 
 type PoetItemProps = {
   isSelected?: boolean;
+  poet: Poet;
+  onPress?: (e: GestureResponderEvent) => void;
+  onLongPress?: (e: GestureResponderEvent) => void;
 };
 
-export const PoetItem: FC<Pick<IPoet, 'author' | 'id' | 'title'> & PoetItemProps> = ({ id, title, author }) => {
+export const PoetItem: FC<PoetItemProps> = ({ poet, onPress, onLongPress }) => {
+  const { id, title, author } = poet;
+
   const theme = useTheme() as AppTheme;
   const style = getStyle(theme);
-  const onPress = () => console.log(id);
-  const onLongPress = () => console.log('long', id);
+  const favorite = useSelector(selectFavorite);
+  const isMyFavorite = favorite.some((favoritePoet: Poet) => favoritePoet.id === poet.id);
+
   return (
     <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={style.container} activeOpacity={0.5}>
       <View style={style.content}>
-        <Icon name="bookmark" color={theme.colors.secondary} />
+        <View>{isMyFavorite && <Icon name="bookmark" color={theme.colors.secondary} size={16} />}</View>
         <MyText style={style.title}>{title}</MyText>
         <MyText>{author}</MyText>
       </View>
@@ -42,6 +52,7 @@ const getStyle = (theme: AppTheme) =>
       borderWidth: 1,
       padding: 16,
       margin: 16,
+      marginBottom: 0,
       backgroundColor: 'white',
     },
 

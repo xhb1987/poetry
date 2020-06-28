@@ -3,7 +3,11 @@ export const routes = {
   profile: 'profile',
   search: 'search',
   favorites: 'favorites',
-  recites: 'recites',
+  // recites: 'recites',
+  reciteCollection: 'reciteCollection',
+  collectionPoet: 'collectionPoet',
   finished: 'finished',
   aboutUs: 'aboutUs',
+  poetModal: 'poetModal',
+  searchModal: 'searchModal',
 };

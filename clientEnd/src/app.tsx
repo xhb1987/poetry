@@ -6,16 +6,32 @@ import { store } from './state/store';
 import { persistStore } from 'redux-persist';
 import { Screen } from './screen';
 import { IntlProvider } from 'react-intl';
+import { PoetModal } from './screen/home/modal/poet-modal';
+import { AppTheme as Theme } from 'src/common/types/types';
+import { DefaultTheme } from '@react-navigation/native';
 
 // const persistor = persistStore(store);
 
 // React Native: App
 export default function App() {
+  const AppTheme: Theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      tabColor: '#7CC5A1',
+      primary: '#84DCC6',
+      secondary: '#FFA69E',
+      text: '#84DCC6',
+      fontColor: '#373737',
+      disabledColor: '#BFBFBF',
+    },
+  };
   return (
     // Redux: Global Store
     <Provider store={store}>
       {/* <IntlProvider locale="en"> */}
-      <Screen />
+      <Screen theme={AppTheme} />
+      <PoetModal theme={AppTheme} />
       {/* </IntlProvider> */}
       {/* <PersistGate loading={null} persistor={persistor}> */}
       {/* </PersistGate> */}

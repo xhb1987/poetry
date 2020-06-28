@@ -1,30 +1,32 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import MyText from 'src/common/component/text';
-import { PoetItem } from '../component/poet-item';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFavorite } from 'src/state/user/selector';
-import { EmptyPrompt } from '../component/empty-prompt';
+import { selectFavorite, selectReciteCollectionPoets } from 'src/state/user/selector';
 import { useNavigation } from '@react-navigation/native';
 import { poetActions } from 'src/state/poet/actions';
 import { Poet } from 'src/state/poet/types';
+import { EmptyPrompt } from '../../component/empty-prompt';
+import { PoetItem } from '../../component/poet-item';
 
-export const FavoritesPage = () => {
+export const CollectionPoetPage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const userFavorites = useSelector(selectFavorite);
+  const userReciteCollectionPoet = useSelector(selectReciteCollectionPoets);
 
   const onPoetItemPress = (poet: Poet) => {
     dispatch(poetActions.openPoetDialog());
     dispatch(poetActions.selectPoet(poet));
-    dispatch(poetActions.setWherePoetFrom('favorite'));
+    dispatch(poetActions.setWherePoetFrom('recite'));
   };
   return (
     <ScrollView>
-      {userFavorites.length === 0 ? (
+      {userReciteCollectionPoet.length === 0 ? (
         <EmptyPrompt />
       ) : (
-        userFavorites.map((poet) => <PoetItem key={poet.id} poet={poet} onPress={() => onPoetItemPress(poet)} />)
+        userReciteCollectionPoet.map((poet) => (
+          <PoetItem key={poet.id} poet={poet} onPress={() => onPoetItemPress(poet)} />
+        ))
       )}
     </ScrollView>
   );

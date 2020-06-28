@@ -3,8 +3,9 @@ import { UserRootAction, UserRootState } from './types';
 import { filter, switchMap, map, catchError, tap, ignoreElements } from 'rxjs/operators';
 import { isActionOf } from 'typesafe-actions';
 import { userActions } from './actions';
+import { RootState } from '../reducer';
 
-export const userEpic: Epic<UserRootAction, UserRootAction, UserRootState> = (action$, state$) =>
+export const userEpic: Epic<UserRootAction, UserRootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(userActions.userRegister)),
     tap(() => console.log('epic')),

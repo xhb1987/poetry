@@ -1,20 +1,27 @@
-import { IPoet } from '../poet/types';
+import { Poet } from '../poet/types';
 import { UserActions } from './actions';
 import { UserState } from './reducer';
 
 export type Role = 'USER' | 'ADMIN';
 
-export interface IProfile {
+export type ProfileReciteCollection = {
+  id: number;
   name: string;
-  favorites: IPoet[];
-  recites: IPoet[];
-  finished: IPoet[];
-}
-export interface IUser {
+  poet: Poet[];
+};
+
+export type Profile = {
+  id: number;
+  name: string;
+  favorites: Poet[];
+  recites: ProfileReciteCollection[];
+  finished: Poet[];
+};
+export type User = {
   username: string;
   roles: Role[];
-  profile: IProfile;
-}
+  profile: Profile;
+};
 
 export type UserRootAction = UserActions;
 export type UserRootState = UserState;

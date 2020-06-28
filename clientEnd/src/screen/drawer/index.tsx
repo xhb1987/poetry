@@ -25,7 +25,7 @@ export const DrawerComponent = (props: DrawerContentComponentProps) => {
       <DrawerItem title="名字" route={routes.profile} navigation={props.navigation} />
       <DrawerSeparator />
       <DrawerItem title="收藏" route={routes.favorites} navigation={props.navigation} />
-      <DrawerItem title="背诵" route={routes.recites} navigation={props.navigation} />
+      <DrawerItem title="背诵" route={routes.reciteCollection} navigation={props.navigation} />
       <DrawerItem title="完成背诵" route={routes.finished} navigation={props.navigation} />
       <DrawerSeparator />
 
