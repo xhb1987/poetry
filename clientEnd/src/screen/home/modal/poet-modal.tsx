@@ -6,9 +6,10 @@ import { selectSelectedPoet, selectPoetDialog, selectWherePoetFrom } from 'src/s
 import Modal from 'react-native-modal';
 import { poetActions } from 'src/state/poet/actions';
 import { AppTheme } from 'src/common/types/types';
-import { useTheme } from '@react-navigation/native';
 import { MyButton } from 'src/common/component/button';
-import { selectFavorite, selectFinished, selectReciteCollectionPoets } from 'src/state/user/selector';
+import { selectFavoritePoets } from 'src/state/favorites/selectors';
+import { selectFinishedPoets } from 'src/state/finished/selectors';
+import { selectReciteCollectionPoets } from 'src/state/recites/selectors';
 
 export const PoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   const dispatch = useDispatch();
@@ -20,8 +21,8 @@ export const PoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   const [isViewPoet, setIsViewPoet] = useState(false);
   useEffect(() => setIsViewPoet(isFromSearch), [isFromSearch]);
 
-  const favorite = useSelector(selectFavorite);
-  const finished = useSelector(selectFinished);
+  const favorite = useSelector(selectFavoritePoets);
+  const finished = useSelector(selectFinishedPoets);
   const recite = useSelector(selectReciteCollectionPoets);
 
   const poetCollection = () => {

@@ -1,6 +1,7 @@
 import { Action } from 'typesafe-actions';
 import { AjaxRequest, AjaxResponse, AjaxError } from 'rxjs/ajax';
 import { SEARCH_POET } from './searchActions';
+import { ADD_COLLECTION } from './reciteActions';
 
 export interface RestAction extends Action {
   payload: {
@@ -10,4 +11,4 @@ export interface RestAction extends Action {
   };
 }
 
-export const restActions = [SEARCH_POET];
+export const restActions = [SEARCH_POET, ADD_COLLECTION];

@@ -6,6 +6,8 @@ type PoetReducer = {
   selectedPoet?: Poet;
   from?: PoetFrom;
   openDialog: boolean;
+  openAddCollectionDialog: boolean;
+
   searchLoading: boolean;
   searchLoadingError: boolean;
   searchPoets: Poet[];
@@ -14,6 +16,7 @@ type PoetReducer = {
 const initState: PoetReducer = {
   selectedPoet: undefined,
   openDialog: false,
+  openAddCollectionDialog: false,
   searchLoading: false,
   searchLoadingError: false,
   searchPoets: [],
@@ -64,6 +67,13 @@ export const poetReducer = (state: PoetReducer = initState, action: PoetActions)
       return {
         ...state,
         from: action.payload.from,
+      };
+    }
+
+    case getType(poetActions.clearSearchResult): {
+      return {
+        ...state,
+        searchPoets: [],
       };
     }
 

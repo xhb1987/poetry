@@ -1,0 +1,3 @@
+export const ADD_COLLECTION = 'recite/ADD_COLLECTION';
+export const ADD_COLLECTION_SUCCESS = 'recite/ADD_COLLECTION_SUCCESS';
+export const ADD_COLLECTION_ERROR = 'recite/ADD_COLLECTION_ERROR';

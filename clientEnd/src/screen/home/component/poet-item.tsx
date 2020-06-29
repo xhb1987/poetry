@@ -1,14 +1,12 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions, GestureResponderEvent } from 'react-native';
 import { Poet } from 'src/state/poet/types';
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import { AppTheme } from 'src/common/types/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MyText from 'src/common/component/text';
-import { useDispatch, useSelector } from 'react-redux';
-import { poetActions } from 'src/state/poet/actions';
-import { routes } from 'src/screen/routes';
-import { selectFavorite } from 'src/state/user/selector';
+import { useSelector } from 'react-redux';
+import { selectFavoritePoets } from 'src/state/favorites/selectors';
 
 type PoetItemProps = {
   isSelected?: boolean;
@@ -22,7 +20,7 @@ export const PoetItem: FC<PoetItemProps> = ({ poet, onPress, onLongPress }) => {
 
   const theme = useTheme() as AppTheme;
   const style = getStyle(theme);
-  const favorite = useSelector(selectFavorite);
+  const favorite = useSelector(selectFavoritePoets);
   const isMyFavorite = favorite.some((favoritePoet: Poet) => favoritePoet.id === poet.id);
 
   return (

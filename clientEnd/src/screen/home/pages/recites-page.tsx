@@ -2,11 +2,12 @@ import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MyText from 'src/common/component/text';
 import { useSelector } from 'react-redux';
-import { selectReciteCollections } from 'src/state/user/selector';
-import { ProfileReciteCollection } from 'src/state/user/types';
+
 import { ScrollView } from 'react-native-gesture-handler';
 import { MyButton } from 'src/common/component/button';
 import { CollectionItem } from '../component/collection-item';
+import { selectReciteCollections } from 'src/state/recites/selectors';
+import { Collection } from 'src/state/recites/types';
 
 export const RecitesPage = () => {
   const reciteCollections = useSelector(selectReciteCollections);
@@ -14,7 +15,7 @@ export const RecitesPage = () => {
   return (
     <View style={style.container}>
       <ScrollView>
-        {reciteCollections.map((collection: ProfileReciteCollection) => (
+        {reciteCollections.map((collection: Collection) => (
           <CollectionItem collection={collection} />
         ))}
       </ScrollView>

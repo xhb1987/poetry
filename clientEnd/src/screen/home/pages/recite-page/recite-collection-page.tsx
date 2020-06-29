@@ -2,14 +2,17 @@ import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MyText from 'src/common/component/text';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectReciteCollections } from 'src/state/user/selector';
-import { ProfileReciteCollection, Profile } from 'src/state/user/types';
+
 import { ScrollView } from 'react-native-gesture-handler';
 import { MyButton } from 'src/common/component/button';
 import { CollectionItem } from '../../component/collection-item';
 import { userActions } from 'src/state/user/actions';
 import { useNavigation } from '@react-navigation/native';
 import { routes } from 'src/screen/routes';
+import { recitesActions } from 'src/state/recites/actions';
+import { selectReciteCollections } from 'src/state/recites/selectors';
+import { Collection } from 'src/state/recites/types';
+import { PageView } from 'src/common/component/page-view';
 
 export const ReciteCollectionPage = () => {
   const dispatch = useDispatch();
@@ -17,26 +20,19 @@ export const ReciteCollectionPage = () => {
 
   const reciteCollections = useSelector(selectReciteCollections);
 
-  const goToCollection = (collection: ProfileReciteCollection) => {
-    dispatch(userActions.selectUserProfileReciteCollection(collection));
+  const goToCollection = (collection: Collection) => {
+    // dispatch(.selectUserProfileReciteCollection(collection));
+    dispatch(recitesActions.selectReciteCollection(collection));
     navigation.navigate(routes.collectionPoet);
   };
   return (
-    <View style={style.container}>
+    <PageView style={style.container}>
       <ScrollView>
-        {reciteCollections.map((collection: ProfileReciteCollection) => (
+        {reciteCollections.map((collection: Collection) => (
           <CollectionItem key={collection.id} collection={collection} onPress={() => goToCollection(collection)} />
         ))}
       </ScrollView>
-      <View>
-        <MyButton
-          style={{ alignItems: 'center', padding: 4 }}
-          title="新建背诵单"
-          onPress={() => console.log}
-          type="primary"
-        />
-      </View>
-    </View>
+    </PageView>
   );
 };
 

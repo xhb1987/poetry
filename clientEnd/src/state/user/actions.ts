@@ -1,5 +1,4 @@
 import { createAction, ActionType } from 'typesafe-actions';
-import { ProfileReciteCollection, Profile } from './types';
 
 export const USER_REGISTER = 'user/REGISTER';
 export const USER_REGISTER_SUCCESS = 'user/REGISTER_SUCCESS';
@@ -18,12 +17,12 @@ export const userActions = {
   }>(),
   userRegisterError: createAction(USER_REGISTER_ERROR, (error: any) => ({ error }))<{ error: any }>(),
 
-  selectUserProfileReciteCollection: createAction(
-    SELECT_USER_PROFILE_RECITE_COLLECTION,
-    (collection: ProfileReciteCollection) => ({
-      collection,
-    })
-  )<{ collection: ProfileReciteCollection }>(),
+  // selectUserProfileReciteCollection: createAction(
+  //   SELECT_USER_PROFILE_RECITE_COLLECTION,
+  //   (collection: ProfileReciteCollection) => ({
+  //     collection,
+  //   })
+  // )<{ collection: ProfileReciteCollection }>(),
 };
 
 export type UserActions = ActionType<typeof userActions>;

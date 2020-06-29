@@ -9,7 +9,10 @@ import { IntlProvider } from 'react-intl';
 import { PoetModal } from './screen/home/modal/poet-modal';
 import { AppTheme as Theme } from 'src/common/types/types';
 import { DefaultTheme } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { ADdCollectionModal } from './screen/home/modal/add-collection-modal';
 
+Icon.loadFont();
 // const persistor = persistStore(store);
 
 // React Native: App
@@ -32,6 +35,7 @@ export default function App() {
       {/* <IntlProvider locale="en"> */}
       <Screen theme={AppTheme} />
       <PoetModal theme={AppTheme} />
+      <ADdCollectionModal theme={AppTheme} />
       {/* </IntlProvider> */}
       {/* <PersistGate loading={null} persistor={persistor}> */}
       {/* </PersistGate> */}

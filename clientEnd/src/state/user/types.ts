@@ -4,23 +4,13 @@ import { UserState } from './reducer';
 
 export type Role = 'USER' | 'ADMIN';
 
-export type ProfileReciteCollection = {
-  id: number;
-  name: string;
-  poet: Poet[];
-};
-
-export type Profile = {
-  id: number;
-  name: string;
-  favorites: Poet[];
-  recites: ProfileReciteCollection[];
-  finished: Poet[];
-};
 export type User = {
   username: string;
   roles: Role[];
-  profile: Profile;
+  profile?: {
+    id: number;
+    name: string;
+  };
 };
 
 export type UserRootAction = UserActions;
