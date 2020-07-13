@@ -1,6 +1,8 @@
 import { ReciteCollectionsReducer } from './types';
 import { Action, getType } from 'typesafe-actions';
 import { recitesActions, RecitesActions } from './actions';
+import { AuthActions } from '../auth/types';
+import { authActions } from '../auth/actions';
 
 const initReciteState: ReciteCollectionsReducer = {
   collections: undefined,
@@ -10,8 +12,23 @@ const initReciteState: ReciteCollectionsReducer = {
   openAddCollectionDialog: false,
 };
 
-export const reciteCollectionsReducer = (state: ReciteCollectionsReducer = initReciteState, action: RecitesActions) => {
+export const reciteCollectionsReducer = (
+  state: ReciteCollectionsReducer = initReciteState,
+  action: RecitesActions | AuthActions
+) => {
   switch (action.type) {
+    case getType(authActions.userRegisterSuccess):
+    case getType(authActions.userLoginSuccess): {
+      const {
+        user: { collections },
+      } = action.payload;
+
+      return {
+        ...state,
+        collections,
+      };
+    }
+
     case getType(recitesActions.openAddCollectionDialog): {
       return {
         ...state,
@@ -35,11 +52,10 @@ export const reciteCollectionsReducer = (state: ReciteCollectionsReducer = initR
     }
 
     case getType(recitesActions.addCollectionSuccess): {
-      const newCollection = action.payload.collection;
       return {
         ...state,
         loading: false,
-        collections: [...(state.collections ? state.collections : []), newCollection],
+        collections: [...action.payload.collection],
       };
     }
 

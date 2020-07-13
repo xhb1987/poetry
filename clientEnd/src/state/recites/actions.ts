@@ -9,10 +9,10 @@ export const OPEN_ADD_COLLECTION_DIALOG = 'recite/OPEN_ADD_COLLECTION_DIALOG';
 export const CLOSE_ADD_COLLECTION_DIALOG = 'recite/CLOSE_ADD_COLLECTION_DIALOG';
 
 export const recitesRestActions = {
-  addCollectionSuccess: createAction(ADD_COLLECTION_SUCCESS, (responseMessage: ResponseMessage<Collection>) => ({
+  addCollectionSuccess: createAction(ADD_COLLECTION_SUCCESS, (responseMessage: ResponseMessage<Collection[]>) => ({
     collection: responseMessage.data,
   }))<{
-    collection: Collection;
+    collection: Collection[];
   }>(),
   addCollectionError: createAction(ADD_COLLECTION_ERROR, (error: AjaxError) => ({ error }))<{
     error: AjaxError;
@@ -27,7 +27,11 @@ export const recitesActions = {
   closeAddCollectionDialog: createAction(CLOSE_ADD_COLLECTION_DIALOG)(),
 
   addCollection: createAction(ADD_COLLECTION, (collectionName: string) => ({
-    request: { url: `http://localhost:3001/poet/detail/content/${collectionName}`, method: 'POST' },
+    request: {
+      url: `http://localhost:3001/profile/collection/add`,
+      method: 'POST',
+      body: JSON.stringify({ name: collectionName }),
+    },
     onSuccess: recitesRestActions.addCollectionSuccess,
     onError: recitesRestActions.addCollectionError,
   }))(),

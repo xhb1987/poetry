@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
@@ -7,6 +6,7 @@ import { ajax } from 'rxjs/ajax';
 import { createEpicMiddleware } from 'redux-observable';
 import rootEpic from './root-epic';
 import rootReducer, { RootActions, RootState } from './reducer';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const persistConfig = {
   // Root

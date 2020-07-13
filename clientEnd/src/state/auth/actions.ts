@@ -1,21 +1,102 @@
 import { createAction, ActionType } from 'typesafe-actions';
 import { ResponseMessage } from '../../common/types/types';
+import {
+  USER_LOGIN,
+  USER_LOGIN_BY_TOKEN,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_ERROR,
+  USER_LOG_OUT_SUCCESS,
+  USER_LOG_OUT_ERROR,
+  USER_LOG_OUT,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_ERROR,
+} from 'src/common/rest/actions/authActions';
+import { AjaxError } from 'rxjs/ajax';
+import { User } from '../user/types';
+import { AccessToken } from './types';
+import { USER_REGISTER } from '../user/actions';
 
-export const USER_LOGIN = 'auth/USER_LOGIN';
-export const USER_LOGIN_SUCCESS = 'auth/USER_LOGIN_SUCCESS';
-export const USER_LOGIN_ERROR = 'auth/USER_LOGIN_ERROR';
+export const authResponseActions = {
+  authLoginSuccess: createAction(
+    USER_LOGIN_SUCCESS,
+    (responseMessage: ResponseMessage<{ user: User; access_token: AccessToken }>) => ({
+      user: responseMessage.data.user,
+      access_token: responseMessage.data.access_token,
+    })
+  )<{
+    user: User;
+    access_token: AccessToken;
+  }>(),
+  authLoginError: createAction(USER_LOGIN_ERROR, (error: AjaxError) => ({ error }))<{
+    error: AjaxError;
+  }>(),
 
-export const authActions = {
-  userLogin: createAction(USER_LOGIN, (username: string, password: string) => ({ username, password }))<{
-    username: string;
-    password: string;
+  authLogOutSuccess: createAction(USER_LOG_OUT_SUCCESS, (responseMessage: ResponseMessage<string>) => ({
+    message: responseMessage.data,
+  }))<{
+    message: string;
   }>(),
-  userLoginSuccess: createAction(USER_LOGIN_SUCCESS, (response: ResponseMessage<string>) => ({ response }))<{
-    response: ResponseMessage<string>;
+  authLogOutError: createAction(USER_LOG_OUT_ERROR, (error: AjaxError) => ({ error }))<{
+    error: AjaxError;
   }>(),
-  userRegisterError: createAction(USER_LOGIN_ERROR, (error: ResponseMessage<string>) => ({ error }))<{
-    error: ResponseMessage<string>;
+
+  authRegisterSuccess: createAction(
+    USER_REGISTER_SUCCESS,
+    (responseMessage: ResponseMessage<{ user: User; access_token: AccessToken }>) => ({
+      user: responseMessage.data.user,
+      access_token: responseMessage.data.access_token,
+    })
+  )<{
+    user: User;
+    access_token: AccessToken;
+  }>(),
+  authRegisterError: createAction(USER_REGISTER_ERROR, (error: AjaxError) => ({ error }))<{
+    error: AjaxError;
   }>(),
 };
 
-export type AuthActions = ActionType<typeof authActions>;
+export const authActions = {
+  userRegister: createAction(USER_REGISTER, (username: string, password: string) => ({
+    request: {
+      url: 'http://localhost:3001/auth/register',
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    },
+    onSuccess: authResponseActions.authRegisterSuccess,
+    onError: authResponseActions.authRegisterError,
+  }))(),
+  userRegisterSuccess: authResponseActions.authRegisterSuccess,
+  userRegisterError: authResponseActions.authRegisterError,
+
+  userLogin: createAction(USER_LOGIN, (username: string, password: string) => ({
+    request: {
+      url: `http://localhost:3001/auth/login`,
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    },
+    onSuccess: authResponseActions.authLoginSuccess,
+    onError: authResponseActions.authLoginError,
+  }))(),
+
+  userLoginByToken: createAction(USER_LOGIN_BY_TOKEN, () => ({
+    request: {
+      url: `http://localhost:3001/auth/login/token`,
+      method: 'POST',
+    },
+    onSuccess: authResponseActions.authLoginSuccess,
+    onError: authResponseActions.authLoginError,
+  }))(),
+  userLoginSuccess: authResponseActions.authLoginSuccess,
+  userLoginError: authResponseActions.authLoginError,
+
+  userLogout: createAction(USER_LOG_OUT, () => ({
+    request: {
+      url: 'http://localhost:3001/auth/logout',
+      method: 'POST',
+    },
+    onSuccess: authResponseActions.authLogOutSuccess,
+    onError: authResponseActions.authLogOutError,
+  }))(),
+  userLogoutSuccess: authResponseActions.authLogOutSuccess,
+  userLogoutError: authResponseActions.authLogOutError,
+};

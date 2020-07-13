@@ -8,9 +8,11 @@ import { PoetRootState } from './poet/types';
 import { FavoritesRootState } from './favorites/types';
 import { FinishedRootState } from './finished/types';
 import { ReciteCollectionRootState } from './recites/types';
+import { AuthState } from './auth/types';
 import { favoritesReducer } from './favorites/reducer';
 import { finishedReducer } from './finished/reducer';
 import { reciteCollectionsReducer } from './recites/reducer';
+import { authReducer } from './auth/reducer';
 
 export type RootActions = UserActions;
 export type RootState = {
@@ -19,6 +21,7 @@ export type RootState = {
   favorites: FavoritesRootState;
   finished: FinishedRootState;
   recites: ReciteCollectionRootState;
+  auth: AuthState;
 };
 
 // Redux: Root Reducer
@@ -28,6 +31,7 @@ const rootReducer = combineReducers({
   favorites: favoritesReducer,
   finished: finishedReducer,
   recites: reciteCollectionsReducer,
+  auth: authReducer,
 });
 // Exports
 export default rootReducer;

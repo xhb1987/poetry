@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 export const HomeTab: FC<{ theme: Theme }> = ({ theme }) => (
   <Tab.Navigator initialRouteName={routes.favorites}>
     <Tab.Screen
-      name="favorites"
+      name="首页"
       component={FavoritesScreen}
       options={{
         tabBarLabel: ({ focused }) => (
@@ -52,7 +52,9 @@ export const HomeTab: FC<{ theme: Theme }> = ({ theme }) => (
       component={ProfileScreen}
       options={{
         tabBarIcon: ({ focused }) => {
-          return <Icon name="bars" size={26} color={theme.colors.tabColor} style={{ opacity: focused ? 1 : 0.5 }} />;
+          return (
+            <Icon name="user-circle-o" size={26} color={theme.colors.tabColor} style={{ opacity: focused ? 1 : 0.5 }} />
+          );
         },
       }}
     />

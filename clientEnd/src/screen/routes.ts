@@ -10,4 +10,6 @@ export const routes = {
   aboutUs: 'aboutUs',
   poetModal: 'poetModal',
   searchModal: 'searchModal',
+  login: 'login',
+  register: 'register',
 };

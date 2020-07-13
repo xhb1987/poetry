@@ -13,13 +13,15 @@ export const MyButton: FC<
 > = ({ type, title, loading, theme: exTheme, ...rest }) => {
   const theme = exTheme || (useTheme() as AppTheme);
   return (
-    <View style={{ backgroundColor: rest.disabled ? theme.colors.disabledColor : theme.colors[type], borderRadius: 5 }}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
-        {...rest}
-      >
-        <Text style={{ color: 'white', padding: 8, fontSize: 16, flex: 10, textAlign: 'center' }}>{title}</Text>
+    <View
+      style={{
+        backgroundColor: rest.disabled ? theme.colors.disabledColor : theme.colors[type],
+        borderRadius: 5,
+        padding: 2,
+      }}
+    >
+      <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: 'center', alignItems: 'center' }} {...rest}>
+        <Text style={{ color: 'white', padding: 8, fontSize: 16, textAlign: 'center' }}>{title}</Text>
         {loading && (
           <MaterialIndicator
             size={12}

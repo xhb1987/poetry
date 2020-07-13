@@ -29,7 +29,13 @@ export const SearchInput: FC<{ autoFocus?: boolean; searchButton: boolean }> = (
   };
   return (
     <View style={style.container}>
-      <TextInput onFocus={onFocus} onChangeText={onInputChange} autoFocus={autoFocus} onEndEditing={onSearch} />
+      <TextInput
+        style={style.input}
+        onFocus={onFocus}
+        onChangeText={onInputChange}
+        autoFocus={autoFocus}
+        onEndEditing={onSearch}
+      />
       {searchButton && <MyButton type="primary" title="搜索" onPress={onSearch} />}
     </View>
   );
@@ -42,9 +48,12 @@ const getStyle = (theme: AppTheme) =>
       flexDirection: 'row',
       width: Dimensions.get('window').width,
       paddingHorizontal: 16,
-      minHeight: 32,
     },
-
+    input: {
+      flex: 5,
+      fontSize: 16,
+      paddingHorizontal: 12,
+    },
     searchButton: {
       fontSize: 16,
     },

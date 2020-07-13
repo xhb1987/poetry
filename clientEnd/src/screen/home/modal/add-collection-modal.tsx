@@ -38,6 +38,8 @@ export const ADdCollectionModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   const deviceWidth = Dimensions.get('window').width;
   const deviceHeight = Dimensions.get('window').height;
 
+  const isButtonDisabled = !collectionName || isLoading;
+
   const style = getStyle(theme);
 
   return (
@@ -51,7 +53,7 @@ export const ADdCollectionModal: FC<{ theme: AppTheme }> = ({ theme }) => {
       <View style={style.container}>
         <TextInput style={style.input} theme={theme} placeholder="请添加名字" onChangeText={onCollectionNameUpdate} />
         <MyButton
-          disabled={isLoading}
+          disabled={isButtonDisabled}
           loading={isLoading}
           theme={theme}
           type="primary"
@@ -73,13 +75,15 @@ const getStyle = (theme: AppTheme) =>
       borderStyle: 'solid',
       padding: 16,
       minHeight: 128,
-      justifyContent: 'space-between',
+      justifyContent: 'center',
+      flexDirection: 'column',
     },
 
     input: {
-      //   maxHeight: 18,
       borderColor: 'black',
-      fontSize: 18,
-      //   marginBottom: 18,
+      fontSize: 16,
+      marginBottom: 18,
+      paddingVertical: 16,
+      flex: 1,
     },
   });

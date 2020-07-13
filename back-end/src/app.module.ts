@@ -10,10 +10,10 @@ import configuration from './config/configuration';
 import { Role } from './user/entity/role.entity';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
-import { Profile } from './profile/entity/profile.entity';
 import { PoetModule } from './poet/poet.module';
 import { Poet } from './poet/entity/poet.entity';
-import { ProfileRecites } from './profile/entity/profile.recites.entity';
+import { Collection } from './profile/entity/collection.entity';
+import { Favorite } from './profile/entity/favorite.entity';
 @Module({
     providers: [
         {
@@ -34,7 +34,7 @@ import { ProfileRecites } from './profile/entity/profile.recites.entity';
                 database: config.get('database.name'),
                 autoLoadEntities: true,
                 synchronize: true,
-                entities: [User, Role, Profile, Poet, ProfileRecites],
+                entities: [User, Role, Favorite, Poet, Collection],
             }),
             inject: [ConfigService],
         }),

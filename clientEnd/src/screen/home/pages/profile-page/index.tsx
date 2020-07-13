@@ -5,6 +5,16 @@ import { ProfilePage } from './profile-page';
 
 export const ProfileScreen: FC = () => (
   <Stack.Navigator>
-    <Stack.Screen name={routes.profile} component={ProfilePage} />
+    <Stack.Screen
+      name={routes.profile}
+      component={ProfilePage}
+      options={{
+        headerTitle: '我的',
+        headerBackTitleVisible: false,
+        headerStyle: {
+          shadowColor: 'transparent',
+        },
+      }}
+    />
   </Stack.Navigator>
 );

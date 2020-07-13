@@ -9,6 +9,7 @@ import { poetActions } from 'src/state/poet/actions';
 import { Poet } from 'src/state/poet/types';
 import { selectFavoritePoets } from 'src/state/favorites/selectors';
 import { PageView } from 'src/common/component/page-view';
+import { authActions } from 'src/state/auth/actions';
 
 export const FavoritesPage = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export const FavoritesPage = () => {
     dispatch(poetActions.selectPoet(poet));
     dispatch(poetActions.setWherePoetFrom('favorite'));
   };
+
   return (
     <PageView>
       <ScrollView>

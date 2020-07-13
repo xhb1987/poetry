@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MyText from 'src/common/component/text';
-import { ProfileReciteCollection } from 'src/state/user/types';
 import { GestureResponderEvent, StyleSheet } from 'react-native';
 import { AppTheme } from 'src/common/types/types';
 import { useTheme } from '@react-navigation/native';
+import { Collection } from 'src/state/recites/types';
 
 type CollectionItemProps = {
   isSelected?: boolean;
-  collection: ProfileReciteCollection;
+  collection: Collection;
   onPress?: (e: GestureResponderEvent) => void;
   onLongPress?: (e: GestureResponderEvent) => void;
 };
@@ -32,6 +32,7 @@ const getStyle = (theme: AppTheme) =>
       borderRadius: 5,
       borderWidth: 1,
       borderStyle: 'solid',
-      padding: 16,
+      paddingVertical: 12,
+      marginBottom: 12,
     },
   });

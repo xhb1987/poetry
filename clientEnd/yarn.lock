@@ -904,6 +904,12 @@
   dependencies:
     deep-assign "^3.0.0"
 
+"@react-native-community/async-storage@react-native-community/async-storage":
+  version "1.11.0"
+  resolved "https://codeload.github.com/react-native-community/async-storage/tar.gz/bf0c2547582cf830c499aeaaa227ea7ef29fb3c2"
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.9.0.tgz#4177764ba69243c97aa26829d59d9501acb2bd71"
@@ -1182,6 +1188,11 @@
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
+
+"@types/lodash@^4.14.157":
+  version "4.14.157"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.157.tgz#fdac1c52448861dfde1a2e1515dbc46e54926dc8"
+  integrity sha512-Ft5BNFmv2pHDgxV5JDsndOWTRJ+56zte0ZpYLowp03tW+K+t8u8YMOzAnpuqPgzX6WO1XpDIUm7u04M8vdDiVQ==
 
 "@types/prop-types@*":
   version "15.7.3"
@@ -5508,10 +5519,10 @@ react-devtools-core@^4.0.6:
     shell-quote "^1.6.1"
     ws "^7"
 
-react-hook-form@^5.7.2:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-5.7.2.tgz#a84e259e5d37dd30949af4f79c4dac31101b79ac"
-  integrity sha512-bJvY348vayIvEUmSK7Fvea/NgqbT2racA2IbnJz/aPlQ3GBtaTeDITH6rtCa6y++obZzG6E3Q8VuoXPir7QYUg==
+react-hook-form@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.0.1.tgz#dd2def2c26747a7920fd7367d5d3e7ec5e281f3b"
+  integrity sha512-aurgVttjyO40sTf56xb9K5lsK2tOP0zrtAbPB1gZVTD9Vicf8dyvaMu89x5IooERD5LZyu47CAzLjpX1VwM6/A==
 
 react-intl@*, react-intl@^4.6.9:
   version "4.6.9"

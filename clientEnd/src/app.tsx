@@ -11,6 +11,7 @@ import { AppTheme as Theme } from 'src/common/types/types';
 import { DefaultTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ADdCollectionModal } from './screen/home/modal/add-collection-modal';
+import { Authentication } from './common/component/authentication';
 
 Icon.loadFont();
 // const persistor = persistStore(store);
@@ -33,6 +34,7 @@ export default function App() {
     // Redux: Global Store
     <Provider store={store}>
       {/* <IntlProvider locale="en"> */}
+      <Authentication />
       <Screen theme={AppTheme} />
       <PoetModal theme={AppTheme} />
       <ADdCollectionModal theme={AppTheme} />

@@ -21,7 +21,6 @@ export const ReciteCollectionPage = () => {
   const reciteCollections = useSelector(selectReciteCollections);
 
   const goToCollection = (collection: Collection) => {
-    // dispatch(.selectUserProfileReciteCollection(collection));
     dispatch(recitesActions.selectReciteCollection(collection));
     navigation.navigate(routes.collectionPoet);
   };
@@ -39,7 +38,6 @@ export const ReciteCollectionPage = () => {
 const style = StyleSheet.create({
   container: {
     height: Dimensions.get('window').height * 0.85,
-    width: Dimensions.get('window').width,
-    padding: 16,
+    // padding: 16,
   },
 });

@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 export const selectUserState = (state: RootState) => state.user;
 
-export const selectUserProfile = createSelector(selectUserState, (user) => user.profile);
+// export const selectUserProfile = createSelector(selectUserState, (user) => user.profile);
 
 // export const selectReciteCollections = createSelector(selectUserProfile, (profile) => profile.recites);
 // export const selectReciteCollectionPoets = createSelector(
