@@ -80,10 +80,10 @@ const getStyle = (theme: AppTheme) =>
     },
 
     input: {
-      borderColor: 'black',
+      // borderColor: 'black',
       fontSize: 16,
       marginBottom: 18,
-      paddingVertical: 16,
+      // paddingVertical: 16,
       flex: 1,
     },
   });

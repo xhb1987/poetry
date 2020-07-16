@@ -8,7 +8,8 @@ export type Poet = {
   paragraphs: string;
   isBookmark?: boolean;
 };
-export type PoetFrom = 'favorite' | 'recite' | 'finished' | 'search';
+
+export type PoetDialogType = 'add' | 'recite' | 'view';
 
 export type PoetRootAction = PoetActions;
 export type PoetRootState = PoetState;

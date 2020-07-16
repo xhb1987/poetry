@@ -1,11 +1,11 @@
-import { Poet, PoetFrom } from './types';
+import { Poet, PoetDialogType } from './types';
 import { PoetActions, poetActions } from './actions';
 import { getType, StateType } from 'typesafe-actions';
 
 type PoetReducer = {
   selectedPoet?: Poet;
-  from?: PoetFrom;
   openDialog: boolean;
+  poetDialogType?: PoetDialogType;
   openAddCollectionDialog: boolean;
 
   searchLoading: boolean;
@@ -16,11 +16,11 @@ type PoetReducer = {
 const initState: PoetReducer = {
   selectedPoet: undefined,
   openDialog: false,
+  poetDialogType: undefined,
   openAddCollectionDialog: false,
   searchLoading: false,
   searchLoadingError: false,
   searchPoets: [],
-  from: undefined,
 };
 
 export const poetReducer = (state: PoetReducer = initState, action: PoetActions) => {
@@ -33,12 +33,14 @@ export const poetReducer = (state: PoetReducer = initState, action: PoetActions)
       return {
         ...state,
         openDialog: true,
+        poetDialogType: action.payload.dialogType,
       };
     }
     case getType(poetActions.closePoetDialog): {
       return {
         ...state,
         openDialog: false,
+        poetDialogType: undefined,
       };
     }
 
@@ -60,13 +62,6 @@ export const poetReducer = (state: PoetReducer = initState, action: PoetActions)
         ...state,
         searchLoading: false,
         searchLoadingError: true,
-      };
-    }
-
-    case getType(poetActions.setWherePoetFrom): {
-      return {
-        ...state,
-        from: action.payload.from,
       };
     }
 

@@ -83,7 +83,7 @@ const style = StyleSheet.create({
   input: {
     display: 'flex',
     // height: 32,
-    paddingVertical: 16,
+    paddingVertical: 10,
     width: '100%',
     marginVertical: 8,
   },

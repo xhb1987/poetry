@@ -8,11 +8,11 @@ export const TextInput: FC<TextInputProps & { theme?: AppTheme }> = ({ theme: ex
   const style = getStyle(theme);
 
   const inputStyle = {
-    ...(exStyle ? (exStyle as Object) : {}),
     ...style.input,
+    ...(exStyle ? (exStyle as Object) : {}),
   };
-  console.log(inputStyle);
-  return <BaseTextInput style={inputStyle} {...rest} />;
+
+  return <BaseTextInput style={inputStyle} autoCapitalize="none" {...rest} />;
 };
 
 const getStyle = (theme: AppTheme) =>

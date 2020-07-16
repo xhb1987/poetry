@@ -1,15 +1,29 @@
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
 export const routes = {
-  home: 'home',
-  profile: 'profile',
-  search: 'search',
-  favorites: 'favorites',
-  // recites: 'recites',
-  reciteCollection: 'reciteCollection',
-  collectionPoet: 'collectionPoet',
-  finished: 'finished',
-  aboutUs: 'aboutUs',
-  poetModal: 'poetModal',
-  searchModal: 'searchModal',
-  login: 'login',
-  register: 'register',
+  home: 'Home',
+  profile: 'Profile',
+  search: 'Search',
+  favorites: 'Favorites',
+  recites: 'Recites',
+  reciteCollection: 'ReciteCollection',
+
+  collectionPoet: 'CollectionPoet',
+  finished: 'Finished',
+  aboutUs: 'AboutUs',
+  poetModal: 'PoetModal',
+  searchModal: 'SearchModal',
+  login: 'Login',
+  register: 'Register',
+};
+
+export type RootRouteParamProps = {
+  Home: undefined;
+  Login: undefined;
+  Register: undefined;
+  SearchModal: undefined;
+  CollectionPoet: {
+    collectionName?: string;
+  };
 };

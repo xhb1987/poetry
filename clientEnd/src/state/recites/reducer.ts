@@ -66,6 +66,12 @@ export const reciteCollectionsReducer = (
         error: true,
       };
     }
+    case getType(recitesActions.selectReciteCollection): {
+      return {
+        ...state,
+        selectedReciteCollection: action.payload.collection,
+      };
+    }
     default:
       return state;
   }

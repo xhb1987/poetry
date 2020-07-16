@@ -2,7 +2,15 @@ import { createAction, ActionType } from 'typesafe-actions';
 import { Collection } from './types';
 import { ResponseMessage } from 'src/common/types/types';
 import { AjaxError } from 'rxjs/ajax';
-import { ADD_COLLECTION_SUCCESS, ADD_COLLECTION_ERROR, ADD_COLLECTION } from 'src/common/rest/actions/reciteActions';
+import {
+  ADD_COLLECTION_SUCCESS,
+  ADD_COLLECTION_ERROR,
+  ADD_COLLECTION,
+  ADD_POET_TO_COLLECTION,
+  ADD_POET_TO_COLLECTION_SUCCESS,
+  ADD_POET_TO_COLLECTION_ERROR,
+} from 'src/common/rest/actions/reciteActions';
+import { Poet } from '../poet/types';
 
 export const SELECT_RECITE_COLLECTION = 'recite/SELECT_RECITE_COLLECTION';
 export const OPEN_ADD_COLLECTION_DIALOG = 'recite/OPEN_ADD_COLLECTION_DIALOG';
@@ -17,6 +25,9 @@ export const recitesRestActions = {
   addCollectionError: createAction(ADD_COLLECTION_ERROR, (error: AjaxError) => ({ error }))<{
     error: AjaxError;
   }>(),
+
+  addPoetToCollectionSuccess: createAction(ADD_POET_TO_COLLECTION_SUCCESS)(),
+  addPoetToCollectionError: createAction(ADD_POET_TO_COLLECTION_ERROR)(),
 };
 
 export const recitesActions = {
@@ -37,6 +48,18 @@ export const recitesActions = {
   }))(),
   addCollectionSuccess: recitesRestActions.addCollectionSuccess,
   addCollectionError: recitesRestActions.addCollectionError,
+
+  addPoetToCollection: createAction(ADD_POET_TO_COLLECTION, (poet: Poet, collection: Collection) => ({
+    request: {
+      url: 'http://localhost:3001/profile/collection/update',
+      method: 'PATCH',
+      body: JSON.stringify({ poet, collection }),
+    },
+    onSuccess: recitesRestActions.addPoetToCollectionSuccess,
+    onError: recitesRestActions.addPoetToCollectionError,
+  }))(),
+  addPoetToCollectionSuccess: recitesRestActions.addPoetToCollectionSuccess,
+  addPoetToCollectionError: recitesRestActions.addPoetToCollectionError,
 };
 
 export type RecitesActions = ActionType<typeof recitesActions>;

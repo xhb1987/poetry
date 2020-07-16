@@ -7,6 +7,7 @@ export type Collection = {
   id: number;
   name: string;
   poet: Poet[];
+  isFinished: boolean;
 };
 
 export type ReciteCollectionsReducer = {

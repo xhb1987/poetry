@@ -41,6 +41,7 @@ class ProfileService {
         const newCollection = new Collection();
         newCollection.name = collection.name;
         newCollection.isFinished = collection.isFinished ?? false;
+        newCollection.poets = [];
 
         return this.collectionRepository.createAndSave(newCollection);
     }
@@ -56,6 +57,26 @@ class ProfileService {
             ),
         };
         return this.userRepository.save(newUser);
+    }
+
+    public async updateCollection(
+        collection: Partial<Collection>,
+        poet: Partial<Poet>
+    ) {
+        const findCollection =
+            !!collection.id &&
+            (await this.collectionRepository.findById(collection.id));
+
+        if (!findCollection) {
+            throw new Error('cannot find this collection');
+        }
+        const { poets = [] } = findCollection;
+        console.log('find collection => ', findCollection);
+
+        return this.collectionRepository.update(
+            findCollection.id,
+            findCollection
+        );
     }
 
     // public async findProfileById(id: number): Promise<Profile | undefined> {

@@ -6,7 +6,7 @@ import { store } from './state/store';
 import { persistStore } from 'redux-persist';
 import { Screen } from './screen';
 import { IntlProvider } from 'react-intl';
-import { PoetModal } from './screen/home/modal/poet-modal';
+import { PoetModal } from './screen/home/modal/poet-modal/poet-modal';
 import { AppTheme as Theme } from 'src/common/types/types';
 import { DefaultTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';

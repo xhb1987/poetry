@@ -10,8 +10,11 @@ import { MyButton } from 'src/common/component/button';
 import { selectFavoritePoets } from 'src/state/favorites/selectors';
 import { selectFinishedPoets } from 'src/state/finished/selectors';
 import { selectReciteCollectionPoets } from 'src/state/recites/selectors';
+import { PoetDialogType } from 'src/state/poet/types';
+import { AddPoetModal } from './add-poet-modal';
+import { ViewPoetModal } from './view-poet-modal';
 
-export const PoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
+export const RecitePoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) => {
   const dispatch = useDispatch();
   const selectedPoet = useSelector(selectSelectedPoet);
   const poetDialog = useSelector(selectPoetDialog);
@@ -73,6 +76,7 @@ export const PoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
 
   const viewButtText = isViewPoet ? '背诵' : '查看';
   const buttonType = isViewPoet ? 'primary' : 'secondary';
+
   return (
     <Modal
       backdropOpacity={0.8}
@@ -113,16 +117,7 @@ export const PoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
             </>
           )}
         </View>
-        <ScrollView contentContainerStyle={style.contentContainer}>
-          <MyText style={style.title}>{selectedPoet?.title}</MyText>
-          <MyText style={style.author}>{selectedPoet?.author}</MyText>
-          {isViewPoet &&
-            paragraphs?.map((content: string, index: number) => (
-              <MyText style={style.content} key={index}>
-                {content}。
-              </MyText>
-            ))}
-        </ScrollView>
+        {children}
         {!isFromSearch && (
           <MyButton
             style={{ alignItems: 'center', padding: 4 }}

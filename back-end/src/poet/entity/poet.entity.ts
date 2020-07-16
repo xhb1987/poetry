@@ -18,8 +18,7 @@ import { Collection } from '../../profile/entity/collection.entity';
 @Index(['paragraphs'], { fulltext: true, sparse: true })
 export class Poet {
     @PrimaryGeneratedColumn()
-    @JoinColumn()
-    id: number;
+    id!: number;
 
     @Column()
     sn: string;

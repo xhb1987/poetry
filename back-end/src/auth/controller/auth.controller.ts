@@ -30,7 +30,7 @@ export class AuthController {
         const userData = await this.authService.login(user.username);
         const responseMessage = generateResponseMessage<{
             access_token: string;
-            user: Pick<User, 'username' | 'collections' | 'favorite'>;
+            user: Pick<User, 'username' | 'collections'>;
         }>(userData);
         return responseMessage;
     }
@@ -42,7 +42,7 @@ export class AuthController {
             const userData = await this.authService.login(user.username);
             const responseMessage = generateResponseMessage<{
                 access_token: string;
-                user: Pick<User, 'username' | 'collections' | 'favorite'>;
+                user: Pick<User, 'username' | 'collections'>;
             }>(userData);
             return responseMessage;
         }
@@ -69,7 +69,7 @@ export class AuthController {
 
         const responseMessage = generateResponseMessage<{
             access_token: string;
-            user: Pick<User, 'username' | 'collections' | 'favorite'>;
+            user: Pick<User, 'username' | 'collections'>;
         }>(userData);
 
         return responseMessage;

@@ -5,7 +5,7 @@ import { Collection } from '../entity/collection.entity';
 export class CollectionRepository extends Repository<Collection> {
     async findById(id: number): Promise<Collection | undefined> {
         return this.findOne(id, {
-            relations: ['user', 'poet'],
+            relations: ['poets'],
             where: { id },
         });
     }

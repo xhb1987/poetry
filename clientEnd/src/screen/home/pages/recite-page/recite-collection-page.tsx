@@ -10,7 +10,7 @@ import { userActions } from 'src/state/user/actions';
 import { useNavigation } from '@react-navigation/native';
 import { routes } from 'src/screen/routes';
 import { recitesActions } from 'src/state/recites/actions';
-import { selectReciteCollections } from 'src/state/recites/selectors';
+import { selectUnfinishedCollections } from 'src/state/recites/selectors';
 import { Collection } from 'src/state/recites/types';
 import { PageView } from 'src/common/component/page-view';
 
@@ -18,16 +18,16 @@ export const ReciteCollectionPage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const reciteCollections = useSelector(selectReciteCollections);
+  const unfinishedCollections = useSelector(selectUnfinishedCollections);
 
   const goToCollection = (collection: Collection) => {
     dispatch(recitesActions.selectReciteCollection(collection));
-    navigation.navigate(routes.collectionPoet);
+    navigation.navigate(routes.collectionPoet, { collectionName: collection.name });
   };
   return (
     <PageView style={style.container}>
       <ScrollView>
-        {reciteCollections.map((collection: Collection) => (
+        {unfinishedCollections.map((collection: Collection) => (
           <CollectionItem key={collection.id} collection={collection} onPress={() => goToCollection(collection)} />
         ))}
       </ScrollView>

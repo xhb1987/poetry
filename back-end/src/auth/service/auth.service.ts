@@ -42,12 +42,12 @@ export class AuthService {
         }
 
         const roles = user.roles.map((role) => role.name);
-        const { collections, favorite, username: name } = user;
+        const { collections, username: name } = user;
 
         const userPayload = {
             username: name,
             collections,
-            favorite,
+            // favorite,
             roles,
         };
 

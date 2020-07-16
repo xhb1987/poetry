@@ -5,7 +5,7 @@ import {
     Param,
     UseGuards,
     Body,
-    BadRequestException,
+    Patch,
 } from '@nestjs/common';
 import ProfileService from '../service/profile.service';
 import UserService from '../../user/service/user-service';
@@ -21,6 +21,7 @@ import PoetService from '../../poet/service/poet.service';
 import generateResponseMessage from '../../common/response-messge/response-message';
 import { Collection } from '../entity/collection.entity';
 import { CollectionDto } from '../dto/collection.dto';
+import { UpdateResult } from 'typeorm';
 
 @Controller('/profile')
 export class ProfileController {
@@ -68,6 +69,25 @@ export class ProfileController {
         return responseMessage;
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('USER')
+    @Patch('/collection/update')
+    async updateCollection(
+        @Body() data: { collection: Partial<Collection>; poet: Partial<Poet> }
+    ): Promise<ResponseMessage<UpdateResult>> {
+        const { collection, poet } = data;
+
+        const updateResult = await this.profileService.updateCollection(
+            collection,
+            poet
+        );
+
+        const responseMessage = generateResponseMessage<UpdateResult>(
+            updateResult
+        );
+
+        return responseMessage;
+    }
     // @UseGuards(JwtAuthGuard, RolesGuard)
     // @Roles('USER')
     // @Post('/favorite')

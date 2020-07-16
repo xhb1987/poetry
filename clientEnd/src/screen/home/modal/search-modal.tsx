@@ -16,9 +16,8 @@ export const SearchModal = () => {
   const theme = useTheme();
 
   const onPoetItemPress = (poet: Poet) => {
-    dispatch(poetActions.openPoetDialog());
+    dispatch(poetActions.openPoetDialog('add'));
     dispatch(poetActions.selectPoet(poet));
-    dispatch(poetActions.setWherePoetFrom('search'));
   };
   return (
     <PageView style={style.container}>
