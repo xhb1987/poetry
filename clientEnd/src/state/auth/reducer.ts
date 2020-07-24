@@ -1,4 +1,4 @@
-import { getType, StateType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 import { authActions } from './actions';
 import { AuthActions } from './types';
 
@@ -34,7 +34,7 @@ export const authReducer = (state: AuthReducer = initAuthState, action: AuthActi
       };
     }
 
-    case getType(authActions.userRegisterError):
+    case getType(authActions.userLoginError):
     case getType(authActions.userRegisterError): {
       return {
         ...state,
@@ -44,12 +44,24 @@ export const authReducer = (state: AuthReducer = initAuthState, action: AuthActi
         accessToken: '',
       };
     }
-    // case getType(userActions.selectUserProfileReciteCollection): {
-    //   return {
-    //     ...state,
-    //     selectedReciteCollection: action.payload.collection,
-    //   };
-    // }
+
+    case getType(authActions.userLogoutSuccess): {
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        isAuthenticated: false,
+        accessToken: '',
+      };
+    }
+
+    case getType(authActions.clearError): {
+      return {
+        ...state,
+        error: false,
+      };
+    }
+
     default:
       return state;
   }

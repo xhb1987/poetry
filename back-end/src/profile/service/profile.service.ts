@@ -9,6 +9,7 @@ import { Collection } from '../entity/collection.entity';
 import { CollectionDto } from '../dto/collection.dto';
 import { Favorite } from '../entity/favorite.entity';
 import UserRepository from '../../user/repository/user.repository';
+import PoetRepository from '../../poet/repository/poet.repository';
 
 @Injectable()
 class ProfileService {
@@ -16,6 +17,7 @@ class ProfileService {
         private collectionRepository: CollectionRepository,
         private favoriteRepository: FavoriteRepository,
         private userRepository: UserRepository,
+        private poetRepository: PoetRepository,
         private logger: Logger
     ) {}
 
@@ -59,24 +61,39 @@ class ProfileService {
         return this.userRepository.save(newUser);
     }
 
-    public async updateCollection(
-        collection: Partial<Collection>,
-        poet: Partial<Poet>
-    ) {
+    public async updateCollection(collectionId: number, poetId: number) {
         const findCollection =
-            !!collection.id &&
-            (await this.collectionRepository.findById(collection.id));
+            !!collectionId &&
+            (await this.collectionRepository.findById(collectionId));
 
         if (!findCollection) {
             throw new Error('cannot find this collection');
         }
-        const { poets = [] } = findCollection;
-        console.log('find collection => ', findCollection);
 
-        return this.collectionRepository.update(
-            findCollection.id,
-            findCollection
-        );
+        const findPoet =
+            !!poetId && (await this.poetRepository.findPoetById(poetId));
+
+        if (!findPoet) {
+            throw new Error('cannot find this poet');
+        }
+
+        // const update = await this.poetRepository.update(findPoet.id, findPoet);
+
+        findCollection.poets.push(findPoet);
+        return this.collectionRepository.save(findCollection);
+    }
+
+    public async finishCollection(collectionId: number) {
+        const findCollection =
+            !!collectionId &&
+            (await this.collectionRepository.findById(collectionId));
+
+        if (!findCollection) {
+            throw new Error('cannot find this collection');
+        }
+
+        findCollection.isFinished = true;
+        return this.collectionRepository.save(findCollection);
     }
 
     // public async findProfileById(id: number): Promise<Profile | undefined> {

@@ -7,16 +7,15 @@ export const Authentication: FC = () => {
   const dispatch = useDispatch();
   const getToken = useCallback(async () => {
     const token = await getAuthToken();
+    if (token) {
+      dispatch(authActions.userLoginByToken());
+    }
     return token;
   }, []);
   //   console.log('xxxxxxx');
   //   console.log('token => ', getToken());
   useEffect(() => {
-    const token = getToken();
-    if (token) {
-      dispatch(authActions.userLoginByToken());
-    }
+    getToken();
   }, []);
-  console.log('xxxxxx');
   return null;
 };

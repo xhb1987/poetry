@@ -16,19 +16,12 @@ import { RegisterPage } from './home/pages/auth/register-page';
 import { Authentication } from 'src/common/component/authentication';
 import { useSelector } from 'react-redux';
 import { selectCurrentCollection } from 'src/state/recites/selectors';
+import { SearchButton } from './home/component/search-button';
+import { RecitePoetDetail } from './home/pages/recite-page/recite-poet-detail';
 
 const Stack = createStackNavigator<RootRouteParamProps>();
 
 export const Screen: FC<{ theme: Theme }> = ({ theme }) => {
-  const currentCollection = useSelector(selectCurrentCollection);
-  console.log(currentCollection);
-
-  const [collectionTitle, setCollectionTitle] = useState(currentCollection?.name);
-
-  useEffect(() => {
-    setCollectionTitle(currentCollection?.name);
-  }, [currentCollection]);
-
   return (
     <NavigationContainer theme={theme} ref={navigationRef}>
       <Stack.Navigator
@@ -42,7 +35,6 @@ export const Screen: FC<{ theme: Theme }> = ({ theme }) => {
         <Stack.Screen options={{ headerShown: false }} name="Home">
           {() => <HomeTab theme={theme} />}
         </Stack.Screen>
-
         <Stack.Screen
           name="CollectionPoet"
           component={CollectionPoetPage}
@@ -50,9 +42,18 @@ export const Screen: FC<{ theme: Theme }> = ({ theme }) => {
             headerTransparent: false,
             headerTitle: route.params.collectionName,
             headerBackTitle: '返回',
+            headerRight: () => <SearchButton />,
           })}
         />
-
+        <Stack.Screen
+          name="RecitePoetDetail"
+          component={RecitePoetDetail}
+          options={({ route }) => ({
+            headerTitle: route.params.collectionName,
+            headerTransparent: false,
+            headerBackTitle: '返回',
+          })}
+        />
         <Stack.Screen
           name="SearchModal"
           component={SearchModal}

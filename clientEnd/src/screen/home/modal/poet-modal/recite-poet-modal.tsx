@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import MyText from 'src/common/component/text';
 import { View, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectSelectedPoet, selectPoetDialog, selectWherePoetFrom } from 'src/state/poet/selector';
+import { selectSelectedPoet, selectPoetDialog } from 'src/state/poet/selector';
 import Modal from 'react-native-modal';
 import { poetActions } from 'src/state/poet/actions';
 import { AppTheme } from 'src/common/types/types';
@@ -18,30 +18,27 @@ export const RecitePoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) =>
   const dispatch = useDispatch();
   const selectedPoet = useSelector(selectSelectedPoet);
   const poetDialog = useSelector(selectPoetDialog);
-  const poetFrom = useSelector(selectWherePoetFrom);
 
-  const isFromSearch = poetFrom === 'search';
   const [isViewPoet, setIsViewPoet] = useState(false);
-  useEffect(() => setIsViewPoet(isFromSearch), [isFromSearch]);
 
   const favorite = useSelector(selectFavoritePoets);
   const finished = useSelector(selectFinishedPoets);
   const recite = useSelector(selectReciteCollectionPoets);
 
-  const poetCollection = () => {
-    switch (poetFrom) {
-      case 'favorite':
-        return favorite;
-      case 'finished':
-        return finished;
-      case 'recite':
-        return recite;
-      default:
-        return [];
-    }
-  };
+  // const poetCollection = () => {
+  //   switch (poetFrom) {
+  //     case 'favorite':
+  //       return favorite;
+  //     case 'finished':
+  //       return finished;
+  //     case 'recite':
+  //       return recite;
+  //     default:
+  //       return [];
+  //   }
+  // };
 
-  const collection = poetCollection();
+  // const collection = poetCollection();
   const deviceWidth = Dimensions.get('window').width;
   const deviceHeight = Dimensions.get('window').height;
 
@@ -57,22 +54,45 @@ export const RecitePoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) =>
     dispatch(poetActions.closePoetDialog());
   };
 
-  const totalPoet = collection.length;
-  const currentPoet = collection.findIndex((p) => p.id === selectedPoet?.id);
-  const isLastPoet = currentPoet + 1 === collection.length;
-  const isFirstPoet = currentPoet === 0;
+  // const totalPoet = collection.length;
+  // const currentPoet = collection.findIndex((p) => p.id === selectedPoet?.id);
+  // const isLastPoet = currentPoet + 1 === collection.length;
+  // const isFirstPoet = currentPoet === 0;
 
-  const nextPoet = () => {
-    const nextPoet = collection[currentPoet + 1];
-    nextPoet && dispatch(poetActions.selectPoet(nextPoet));
-  };
+  // const nextPoet = () => {
+  //   const nextPoet = collection[currentPoet + 1];
+  //   nextPoet && dispatch(poetActions.selectPoet(nextPoet));
+  // };
 
-  const previousPoet = () => {
-    const collection = poetCollection();
+  // const previousPoet = () => {
+  //   const collection = poetCollection();
 
-    const previousPoet = collection[currentPoet - 1];
-    previousPoet && dispatch(poetActions.selectPoet(previousPoet));
-  };
+  //   const previousPoet = collection[currentPoet - 1];
+  //   previousPoet && dispatch(poetActions.selectPoet(previousPoet));
+  // {
+  //   !isFromSearch && (
+  //     <>
+  //       <View>
+  //         {totalPoet > 1 && (
+  //           <MyButton
+  //             disabled={isFirstPoet}
+  //             title={'上一首'}
+  //             theme={theme}
+  //             onPress={previousPoet}
+  //             type={'primary'}
+  //           />
+  //         )}
+  //       </View>
+  //       <MyText>{/* {currentPoet + 1} / {totalPoet} */}</MyText>
+  //       <View>
+  //         {/* {totalPoet > 1 && (
+  //       <MyButton disabled={isLastPoet} title={'下一首'} theme={theme} onPress={nextPoet} type={'primary'} />
+  //     )} */}
+  //       </View>
+  //     </>
+  //   );
+  // }
+  // };
 
   const viewButtText = isViewPoet ? '背诵' : '查看';
   const buttonType = isViewPoet ? 'primary' : 'secondary';
@@ -92,33 +112,9 @@ export const RecitePoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) =>
             justifyContent: 'space-between',
             flexDirection: 'row',
           }}
-        >
-          {!isFromSearch && (
-            <>
-              <View>
-                {totalPoet > 1 && (
-                  <MyButton
-                    disabled={isFirstPoet}
-                    title={'上一首'}
-                    theme={theme}
-                    onPress={previousPoet}
-                    type={'primary'}
-                  />
-                )}
-              </View>
-              <MyText>
-                {currentPoet + 1} / {totalPoet}
-              </MyText>
-              <View>
-                {totalPoet > 1 && (
-                  <MyButton disabled={isLastPoet} title={'下一首'} theme={theme} onPress={nextPoet} type={'primary'} />
-                )}
-              </View>
-            </>
-          )}
-        </View>
+        ></View>
         {children}
-        {!isFromSearch && (
+        {/* {!isFromSearch && (
           <MyButton
             style={{ alignItems: 'center', padding: 4 }}
             theme={theme}
@@ -126,7 +122,7 @@ export const RecitePoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) =>
             type={buttonType}
             onPress={switchReciteAndView}
           />
-        )}
+        )} */}
       </View>
     </Modal>
   );

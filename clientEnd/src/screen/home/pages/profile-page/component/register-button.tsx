@@ -5,14 +5,17 @@ import { View, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { routes } from 'src/screen/routes';
 import MyText from 'src/common/component/text';
+import { authActions } from 'src/state/auth/actions';
 
 Icon.loadFont();
 
 export const RegisterButton: FC = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigator = useNavigation();
 
   const onPress = () => {
+    dispatch(authActions.clearError());
     navigator.navigate(routes.register);
   };
   return (

@@ -31,9 +31,9 @@ export class User {
     @JoinTable()
     collections: Collection[];
 
-    // @OneToOne((type) => Favorite)
-    // @JoinColumn()
-    // favorite: Favorite;
+    @OneToOne((type) => Favorite)
+    @JoinColumn()
+    favorite: Favorite;
 
     // @OneToOne((type) => Favorite)
     // @JoinColumn()

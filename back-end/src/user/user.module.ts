@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import ProfileService from '../profile/service/profile.service';
 import { CollectionRepository } from '../profile/repository/collection.repository';
 import { FavoriteRepository } from '../profile/repository/favorite.repository';
+import PoetRepository from '../poet/repository/poet.repository';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { FavoriteRepository } from '../profile/repository/favorite.repository';
             RoleRepository,
             CollectionRepository,
             FavoriteRepository,
+            PoetRepository,
         ]),
         LoggerModule,
         ConfigModule,

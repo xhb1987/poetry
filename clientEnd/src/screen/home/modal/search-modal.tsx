@@ -8,6 +8,7 @@ import { poetActions } from 'src/state/poet/actions';
 import { LoadingIndicator } from '../component/loading-indicator';
 import { PoetItem } from '../component/poet-item';
 import { PageView } from 'src/common/component/page-view';
+import { selectCurrentCollection } from 'src/state/recites/selectors';
 
 export const SearchModal = () => {
   const dispatch = useDispatch();

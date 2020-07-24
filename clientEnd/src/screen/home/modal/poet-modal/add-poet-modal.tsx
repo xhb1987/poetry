@@ -15,6 +15,8 @@ export const AddPoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   const collection = useSelector(selectCurrentCollection);
   const selectedPoet = useSelector(selectSelectedPoet);
 
+  const isSelectedPoetInCollection = collection?.poets.some((poet) => poet.id === selectedPoet?.id);
+
   const addPoet = () => {
     selectedPoet && collection && dispatch(recitesActions.addPoetToCollection(selectedPoet, collection));
   };
@@ -22,7 +24,7 @@ export const AddPoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   return (
     <RootPoetModal theme={theme}>
       <SelectedPoet />
-      <MyButton type="primary" title="添加" onPress={addPoet} />
+      <MyButton disabled={isSelectedPoetInCollection} type="primary" title="添加" onPress={addPoet} theme={theme} />
     </RootPoetModal>
   );
 };

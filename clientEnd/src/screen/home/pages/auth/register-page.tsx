@@ -11,6 +11,7 @@ import { selectAuthState } from 'src/state/auth/selectors';
 import { useNavigation } from '@react-navigation/native';
 import { routes } from 'src/screen/routes';
 import { userActions } from 'src/state/user/actions';
+import { ErrorMessage } from 'src/common/component/error-message';
 
 type UserRegisterForm = {
   username: string;
@@ -21,8 +22,8 @@ type UserRegisterForm = {
 export const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuthState);
-  const { loading } = auth;
-  const { control, handleSubmit, errors } = useForm<UserRegisterForm>();
+  const { loading, error } = auth;
+  const { control, handleSubmit } = useForm<UserRegisterForm>();
   const onSubmit = ({ username, password, repeatPassword }: UserRegisterForm) => {
     dispatch(authActions.userRegister(username, password));
   };
@@ -72,6 +73,7 @@ export const RegisterPage: FC = () => {
         )}
       />
       <MyButton loading={loading} title="注册" type="primary" onPress={handleSubmit(onSubmit)} />
+      {error && <ErrorMessage />}
     </PageView>
   );
 };

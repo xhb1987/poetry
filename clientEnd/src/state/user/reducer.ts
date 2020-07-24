@@ -33,6 +33,12 @@ export const userReducer = (state: UserReducer = initUserState, action: UserActi
         roles,
       };
     }
+
+    case getType(authActions.userLogoutSuccess): {
+      return {
+        ...initUserState,
+      };
+    }
     // case getType(userActions.selectUserProfileReciteCollection): {
     //   return {
     //     ...state,

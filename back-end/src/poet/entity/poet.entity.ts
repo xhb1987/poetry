@@ -8,6 +8,7 @@ import {
     ManyToOne,
     ManyToMany,
     JoinTable,
+    OneToMany,
 } from 'typeorm';
 import { User } from '../../user/entity/user.entity';
 import { Favorite } from '../../profile/entity/favorite.entity';
@@ -26,11 +27,9 @@ export class Poet {
     @Column()
     category: string;
 
-    @Index({ fulltext: true })
     @Column({ length: 6000 })
     title: string;
 
-    @Index({ fulltext: true })
     @Column()
     author: string;
 
@@ -46,7 +45,6 @@ export class Poet {
     @Column()
     notes: string;
 
-    @Index({ fulltext: true })
     @Column({ length: 6000 })
     paragraphs: string;
 
@@ -63,7 +61,6 @@ export class Poet {
     @JoinTable()
     favorites: Favorite[];
 
-    @ManyToMany((type) => Collection, (collection) => collection.poets)
-    @JoinTable()
+    @ManyToOne((type) => Collection, (collection) => collection.poets)
     collections: Collection[];
 }

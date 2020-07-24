@@ -5,7 +5,7 @@ import { Favorite } from '../entity/favorite.entity';
 export class FavoriteRepository extends Repository<Favorite> {
     async findById(id: number): Promise<Favorite | undefined> {
         return this.findOne(id, {
-            relations: ['user', 'poet'],
+            relations: ['user', 'poets'],
             where: { id },
         });
     }

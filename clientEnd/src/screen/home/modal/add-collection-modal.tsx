@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-native-modal';
 import { TextInput } from 'src/common/component/text-input';
 import {
-  selectAddCollectionDialog,
+  selectOpenAddCollectionDialog,
   selectReciteCollectionLoading,
   selectReciteCollectionError,
 } from 'src/state/recites/selectors';
 import { recitesActions } from 'src/state/recites/actions';
 import { MyButton } from 'src/common/component/button';
 
-export const ADdCollectionModal: FC<{ theme: AppTheme }> = ({ theme }) => {
+export const AddCollectionModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   const dispatch = useDispatch();
 
   const [collectionName, setCollectionName] = useState('');
@@ -34,7 +34,7 @@ export const ADdCollectionModal: FC<{ theme: AppTheme }> = ({ theme }) => {
     Keyboard.dismiss();
   };
 
-  const addCollectionDialog = useSelector(selectAddCollectionDialog);
+  const addCollectionDialog = useSelector(selectOpenAddCollectionDialog);
   const deviceWidth = Dimensions.get('window').width;
   const deviceHeight = Dimensions.get('window').height;
 

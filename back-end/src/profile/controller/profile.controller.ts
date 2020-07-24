@@ -6,6 +6,8 @@ import {
     UseGuards,
     Body,
     Patch,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 import ProfileService from '../service/profile.service';
 import UserService from '../../user/service/user-service';
@@ -71,19 +73,39 @@ export class ProfileController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('USER')
-    @Patch('/collection/update')
+    @Patch('/collection/:collectionId/addPoet/:poetId')
     async updateCollection(
-        @Body() data: { collection: Partial<Collection>; poet: Partial<Poet> }
-    ): Promise<ResponseMessage<UpdateResult>> {
-        const { collection, poet } = data;
-
-        const updateResult = await this.profileService.updateCollection(
-            collection,
-            poet
+        @Param('collectionId') collectionId: number,
+        @Param('poetId') poetId: number
+    ): Promise<ResponseMessage<Collection>> {
+        const updatedCollection = await this.profileService.updateCollection(
+            collectionId,
+            poetId
         );
 
-        const responseMessage = generateResponseMessage<UpdateResult>(
-            updateResult
+        const responseMessage = generateResponseMessage<Collection>(
+            updatedCollection
+        );
+
+        return responseMessage;
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('USER')
+    @Patch('/collection/:collectionId/finish')
+    async finishCollection(
+        @Param('collectionId') collectionId: number
+    ): Promise<ResponseMessage<Collection>> {
+        const updatedCollection = await this.profileService.finishCollection(
+            collectionId
+        );
+
+        if (!updatedCollection) {
+            throw new Error('something wrong with finish collection');
+        }
+
+        const responseMessage = generateResponseMessage<Collection>(
+            updatedCollection
         );
 
         return responseMessage;

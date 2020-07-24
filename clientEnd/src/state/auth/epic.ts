@@ -1,13 +1,13 @@
 import { Epic, combineEpics } from 'redux-observable';
-import { filter, tap, pluck, map } from 'rxjs/operators';
-import { isActionOf, isOfType } from 'typesafe-actions';
+import { filter, tap, pluck, map, mergeMap } from 'rxjs/operators';
+import { isActionOf } from 'typesafe-actions';
 import { RootState } from '../reducer';
 import { AuthRootAction, AccessTokenKey } from './types';
 import { authActions } from './actions';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CommonActions, CommonNavigationAction } from '@react-navigation/native';
 import { routes } from 'src/screen/routes';
-import { USER_LOGIN_SUCCESS, USER_REGISTER_SUCCESS } from 'src/common/rest/actions/authActions';
+import { asapScheduler, scheduled } from 'rxjs';
 
 export const authEpic: Epic<
   AuthRootAction | CommonNavigationAction,
@@ -21,4 +21,13 @@ export const authEpic: Epic<
     map(() => CommonActions.navigate(routes.home))
   );
 
-export default combineEpics(authEpic);
+export const authLogoutEpic: Epic<AuthRootAction | CommonNavigationAction, AuthRootAction | CommonNavigationAction> = (
+  action$
+) =>
+  action$.pipe(
+    filter(isActionOf([authActions.userLogoutSuccess, authActions.userLoginError])),
+    tap(async () => await AsyncStorage.removeItem(AccessTokenKey)),
+    mergeMap(() => scheduled([CommonActions.navigate(routes.home), authActions.clearError()], asapScheduler))
+  );
+
+export default combineEpics(authEpic, authLogoutEpic);

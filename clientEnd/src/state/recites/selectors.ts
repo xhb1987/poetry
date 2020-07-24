@@ -7,13 +7,14 @@ export const selectReciteCollections = createSelector(selectRecite, (recite) => 
 export const selectCurrentCollection = createSelector(selectRecite, (recite) => recite.selectedReciteCollection);
 export const selectReciteCollectionPoets = createSelector(
   selectCurrentCollection,
-  (collection) => collection?.poet || []
+  (collection) => collection?.poets || []
 );
 
 export const selectReciteCollectionLoading = createSelector(selectRecite, (recite) => recite.loading);
 export const selectReciteCollectionError = createSelector(selectRecite, (recite) => recite.error);
 
-export const selectAddCollectionDialog = createSelector(selectRecite, (recite) => recite.openAddCollectionDialog);
+export const selectOpenAddCollectionDialog = createSelector(selectRecite, (recite) => recite.openAddCollectionDialog);
+export const selectOpenFinishReciteDialog = createSelector(selectRecite, (recite) => recite.openFinishReciteDialog);
 
 export const selectUnfinishedCollections = createSelector(selectReciteCollections, (collections) =>
   collections.filter((collection) => !collection.isFinished)

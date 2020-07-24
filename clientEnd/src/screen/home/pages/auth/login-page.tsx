@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from 'src/state/auth/actions';
 import { isEmpty } from 'lodash';
 import { selectAuthState } from 'src/state/auth/selectors';
+import MyText from 'src/common/component/text';
+import { ErrorMessage } from 'src/common/component/error-message';
 
 type UserLoginForm = {
   username: string;
@@ -18,7 +20,7 @@ export const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuthState);
 
-  const { loading } = auth;
+  const { loading, error } = auth;
   const { control, handleSubmit, errors } = useForm<UserLoginForm>();
   const onSubmit = ({ username, password }: UserLoginForm) => {
     if (isEmpty(errors)) {
@@ -27,7 +29,6 @@ export const LoginPage: FC = () => {
   };
   return (
     <PageView style={{ paddingHorizontal: 8, paddingVertical: 8 }}>
-      {/* <View> */}
       <Controller
         name="username"
         rules={{ required: true }}
@@ -57,6 +58,7 @@ export const LoginPage: FC = () => {
         )}
       />
       <MyButton loading={loading} title="登录" type="primary" onPress={handleSubmit(onSubmit)} />
+      {error && <ErrorMessage />}
     </PageView>
   );
 };

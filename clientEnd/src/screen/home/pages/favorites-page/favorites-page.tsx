@@ -19,7 +19,6 @@ export const FavoritesPage = () => {
   const onPoetItemPress = (poet: Poet) => {
     dispatch(poetActions.openPoetDialog('view'));
     dispatch(poetActions.selectPoet(poet));
-    dispatch(poetActions.setWherePoetFrom('favorite'));
   };
 
   return (

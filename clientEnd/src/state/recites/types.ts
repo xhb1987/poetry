@@ -6,15 +6,16 @@ import { RecitesActions } from './actions';
 export type Collection = {
   id: number;
   name: string;
-  poet: Poet[];
+  poets: Poet[];
   isFinished: boolean;
 };
 
 export type ReciteCollectionsReducer = {
-  collections?: Collection[];
+  collections: Collection[];
   loading: boolean;
   error: boolean;
   openAddCollectionDialog: boolean;
+  openFinishReciteDialog: boolean;
   selectedReciteCollection?: Collection;
 };
 export type ReciteCollectionRootAction = RecitesActions;

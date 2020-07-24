@@ -9,8 +9,14 @@ class UserRepository extends Repository<User> {
 
     async findByName(username: string): Promise<User | undefined> {
         const user = await this.findOne({ username });
+        console.log('user => ', user);
         return this.findOne({
-            relations: ['roles', 'collections', 'favorite'],
+            relations: [
+                'roles',
+                'collections',
+                'favorite',
+                'collections.poets',
+            ],
             where: { id: user?.id },
         });
     }

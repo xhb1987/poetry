@@ -19,6 +19,6 @@ export class Favorite {
     @JoinTable()
     poets: Poet[];
 
-    // @OneToOne((type) => User, (user) => user.favorite)
-    // user: User;
+    @OneToOne((type) => User, (user) => user.favorite)
+    user: User;
 }

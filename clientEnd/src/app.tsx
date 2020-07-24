@@ -10,8 +10,9 @@ import { PoetModal } from './screen/home/modal/poet-modal/poet-modal';
 import { AppTheme as Theme } from 'src/common/types/types';
 import { DefaultTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ADdCollectionModal } from './screen/home/modal/add-collection-modal';
+import { AddCollectionModal } from './screen/home/modal/add-collection-modal';
 import { Authentication } from './common/component/authentication';
+import { FinishReciteModal } from './screen/home/modal/finish-recite-modal';
 
 Icon.loadFont();
 // const persistor = persistStore(store);
@@ -37,7 +38,8 @@ export default function App() {
       <Authentication />
       <Screen theme={AppTheme} />
       <PoetModal theme={AppTheme} />
-      <ADdCollectionModal theme={AppTheme} />
+      <AddCollectionModal theme={AppTheme} />
+      <FinishReciteModal theme={AppTheme} />
       {/* </IntlProvider> */}
       {/* <PersistGate loading={null} persistor={persistor}> */}
       {/* </PersistGate> */}

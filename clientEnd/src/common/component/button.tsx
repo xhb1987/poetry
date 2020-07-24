@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ButtonProps, View, Text, TouchableOpacity, TouchableOpacityProperties, ActivityIndicator } from 'react-native';
+import { ButtonProps, View, Text, TouchableOpacity, ActivityIndicator, TouchableOpacityProps } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { AppTheme } from '../types/types';
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -9,7 +9,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 type ButtonType = 'primary' | 'secondary';
 
 export const MyButton: FC<
-  TouchableOpacityProperties & { type: ButtonType; title: string; loading?: boolean; theme?: AppTheme }
+  TouchableOpacityProps & { type: ButtonType; title: string; loading?: boolean; theme?: AppTheme }
 > = ({ type, title, loading, theme: exTheme, ...rest }) => {
   const theme = exTheme || (useTheme() as AppTheme);
   return (

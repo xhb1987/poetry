@@ -6,6 +6,8 @@ import {
     Request,
     Get,
     Req,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -49,10 +51,12 @@ export class AuthController {
 
         throw new Error('not authenticated');
     }
+
     @UseGuards(JwtAuthGuard)
     @Post('/logout')
     async logout() {
         // TODO black list current token
+        console.log('xx');
         return this.authService.logout();
     }
 

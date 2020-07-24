@@ -41,8 +41,7 @@ class UserService {
         newUserModel.password = encryptedPassword;
         newUserModel.roles = [role];
         newUserModel.collections = collections;
-        // newUserModel.favorite = favorite;
-        console.log(newUserModel);
+        newUserModel.favorite = favorite;
 
         return this.userRepository.createAndSave(newUserModel);
     }

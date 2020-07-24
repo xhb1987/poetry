@@ -44,6 +44,11 @@ export class AuthService {
         const roles = user.roles.map((role) => role.name);
         const { collections, username: name } = user;
 
+        const jwtPayload = {
+            username: name,
+            roles,
+        };
+
         const userPayload = {
             username: name,
             collections,
@@ -52,7 +57,7 @@ export class AuthService {
         };
 
         return {
-            access_token: this.jwtService.sign(userPayload),
+            access_token: this.jwtService.sign(jwtPayload),
             user: userPayload,
         };
     }

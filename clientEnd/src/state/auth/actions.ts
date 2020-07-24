@@ -16,6 +16,8 @@ import { User } from '../user/types';
 import { AccessToken } from './types';
 import { USER_REGISTER } from '../user/actions';
 
+const CLEAR_ERROR = 'auth/CLEAR_ERROR';
+
 export const authResponseActions = {
   authLoginSuccess: createAction(
     USER_LOGIN_SUCCESS,
@@ -31,11 +33,7 @@ export const authResponseActions = {
     error: AjaxError;
   }>(),
 
-  authLogOutSuccess: createAction(USER_LOG_OUT_SUCCESS, (responseMessage: ResponseMessage<string>) => ({
-    message: responseMessage.data,
-  }))<{
-    message: string;
-  }>(),
+  authLogOutSuccess: createAction(USER_LOG_OUT_SUCCESS)(),
   authLogOutError: createAction(USER_LOG_OUT_ERROR, (error: AjaxError) => ({ error }))<{
     error: AjaxError;
   }>(),
@@ -56,6 +54,8 @@ export const authResponseActions = {
 };
 
 export const authActions = {
+  clearError: createAction(CLEAR_ERROR)(),
+
   userRegister: createAction(USER_REGISTER, (username: string, password: string) => ({
     request: {
       url: 'http://localhost:3001/auth/register',

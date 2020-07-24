@@ -8,4 +8,3 @@ export const selectPoetDialogType = createSelector(selectPoet, (poet) => poet.po
 
 export const selectPoetSearchLoading = createSelector(selectPoet, (poet) => poet.searchLoading);
 export const selectPoetSearch = createSelector(selectPoet, (poet) => poet.searchPoets);
-export const selectWherePoetFrom = createSelector(selectPoet, (poet) => poet.from);

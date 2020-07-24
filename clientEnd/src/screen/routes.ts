@@ -10,6 +10,7 @@ export const routes = {
   reciteCollection: 'ReciteCollection',
 
   collectionPoet: 'CollectionPoet',
+  recitePoetDetail: 'RecitePoetDetail',
   finished: 'Finished',
   aboutUs: 'AboutUs',
   poetModal: 'PoetModal',
@@ -23,6 +24,9 @@ export type RootRouteParamProps = {
   Login: undefined;
   Register: undefined;
   SearchModal: undefined;
+  RecitePoetDetail: {
+    collectionName?: string;
+  };
   CollectionPoet: {
     collectionName?: string;
   };

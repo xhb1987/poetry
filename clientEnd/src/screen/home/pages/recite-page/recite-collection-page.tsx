@@ -38,6 +38,5 @@ export const ReciteCollectionPage = () => {
 const style = StyleSheet.create({
   container: {
     height: Dimensions.get('window').height * 0.85,
-    // padding: 16,
   },
 });
