@@ -26,7 +26,7 @@ export const CollectionPoetPage = () => {
   const { isFinished, name } = currentCollection || {};
 
   const onPoetItemPress = (poet: Poet) => {
-    dispatch(poetActions.openPoetDialog('view'));
+    dispatch(poetActions.openPoetDialog('delete'));
     dispatch(poetActions.selectPoet(poet));
   };
 

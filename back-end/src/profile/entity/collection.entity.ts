@@ -5,6 +5,8 @@ import {
     ManyToMany,
     JoinTable,
     ManyToOne,
+    DeleteDateColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 import { Poet } from '../../poet/entity/poet.entity';
 import { User } from '../../user/entity/user.entity';
@@ -21,10 +23,16 @@ export class Collection {
     @JoinTable()
     poets: Poet[];
 
-    @ManyToMany((type) => User, (user) => user.collections)
+    @ManyToMany((type) => User, (user) => user.collections, { cascade: true })
     @JoinTable()
     user: User;
 
     @Column()
     isFinished: boolean;
+
+    @DeleteDateColumn()
+    deleteAt: Date;
+
+    @UpdateDateColumn()
+    updateAt: Date;
 }

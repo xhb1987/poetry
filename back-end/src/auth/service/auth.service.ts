@@ -51,8 +51,9 @@ export class AuthService {
 
         const userPayload = {
             username: name,
-            collections,
-            // favorite,
+            collections: collections.filter(
+                (collection) => !collection.deleteAt
+            ),
             roles,
         };
 

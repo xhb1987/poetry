@@ -3,28 +3,35 @@ import { ReciteCollectionRootAction } from './types';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { isActionOf } from 'typesafe-actions';
 import { RootState } from '../reducer';
-import { recitesActions } from './actions';
+import { recitesActions, recitesRestActions } from './actions';
 import { poetActions } from '../poet/actions';
 import { PoetRootAction } from '../poet/types';
 import { asapScheduler, scheduled } from 'rxjs';
-import { routes } from 'src/screen/routes';
 
 export const reciteAddCollectionEpic: Epic<ReciteCollectionRootAction, ReciteCollectionRootAction, RootState> = (
   action$
 ) =>
-  action$.pipe(filter(isActionOf(recitesActions.addCollectionSuccess)), map(recitesActions.closeAddCollectionDialog));
+  action$.pipe(
+    filter(isActionOf(recitesRestActions.addCollectionSuccess)),
+    map(recitesActions.closeAddCollectionDialog)
+  );
 
-export const reciteAddPoetEpic: Epic<
+export const reciteUpdatePoetEpic: Epic<
   ReciteCollectionRootAction | PoetRootAction,
   ReciteCollectionRootAction | PoetRootAction,
   RootState
 > = (action$) =>
-  action$.pipe(filter(isActionOf(recitesActions.addPoetToCollectionSuccess)), map(poetActions.closePoetDialog));
+  action$.pipe(
+    filter(
+      isActionOf([recitesRestActions.addPoetToCollectionSuccess, recitesRestActions.deletePoetFromCollectionSuccess])
+    ),
+    map(poetActions.closePoetDialog)
+  );
 
 export const reciteFinishCollectionEpic: Epic<ReciteCollectionRootAction, ReciteCollectionRootAction> = (action$) =>
   action$.pipe(
-    filter(isActionOf(recitesActions.finishCollectionSuccess)),
+    filter(isActionOf(recitesRestActions.finishCollectionSuccess)),
     mergeMap(() => scheduled([recitesActions.openFinishReciteDialog()], asapScheduler))
   );
 
-export default combineEpics(reciteAddCollectionEpic, reciteAddPoetEpic, reciteFinishCollectionEpic);
+export default combineEpics(reciteAddCollectionEpic, reciteUpdatePoetEpic, reciteFinishCollectionEpic);

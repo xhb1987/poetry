@@ -78,6 +78,8 @@ target 'clientEnd' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'clientEndTests' do
     inherit! :complete
     # Pods for testing

@@ -17,6 +17,7 @@ export type ReciteCollectionsReducer = {
   openAddCollectionDialog: boolean;
   openFinishReciteDialog: boolean;
   selectedReciteCollection?: Collection;
+  isCollectionEdit: boolean;
 };
 export type ReciteCollectionRootAction = RecitesActions;
 

@@ -8,6 +8,7 @@ import {
     Patch,
     UsePipes,
     ValidationPipe,
+    Delete,
 } from '@nestjs/common';
 import ProfileService from '../service/profile.service';
 import UserService from '../../user/service/user-service';
@@ -78,10 +79,33 @@ export class ProfileController {
         @Param('collectionId') collectionId: number,
         @Param('poetId') poetId: number
     ): Promise<ResponseMessage<Collection>> {
-        const updatedCollection = await this.profileService.updateCollection(
+        const updatedCollection = await this.profileService.addPoetToCollection(
             collectionId,
             poetId
         );
+
+        const responseMessage = generateResponseMessage<Collection>(
+            updatedCollection
+        );
+
+        return responseMessage;
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('USER')
+    @Delete('/collection/:collectionId/deletePoet/:poetId')
+    async deletePoet(
+        @Param('collectionId') collectionId: number,
+        @Param('poetId') poetId: number
+    ): Promise<ResponseMessage<Collection>> {
+        const updatedCollection = await this.profileService.deletePoetFromCollection(
+            collectionId,
+            poetId
+        );
+
+        if (!updatedCollection) {
+            throw new Error('something wrong with delete poet from collection');
+        }
 
         const responseMessage = generateResponseMessage<Collection>(
             updatedCollection
@@ -110,6 +134,28 @@ export class ProfileController {
 
         return responseMessage;
     }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('USER')
+    @Delete('/collection/delete')
+    async deleteCollections(
+        @Body() data: { collectionIds: number[] },
+        @CurrentUser() currentUser: User
+    ): Promise<ResponseMessage<Collection[]>> {
+        const { collectionIds } = data;
+        await this.profileService.deleteCollections(collectionIds);
+        const user = await this.userService.findUserByName(
+            currentUser.username
+        );
+        const { collections = [] } = user || {};
+
+        const responseMessage = generateResponseMessage<Collection[]>(
+            collections.filter((collection) => !collection.deleteAt)
+        );
+
+        return responseMessage;
+    }
+
     // @UseGuards(JwtAuthGuard, RolesGuard)
     // @Roles('USER')
     // @Post('/favorite')

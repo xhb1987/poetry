@@ -1,6 +1,6 @@
 import { ReciteCollectionsReducer } from './types';
 import { getType } from 'typesafe-actions';
-import { recitesActions, RecitesActions } from './actions';
+import { recitesActions, RecitesActions, recitesRestActions, RecitesRestActions } from './actions';
 import { AuthActions } from '../auth/types';
 import { authActions } from '../auth/actions';
 import { uniqBy } from 'lodash';
@@ -12,11 +12,12 @@ const initReciteState: ReciteCollectionsReducer = {
   selectedReciteCollection: undefined,
   openAddCollectionDialog: false,
   openFinishReciteDialog: false,
+  isCollectionEdit: false,
 };
 
 export const reciteCollectionsReducer = (
   state: ReciteCollectionsReducer = initReciteState,
-  action: RecitesActions | AuthActions
+  action: RecitesActions | RecitesRestActions | AuthActions
 ) => {
   switch (action.type) {
     case getType(authActions.userRegisterSuccess):
@@ -46,7 +47,6 @@ export const reciteCollectionsReducer = (
     }
 
     case getType(recitesActions.openFinishReciteDialog): {
-      console.log('1111');
       return {
         ...state,
         openFinishReciteDialog: true,
@@ -60,6 +60,7 @@ export const reciteCollectionsReducer = (
       };
     }
 
+    case getType(recitesActions.deleteCollections):
     case getType(recitesActions.finishCollection):
     case getType(recitesActions.addPoetToCollection):
     case getType(recitesActions.addCollection): {
@@ -70,7 +71,7 @@ export const reciteCollectionsReducer = (
       };
     }
 
-    case getType(recitesActions.finishCollectionSuccess): {
+    case getType(recitesRestActions.finishCollectionSuccess): {
       const { collection } = action.payload;
       const { collections } = state;
 
@@ -91,17 +92,19 @@ export const reciteCollectionsReducer = (
         collections: newCollections,
       };
     }
-    case getType(recitesActions.addPoetToCollectionSuccess): {
+
+    case getType(recitesRestActions.deletePoetFromCollectionSuccess):
+    case getType(recitesRestActions.addPoetToCollectionSuccess): {
       const { collection } = action.payload;
       const { collections } = state;
 
       const updatedIndex = collections.findIndex((coll) => coll.id === collection.id);
       collections[updatedIndex] = collection;
 
-      return { ...state, loading: false, collections };
+      return { ...state, loading: false, collections, selectedReciteCollection: collection };
     }
 
-    case getType(recitesActions.finishCollectionError): {
+    case getType(recitesRestActions.finishCollectionError): {
       return {
         ...state,
         loading: false,
@@ -109,7 +112,7 @@ export const reciteCollectionsReducer = (
       };
     }
 
-    case getType(recitesActions.addCollectionSuccess): {
+    case getType(recitesRestActions.addCollectionSuccess): {
       return {
         ...state,
         loading: false,
@@ -117,8 +120,17 @@ export const reciteCollectionsReducer = (
       };
     }
 
-    case getType(recitesActions.addPoetToCollectionError):
-    case getType(recitesActions.addCollectionError): {
+    case getType(recitesRestActions.deleteCollectionsSuccess): {
+      return {
+        ...state,
+        loading: false,
+        collections: action.payload.collections,
+      };
+    }
+    case getType(recitesRestActions.deletePoetFromCollectionError):
+    case getType(recitesRestActions.deleteCollectionsError):
+    case getType(recitesRestActions.addPoetToCollectionError):
+    case getType(recitesRestActions.addCollectionError): {
       return {
         ...state,
         loading: false,
@@ -131,6 +143,21 @@ export const reciteCollectionsReducer = (
         selectedReciteCollection: action.payload.collection,
       };
     }
+
+    case getType(recitesActions.editCollectionStart): {
+      return {
+        ...state,
+        isCollectionEdit: true,
+      };
+    }
+
+    case getType(recitesActions.editCollectionEnd): {
+      return {
+        ...state,
+        isCollectionEdit: false,
+      };
+    }
+
     default:
       return state;
   }

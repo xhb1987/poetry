@@ -54,24 +54,25 @@ class ProfileService {
         const { collections } = user;
         const newUser = {
             ...user,
-            collections: [...(collections ?? []), newCollection].filter(
-                (v) => !!v
-            ),
+            collections: [
+                ...(collections.filter((collection) => !collection.deleteAt) ??
+                    []),
+                newCollection,
+            ].filter((v) => !!v),
         };
         return this.userRepository.save(newUser);
     }
 
-    public async updateCollection(collectionId: number, poetId: number) {
-        const findCollection =
-            !!collectionId &&
-            (await this.collectionRepository.findById(collectionId));
+    public async addPoetToCollection(collectionId: number, poetId: number) {
+        const findCollection = await this.collectionRepository.findById(
+            collectionId
+        );
 
         if (!findCollection) {
             throw new Error('cannot find this collection');
         }
 
-        const findPoet =
-            !!poetId && (await this.poetRepository.findPoetById(poetId));
+        const findPoet = await this.poetRepository.findPoetById(poetId);
 
         if (!findPoet) {
             throw new Error('cannot find this poet');
@@ -81,6 +82,28 @@ class ProfileService {
 
         findCollection.poets.push(findPoet);
         return this.collectionRepository.save(findCollection);
+    }
+
+    public async deletePoetFromCollection(
+        collectionId: number,
+        poetId: number
+    ) {
+        const findCollection = await this.collectionRepository.findById(
+            collectionId
+        );
+
+        if (!findCollection) {
+            throw new Error('cannot find this collection');
+        }
+
+        const { poets } = findCollection;
+        const findPoetIndex = poets.findIndex((poet) => poet.id === poetId);
+        poets.splice(findPoetIndex, 1);
+
+        return await this.collectionRepository.save({
+            ...findCollection,
+            poets,
+        });
     }
 
     public async finishCollection(collectionId: number) {
@@ -94,6 +117,16 @@ class ProfileService {
 
         findCollection.isFinished = true;
         return this.collectionRepository.save(findCollection);
+    }
+
+    public async deleteCollections(collectionIds: number[]) {
+        try {
+            collectionIds.forEach((id) => {
+                this.collectionRepository.deleteById(id);
+            });
+        } catch (e) {
+            throw new Error(e);
+        }
     }
 
     // public async findProfileById(id: number): Promise<Profile | undefined> {

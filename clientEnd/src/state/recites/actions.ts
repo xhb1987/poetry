@@ -12,6 +12,12 @@ import {
   FINISH_COLLECTION_SUCCESS,
   FINISH_COLLECTION_ERROR,
   FINISH_COLLECTION,
+  DELETE_COLLECTIONS,
+  DELETE_COLLECTIONS_SUCCESS,
+  DELETE_COLLECTIONS_ERROR,
+  DELETE_POET_FROM_COLLECTION_SUCCESS,
+  DELETE_POET_FROM_COLLECTION_ERROR,
+  DELETE_POET_FROM_COLLECTION,
 } from 'src/common/rest/actions/reciteActions';
 import { Poet } from '../poet/types';
 
@@ -21,6 +27,9 @@ export const CLOSE_ADD_COLLECTION_DIALOG = 'recite/CLOSE_ADD_COLLECTION_DIALOG';
 
 export const OPEN_FINISH_RECITE_DIALOG = 'recite/OPEN_FINISH_RECITE_DIALOG';
 export const CLOSE_FINISH_RECITE_DIALOG = 'recite/CLOSE_FINISH_RECITE_DIALOG';
+
+export const EDIT_COLLECTION_START = 'recite/EDIT_COLLECTION_START';
+export const EDIT_COLLECTION_END = 'recite/EDIT_COLLECTION_END';
 
 export const recitesRestActions = {
   addCollectionSuccess: createAction(ADD_COLLECTION_SUCCESS, (responseMessage: ResponseMessage<Collection[]>) => ({
@@ -42,10 +51,30 @@ export const recitesRestActions = {
   }>(),
   addPoetToCollectionError: createAction(ADD_POET_TO_COLLECTION_ERROR)(),
 
+  deletePoetFromCollectionSuccess: createAction(
+    DELETE_POET_FROM_COLLECTION_SUCCESS,
+    (responseMessage: ResponseMessage<Collection>) => ({
+      collection: responseMessage.data,
+    })
+  )<{
+    collection: Collection;
+  }>(),
+  deletePoetFromCollectionError: createAction(DELETE_POET_FROM_COLLECTION_ERROR)(),
+
   finishCollectionSuccess: createAction(FINISH_COLLECTION_SUCCESS, (responseMessage: ResponseMessage<Collection>) => ({
     collection: responseMessage.data,
   }))<{ collection: Collection }>(),
   finishCollectionError: createAction(FINISH_COLLECTION_ERROR)(),
+
+  deleteCollectionsSuccess: createAction(
+    DELETE_COLLECTIONS_SUCCESS,
+    (responseMessage: ResponseMessage<Collection[]>) => ({
+      collections: responseMessage.data,
+    })
+  )<{ collections: Collection[] }>(),
+  deleteCollectionsError: createAction(DELETE_COLLECTIONS_ERROR, (error: AjaxError) => ({ error }))<{
+    error: AjaxError;
+  }>(),
 };
 
 export const recitesActions = {
@@ -58,6 +87,9 @@ export const recitesActions = {
   openFinishReciteDialog: createAction(OPEN_FINISH_RECITE_DIALOG)(),
   closeFinishReciteDialog: createAction(CLOSE_FINISH_RECITE_DIALOG)(),
 
+  editCollectionStart: createAction(EDIT_COLLECTION_START)(),
+  editCollectionEnd: createAction(EDIT_COLLECTION_END)(),
+
   addCollection: createAction(ADD_COLLECTION, (collectionName: string) => ({
     request: {
       url: `http://localhost:3001/profile/collection/add`,
@@ -67,8 +99,6 @@ export const recitesActions = {
     onSuccess: recitesRestActions.addCollectionSuccess,
     onError: recitesRestActions.addCollectionError,
   }))(),
-  addCollectionSuccess: recitesRestActions.addCollectionSuccess,
-  addCollectionError: recitesRestActions.addCollectionError,
 
   addPoetToCollection: createAction(ADD_POET_TO_COLLECTION, (poet: Poet, collection: Collection) => ({
     request: {
@@ -78,8 +108,15 @@ export const recitesActions = {
     onSuccess: recitesRestActions.addPoetToCollectionSuccess,
     onError: recitesRestActions.addPoetToCollectionError,
   }))(),
-  addPoetToCollectionSuccess: recitesRestActions.addPoetToCollectionSuccess,
-  addPoetToCollectionError: recitesRestActions.addPoetToCollectionError,
+
+  deletePoetFromCollection: createAction(DELETE_POET_FROM_COLLECTION, (collectionId: number, poetId: number) => ({
+    request: {
+      url: `http://localhost:3001/profile/collection/${collectionId}/deletePoet/${poetId}`,
+      method: 'DELETE',
+    },
+    onSuccess: recitesRestActions.deletePoetFromCollectionSuccess,
+    onError: recitesRestActions.deletePoetFromCollectionError,
+  }))(),
 
   finishCollection: createAction(FINISH_COLLECTION, (collectionId: number) => ({
     request: {
@@ -89,8 +126,17 @@ export const recitesActions = {
     onSuccess: recitesRestActions.finishCollectionSuccess,
     onError: recitesRestActions.finishCollectionError,
   }))(),
-  finishCollectionSuccess: recitesRestActions.finishCollectionSuccess,
-  finishCollectionError: recitesRestActions.finishCollectionError,
+
+  deleteCollections: createAction(DELETE_COLLECTIONS, (collectionIds: number[]) => ({
+    request: {
+      url: 'http://localhost:3001/profile/collection/delete',
+      method: 'DELETE',
+      body: JSON.stringify({ collectionIds }),
+    },
+    onSuccess: recitesRestActions.deleteCollectionsSuccess,
+    onError: recitesRestActions.deleteCollectionsError,
+  }))(),
 };
 
 export type RecitesActions = ActionType<typeof recitesActions>;
+export type RecitesRestActions = ActionType<typeof recitesRestActions>;

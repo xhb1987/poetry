@@ -1,5 +1,4 @@
 import React from 'react';
-import MyText from 'src/common/component/text';
 import { PageView } from 'src/common/component/page-view';
 import { UserName } from './component/user-name';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +8,7 @@ import { authActions } from 'src/state/auth/actions';
 import { View } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { routes } from 'src/screen/routes';
+import { CollectionSection } from './component/collection-section';
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -26,23 +26,16 @@ export const ProfilePage = () => {
     <PageView>
       {!isAuthenticated && (
         <View style={{ justifyContent: 'center' }}>
-          {/* <MyText
-            style={{
-              color: theme.colors.primary,
-              justifyContent: 'center',
-              alignContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              marginBottom: 10,
-            }}
-          >
-            请先登录
-          </MyText> */}
           <MyButton type="primary" title="登录" onPress={goToLogin} />
         </View>
       )}
-      <UserName />
-      {isAuthenticated && <MyButton loading={loading} type="secondary" onPress={logout} title="退出" />}
+
+      {isAuthenticated && (
+        <View style={{ height: '100%', alignContent: 'center', justifyContent: 'center' }}>
+          <UserName />
+          <CollectionSection />
+        </View>
+      )}
     </PageView>
   );
 };

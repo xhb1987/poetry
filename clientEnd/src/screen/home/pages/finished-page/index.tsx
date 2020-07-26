@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Stack } from '..';
 import { routes } from 'src/screen/routes';
 import { FinishedPage } from './finished-page';
+import { EditButton } from '../recite-page/component/edit-button';
 
 export const FinishedScreen: FC = () => (
   <Stack.Navigator>
@@ -14,6 +15,7 @@ export const FinishedScreen: FC = () => (
         headerStyle: {
           shadowColor: 'transparent',
         },
+        headerLeft: () => <EditButton />,
       }}
     />
   </Stack.Navigator>
