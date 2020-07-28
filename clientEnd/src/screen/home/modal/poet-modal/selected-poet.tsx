@@ -9,7 +9,6 @@ import { PoetTitle } from '../../component/poet-title';
 
 export const SelectedPoet: FC = () => {
   const selectedPoet = useSelector(selectSelectedPoet);
-  const paragraphs = selectedPoet?.paragraphs.split('。').filter((content) => content);
 
   return (
     <ScrollView contentContainerStyle={style.contentContainer}>

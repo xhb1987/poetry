@@ -9,7 +9,7 @@ export type Poet = {
   isBookmark?: boolean;
 };
 
-export type PoetDialogType = 'add' | 'recite' | 'view' | 'delete';
+export type PoetDialogType = 'add' | 'view' | 'delete';
 
 export type PoetRootAction = PoetActions;
 export type PoetRootState = PoetState;

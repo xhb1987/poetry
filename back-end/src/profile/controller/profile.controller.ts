@@ -155,24 +155,4 @@ export class ProfileController {
 
         return responseMessage;
     }
-
-    // @UseGuards(JwtAuthGuard, RolesGuard)
-    // @Roles('USER')
-    // @Post('/favorite')
-    // async addPoetToFavorite(
-    //     @Body() poet: PoetDto,
-    //     @CurrentUser() user: User
-    // ): Promise<ResponseMessage<Profile>> {
-    //     const poetEntity = await this.poetService.findPoetById(poet.id);
-    //     if (poetEntity === undefined) {
-    //         throw new BadRequestException('cannot find this poet');
-    //     }
-
-    //     const profile = await this.profileService.updateProfileFavorites(
-    //         user.profile.id,
-    //         poetEntity
-    //     );
-
-    //     return generateResponseMessage(profile);
-    // }
 }

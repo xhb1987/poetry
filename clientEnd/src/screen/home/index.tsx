@@ -4,7 +4,7 @@ import MyText from 'src/common/component/text';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppTheme as Theme } from 'src/common/types/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { FavoritesScreen, ProfileScreen, ReciteCollectionScreen, FinishedScreen } from './pages';
+import { ProfileScreen, ReciteCollectionScreen, FinishedScreen } from './pages';
 import { useDispatch } from 'react-redux';
 import { recitesActions } from 'src/state/recites/actions';
 
@@ -13,10 +13,10 @@ const Tab = createBottomTabNavigator();
 export const HomeTab: FC<{ theme: Theme }> = ({ theme }) => {
   const dispatch = useDispatch();
   return (
-    <Tab.Navigator initialRouteName={routes.favorites}>
+    <Tab.Navigator initialRouteName={routes.home}>
       <Tab.Screen
         name="首页"
-        component={FavoritesScreen}
+        component={() => null}
         options={{
           tabBarLabel: ({ focused }) => (
             <MyText style={{ color: theme.colors.tabColor, opacity: focused ? 1 : 0.5, fontSize: 12 }}>首页</MyText>

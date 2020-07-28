@@ -5,10 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { MyButton } from 'src/common/component/button';
 import { PageView } from 'src/common/component/page-view';
-import MyText from 'src/common/component/text';
 import { AppTheme } from 'src/common/types/types';
-import { poetActions } from 'src/state/poet/actions';
-import { selectSelectedPoet } from 'src/state/poet/selector';
 import { selectCurrentCollection, selectReciteCollectionPoets } from 'src/state/recites/selectors';
 import Swiper from 'react-native-swiper';
 import { PoetTitle } from '../../component/poet-title';
@@ -36,7 +33,7 @@ export const RecitePoetDetail: FC = () => {
     currentCollection && dispatch(recitesActions.finishCollection(currentCollection.id));
   };
 
-  const onIndexChangedHandler = (index: number) => {
+  const onIndexChangedHandler = () => {
     setIsViewPoet(false);
   };
 

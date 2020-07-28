@@ -5,7 +5,6 @@ export const routes = {
   home: 'Home',
   profile: 'Profile',
   search: 'Search',
-  favorites: 'Favorites',
   recites: 'Recites',
   reciteCollection: 'ReciteCollection',
 
