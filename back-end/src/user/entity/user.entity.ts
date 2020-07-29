@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { Role } from './role.entity';
 import { Collection } from '../../profile/entity/collection.entity';
-import { Favorite } from '../../profile/entity/favorite.entity';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -30,10 +29,6 @@ export class User {
     @ManyToMany((type) => Collection, (collection) => collection.user)
     @JoinTable()
     collections: Collection[];
-
-    @OneToOne((type) => Favorite)
-    @JoinColumn()
-    favorite: Favorite;
 
     // @OneToOne((type) => Favorite)
     // @JoinColumn()

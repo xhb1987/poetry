@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { selectPoetDialogType } from 'src/state/poet/selector';
+import { selectPoetDialogType } from 'src/state/poet/selectors';
 import { AppTheme } from 'src/common/types/types';
 
 import { PoetDialogType } from 'src/state/poet/types';

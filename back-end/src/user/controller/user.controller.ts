@@ -46,54 +46,5 @@ class UserController {
         );
         return responseMessage;
     }
-
-    // // @Post("/login")
-    // // async userLogin(@Body() user: IUser): Promise<ResponseMessage<string>> {
-    // //   try {
-    // //     if (!user.name || !user.password) {
-    // //       throw new Error("pleaser enter username or password");
-    // //     }
-    // //     const users = await this.userRepository.findUserByName(user.name);
-    // //     if (users.length != 1 && users.length > 0) {
-    // //       throw new Error("find more than one user with same name");
-    // //     }
-    // //     if (users === undefined || users === null || users.length === 0) {
-    // //       throw new Error("cannot find this user");
-    // //     }
-    // //     const foundUser = await users.pop()?.populate("role").execPopulate();
-    // //     return compare(user.password, foundUser?.password || "").then((res) => {
-    // //       const jwtToken = sign(
-    // //         { name: foundUser?.name, role: foundUser?.role.map((rl) => rl.name) },
-    // //         process.env.SECRET,
-    // //         {
-    // //           expiresIn: "1 day",
-    // //         }
-    // //       );
-    // //       return res
-    // //         ? generateResponseMessage<string>(jwtToken)
-    // //         : generateResponseMessage<string>("wrong password");
-    // //     });
-    // //   } catch (e) {
-    // //     return generateResponseMessage<string>(`login failed: ${e.message}`);
-    // //   }
-    // // }
-    // // @Post("/token")
-    // // @Authorized()
-    // // async tokenRenew(
-    // //   @CurrentUser({ required: true }) user: IUserModel
-    // // ): Promise<ResponseMessage<string | object>> {
-    // //   try {
-    // //     const newToken = sign(
-    // //       { name: user.name, role: user.role },
-    // //       process.env.SECRET,
-    // //       {
-    // //         expiresIn: "1 day",
-    // //       }
-    // //     );
-    // //     return generateResponseMessage<string>(newToken);
-    // //   } catch (e) {
-    // //     return generateResponseMessage<string>(`invalid token: ${e.message}`);
-    // //   }
-    // // }
 }
 export default UserController;

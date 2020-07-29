@@ -60,7 +60,7 @@ export const authActions = {
     request: {
       url: 'http://localhost:3001/auth/register',
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ user: { username, password } }),
     },
     onSuccess: authResponseActions.authRegisterSuccess,
     onError: authResponseActions.authRegisterError,

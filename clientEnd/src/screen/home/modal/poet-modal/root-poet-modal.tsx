@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectPoetDialog } from 'src/state/poet/selector';
+import { selectPoetDialog } from 'src/state/poet/selectors';
 import Modal from 'react-native-modal';
 import { poetActions } from 'src/state/poet/actions';
 import { AppTheme } from 'src/common/types/types';

@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentCollection } from 'src/state/recites/selectors';
 import { SearchButton } from './home/component/search-button';
 import { RecitePoetDetail } from './home/pages/recite-page/recite-poet-detail';
+import { CollectionListPage } from './home/pages/recommendation/component/collection-list-page';
 
 const Stack = createStackNavigator<RootRouteParamProps>();
 
@@ -53,6 +54,15 @@ export const Screen: FC<{ theme: Theme }> = ({ theme }) => {
             headerTransparent: false,
             headerBackTitle: '返回',
           })}
+        />
+        <Stack.Screen
+          name="CollectionList"
+          component={CollectionListPage}
+          options={{
+            headerTitle: '添加到我的诗单',
+            headerTransparent: false,
+            headerBackTitle: '返回',
+          }}
         />
         <Stack.Screen
           name="SearchModal"

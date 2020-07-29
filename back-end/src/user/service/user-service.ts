@@ -1,17 +1,12 @@
-import { Service } from 'typedi';
 import UserRepository from '../repository/user.repository';
 
 import { Injectable } from '@nestjs/common';
 import { Logger } from '../../common/logging/logging';
 import { hash } from 'bcrypt';
 import { UserDto } from '../dto/user.dto';
-import RoleRepository from '../repository/role.repository';
-import { RoleDto } from '../dto/rols.dto';
 import { User } from '../entity/user.entity';
 import { Role } from '../entity/role.entity';
-import { CollectionDto } from '../../profile/dto/collection.dto';
 import { Collection } from '../../profile/entity/collection.entity';
-import { Favorite } from '../../profile/entity/favorite.entity';
 
 @Injectable()
 class UserService {
@@ -32,8 +27,7 @@ class UserService {
     public async register(
         user: UserDto,
         role: Role,
-        collections: Collection[],
-        favorite: Favorite
+        collections: Collection[]
     ): Promise<User> {
         const encryptedPassword = await this.encryptPassword(user.password);
         const newUserModel = new User();
@@ -41,7 +35,6 @@ class UserService {
         newUserModel.password = encryptedPassword;
         newUserModel.roles = [role];
         newUserModel.collections = collections;
-        newUserModel.favorite = favorite;
 
         return this.userRepository.createAndSave(newUserModel);
     }

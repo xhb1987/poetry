@@ -100,9 +100,9 @@ export const recitesActions = {
     onError: recitesRestActions.addCollectionError,
   }))(),
 
-  addPoetToCollection: createAction(ADD_POET_TO_COLLECTION, (poet: Poet, collection: Collection) => ({
+  addPoetToCollection: createAction(ADD_POET_TO_COLLECTION, (collectionId: number, poetId: number) => ({
     request: {
-      url: `http://localhost:3001/profile/collection/${collection.id}/addPoet/${poet.id}`,
+      url: `http://localhost:3001/profile/collection/${collectionId}/addPoet/${poetId}`,
       method: 'PATCH',
     },
     onSuccess: recitesRestActions.addPoetToCollectionSuccess,

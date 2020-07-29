@@ -4,10 +4,8 @@ import { ProfileDto } from '../dto/profile.dto';
 import { Poet } from '../../poet/entity/poet.entity';
 import { User } from '../../user/entity/user.entity';
 import { CollectionRepository } from '../repository/collection.repository';
-import { FavoriteRepository } from '../repository/favorite.repository';
 import { Collection } from '../entity/collection.entity';
 import { CollectionDto } from '../dto/collection.dto';
-import { Favorite } from '../entity/favorite.entity';
 import UserRepository from '../../user/repository/user.repository';
 import PoetRepository from '../../poet/repository/poet.repository';
 
@@ -15,21 +13,10 @@ import PoetRepository from '../../poet/repository/poet.repository';
 class ProfileService {
     constructor(
         private collectionRepository: CollectionRepository,
-        private favoriteRepository: FavoriteRepository,
         private userRepository: UserRepository,
         private poetRepository: PoetRepository,
         private logger: Logger
     ) {}
-
-    public async findFavoriteById(id: number): Promise<Favorite | undefined> {
-        return this.favoriteRepository.findById(id);
-    }
-
-    public async saveFavorite(): Promise<Favorite> {
-        const favorite = new Favorite();
-        console.log(favorite);
-        return this.favoriteRepository.createAndSave(favorite);
-    }
 
     public async findCollectionById(
         id: number

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
-import { selectPoetSearchLoading, selectPoetSearch } from 'src/state/poet/selector';
+import { selectPoetSearchLoading, selectPoetSearch } from 'src/state/poet/selectors';
 import { Poet } from 'src/state/poet/types';
 import { poetActions } from 'src/state/poet/actions';
 import { LoadingIndicator } from '../component/loading-indicator';

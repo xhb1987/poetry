@@ -10,6 +10,7 @@ import {
 } from './reciteActions';
 import { USER_LOGIN, USER_LOGIN_BY_TOKEN, USER_LOG_OUT } from './authActions';
 import { USER_REGISTER } from 'src/state/user/actions';
+import { FETCH_RECOMMENDATION } from './recommendationActions';
 
 export interface RestAction extends Action {
   payload: {
@@ -30,4 +31,5 @@ export const restActions = [
   FINISH_COLLECTION,
   DELETE_COLLECTIONS,
   DELETE_POET_FROM_COLLECTION,
+  FETCH_RECOMMENDATION,
 ];

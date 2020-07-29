@@ -16,7 +16,6 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import RoleService from '../user/service/role-services';
 import ProfileService from '../profile/service/profile.service';
 import { CollectionRepository } from '../profile/repository/collection.repository';
-import { FavoriteRepository } from '../profile/repository/favorite.repository';
 import PoetRepository from '../poet/repository/poet.repository';
 
 @Module({
@@ -26,7 +25,6 @@ import PoetRepository from '../poet/repository/poet.repository';
             UserRepository,
             RoleRepository,
             CollectionRepository,
-            FavoriteRepository,
             PoetRepository,
         ]),
         JwtModule.registerAsync({

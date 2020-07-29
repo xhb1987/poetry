@@ -12,8 +12,7 @@ export const Authentication: FC = () => {
     }
     return token;
   }, []);
-  //   console.log('xxxxxxx');
-  //   console.log('token => ', getToken());
+
   useEffect(() => {
     getToken();
   }, []);

@@ -5,6 +5,7 @@ import { AppTheme } from '../types/types';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { LoadingIndicator } from 'src/screen/home/component/loading-indicator';
 import { MaterialIndicator } from 'react-native-indicators';
+import { Indicator } from './indicator';
 
 type ButtonType = 'primary' | 'secondary';
 
@@ -22,13 +23,7 @@ export const MyButton: FC<
     >
       <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: 'center', alignItems: 'center' }} {...rest}>
         <Text style={{ color: 'white', padding: 8, fontSize: 16, textAlign: 'center' }}>{title}</Text>
-        {loading && (
-          <MaterialIndicator
-            size={12}
-            color={'white'}
-            style={{ flex: 10, maxWidth: 18, position: 'absolute', right: 10 }}
-          />
-        )}
+        {loading && <Indicator style={{ flex: 10, maxWidth: 18, position: 'absolute', right: 10 }} />}
       </TouchableOpacity>
     </View>
   );

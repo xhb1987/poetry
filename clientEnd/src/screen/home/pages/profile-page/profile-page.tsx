@@ -17,10 +17,6 @@ export const ProfilePage = () => {
   const navigation = useNavigation();
   const goToLogin = () => navigation.navigate(routes.login);
 
-  const logout = () => {
-    dispatch(authActions.userLogout());
-  };
-
   const theme = useTheme();
   return (
     <PageView>

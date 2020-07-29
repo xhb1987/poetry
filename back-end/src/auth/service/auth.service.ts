@@ -72,16 +72,10 @@ export class AuthService {
         }
 
         const userRole = await this.roleService.findRoleByName(role || 'USER');
-        const userFavorite = await this.profileService.saveFavorite();
         if (!userRole) {
             throw new Error('cannot find a role');
         }
-        const newUser = await this.userService.register(
-            userDto,
-            userRole,
-            [],
-            userFavorite
-        );
+        const newUser = await this.userService.register(userDto, userRole, []);
 
         return this.login(newUser.username);
     }

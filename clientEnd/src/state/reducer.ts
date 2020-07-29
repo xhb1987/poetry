@@ -11,6 +11,8 @@ import { AuthState } from './auth/types';
 import { finishedReducer } from './finished/reducer';
 import { reciteCollectionsReducer } from './recites/reducer';
 import { authReducer } from './auth/reducer';
+import { RecommendationRootState } from './recommendation/types';
+import { recommendationReducer } from './recommendation/reducer';
 
 export type RootActions = UserActions;
 export type RootState = {
@@ -19,6 +21,7 @@ export type RootState = {
   finished: FinishedRootState;
   recites: ReciteCollectionRootState;
   auth: AuthState;
+  recommendation: RecommendationRootState;
 };
 
 // Redux: Root Reducer
@@ -28,6 +31,8 @@ const rootReducer = combineReducers({
   finished: finishedReducer,
   recites: reciteCollectionsReducer,
   auth: authReducer,
+  recommendation: recommendationReducer,
 });
+
 // Exports
 export default rootReducer;

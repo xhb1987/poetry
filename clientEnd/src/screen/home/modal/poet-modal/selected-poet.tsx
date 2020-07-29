@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import MyText from 'src/common/component/text';
-import { selectSelectedPoet } from 'src/state/poet/selector';
+import { selectSelectedPoet } from 'src/state/poet/selectors';
 import { PoetAuthor } from '../../component/poet-author';
 import { PoetParagraph } from '../../component/poet-paragraph';
 import { PoetTitle } from '../../component/poet-title';

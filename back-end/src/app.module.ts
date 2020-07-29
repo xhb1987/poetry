@@ -13,7 +13,8 @@ import { ProfileModule } from './profile/profile.module';
 import { PoetModule } from './poet/poet.module';
 import { Poet } from './poet/entity/poet.entity';
 import { Collection } from './profile/entity/collection.entity';
-import { Favorite } from './profile/entity/favorite.entity';
+import { RecommendationPoet } from './recommendation/entity/recommendation.entity';
+import { RecommendationModule } from './recommendation/recommendation.module';
 @Module({
     providers: [
         {
@@ -34,7 +35,7 @@ import { Favorite } from './profile/entity/favorite.entity';
                 database: config.get('database.name'),
                 autoLoadEntities: true,
                 synchronize: true,
-                entities: [User, Role, Favorite, Poet, Collection],
+                entities: [User, Role, Poet, Collection, RecommendationPoet],
             }),
             inject: [ConfigService],
         }),
@@ -42,6 +43,7 @@ import { Favorite } from './profile/entity/favorite.entity';
         AuthModule,
         ProfileModule,
         PoetModule,
+        RecommendationModule,
     ],
 })
 export class AppModule {}

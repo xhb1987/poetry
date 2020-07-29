@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MyButton } from 'src/common/component/button';
 import { AppTheme } from 'src/common/types/types';
 import { poetActions } from 'src/state/poet/actions';
-import { selectSelectedPoet } from 'src/state/poet/selector';
+import { selectSelectedPoet } from 'src/state/poet/selectors';
 import { recitesActions } from 'src/state/recites/actions';
 import { selectCurrentCollection, selectReciteCollectionLoading } from 'src/state/recites/selectors';
 import { PoetModal } from './poet-modal';

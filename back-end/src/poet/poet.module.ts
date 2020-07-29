@@ -9,13 +9,11 @@ import ProfileService from '../profile/service/profile.service';
 import PoetService from './service/poet.service';
 import PoetRepository from './repository/poet.repository';
 import { CollectionRepository } from '../profile/repository/collection.repository';
-import { FavoriteRepository } from '../profile/repository/favorite.repository';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
             CollectionRepository,
-            FavoriteRepository,
             UserRepository,
             PoetRepository,
         ]),

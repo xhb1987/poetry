@@ -3,16 +3,11 @@ import {
     PrimaryGeneratedColumn,
     Column,
     Index,
-    In,
-    JoinColumn,
     ManyToOne,
-    ManyToMany,
-    JoinTable,
-    OneToMany,
+    OneToOne,
 } from 'typeorm';
-import { User } from '../../user/entity/user.entity';
-import { Favorite } from '../../profile/entity/favorite.entity';
 import { Collection } from '../../profile/entity/collection.entity';
+import { RecommendationPoet } from '../../recommendation/entity/recommendation.entity';
 
 @Entity()
 @Index(['title'], { fulltext: true, sparse: true })
@@ -56,10 +51,6 @@ export class Poet {
 
     @Column()
     create_time: Date;
-
-    @ManyToMany((type) => Favorite, (favorite) => favorite.poets)
-    @JoinTable()
-    favorites: Favorite[];
 
     @ManyToOne((type) => Collection, (collection) => collection.poets)
     collections: Collection[];

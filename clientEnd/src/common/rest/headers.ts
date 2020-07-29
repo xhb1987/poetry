@@ -14,7 +14,6 @@ export const withAuthenticateHeader = async (request: AjaxRequest): Promise<Ajax
     [key: string]: string;
   };
 
-  console.log(authorization);
   if (authorization) {
     return request;
   }

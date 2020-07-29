@@ -7,7 +7,8 @@ export const routes = {
   search: 'Search',
   recites: 'Recites',
   reciteCollection: 'ReciteCollection',
-
+  recommendation: 'Recommendation',
+  collectionList: 'CollectionList',
   collectionPoet: 'CollectionPoet',
   recitePoetDetail: 'RecitePoetDetail',
   finished: 'Finished',
@@ -23,6 +24,7 @@ export type RootRouteParamProps = {
   Login: undefined;
   Register: undefined;
   SearchModal: undefined;
+  CollectionList: undefined;
   RecitePoetDetail: {
     collectionName?: string;
   };

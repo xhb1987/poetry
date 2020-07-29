@@ -13,10 +13,11 @@ import { MyCheckbox } from 'src/common/component/checkbox';
 type CollectionItemProps = {
   isSelected?: boolean;
   collection: Collection;
-  collections: Collection[];
+  collections?: Collection[];
   onPress?: (e: GestureResponderEvent) => void;
   onLongPress?: (e: GestureResponderEvent) => void;
   onCollectionCheck?: (collections: Collection[]) => void;
+  disabled?: boolean;
 };
 export const CollectionItem: FC<CollectionItemProps> = ({
   collection,
@@ -24,22 +25,22 @@ export const CollectionItem: FC<CollectionItemProps> = ({
   onLongPress,
   onCollectionCheck,
   collections,
+  disabled,
 }) => {
   const theme = useTheme() as AppTheme;
   const style = getStyle(theme);
   const editMode = useSelector(selectCollectionEdit);
-  console.log(editMode);
+
   const onCheckboxChange = (selected: boolean) => {
-    console.log('selected => ', collection);
     if (selected) {
-      collections.push(collection);
+      collections?.push(collection);
     } else {
-      const selectedCollectionIndex = collections.findIndex((coll) => coll.id === collection.id);
+      const selectedCollectionIndex = collections?.findIndex((coll) => coll.id === collection.id);
       if (selectedCollectionIndex !== undefined && selectedCollectionIndex >= 0) {
-        collections.splice(selectedCollectionIndex, 1);
+        collections?.splice(selectedCollectionIndex, 1);
       }
     }
-    onCollectionCheck && onCollectionCheck(collections);
+    onCollectionCheck && collections && onCollectionCheck(collections);
   };
 
   return (
@@ -59,7 +60,7 @@ export const CollectionItem: FC<CollectionItemProps> = ({
         </View>
       )}
       <View style={{ flex: 12 }}>
-        <TouchableOpacity style={style.container} onLongPress={onLongPress} onPress={onPress}>
+        <TouchableOpacity disabled={disabled} style={style.container} onLongPress={onLongPress} onPress={onPress}>
           <MyText>{collection.name}</MyText>
         </TouchableOpacity>
       </View>
