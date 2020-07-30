@@ -10,22 +10,26 @@ import { selectAuthState } from 'src/state/auth/selectors';
 
 Icon.loadFont();
 
-export const LogoutButton: FC = () => {
+export const LoginAndLogoutButton: FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigator = useNavigation();
   const auth = useSelector(selectAuthState);
 
   const { isAuthenticated } = auth;
+
   const onPress = () => {
     dispatch(authActions.clearError());
-    dispatch(authActions.userLogout());
-    navigator.navigate('首页');
-  };
 
-  if (!isAuthenticated) {
-    return <></>;
-  }
+    if (isAuthenticated) {
+      dispatch(authActions.userLogout());
+      navigator.navigate(routes.recommendation);
+    }
+
+    if (!isAuthenticated) {
+      navigator.navigate(routes.login);
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -33,8 +37,18 @@ export const LogoutButton: FC = () => {
       onPress={onPress}
       style={{ paddingRight: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
     >
-      <Icon name="log-out" size={20} color={theme.colors.primary} />
-      <MyText style={{ color: theme.colors.primary, marginLeft: 6 }}>退出</MyText>
+      {!isAuthenticated && (
+        <>
+          <Icon name="log-in" size={20} color={theme.colors.primary} />
+          <MyText style={{ color: theme.colors.primary, marginLeft: 6 }}>登录</MyText>
+        </>
+      )}
+      {isAuthenticated && (
+        <>
+          <Icon name="log-out" size={20} color={theme.colors.primary} />
+          <MyText style={{ color: theme.colors.primary, marginLeft: 6 }}>退出</MyText>
+        </>
+      )}
     </TouchableOpacity>
   );
 };

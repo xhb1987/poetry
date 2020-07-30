@@ -6,7 +6,6 @@ export type Role = 'USER' | 'ADMIN';
 
 export type User = {
   username: string;
-  roles: Role[];
   collections?: Collection[];
 };
 

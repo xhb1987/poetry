@@ -13,9 +13,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { AddCollectionModal } from './screen/home/modal/add-collection-modal';
 import { Authentication } from './common/component/authentication';
 import { FinishReciteModal } from './screen/home/modal/finish-recite-modal';
+import { Notification } from './screen/home/component/notification';
 
 Icon.loadFont();
-// const persistor = persistStore(store);
+const persistor = persistStore(store);
 
 // React Native: App
 export default function App() {
@@ -35,14 +36,16 @@ export default function App() {
     // Redux: Global Store
     <Provider store={store}>
       {/* <IntlProvider locale="en"> */}
-      <Authentication />
-      <Screen theme={AppTheme} />
-      <PoetModal theme={AppTheme} />
-      <AddCollectionModal theme={AppTheme} />
-      <FinishReciteModal theme={AppTheme} />
+
       {/* </IntlProvider> */}
-      {/* <PersistGate loading={null} persistor={persistor}> */}
-      {/* </PersistGate> */}
+      <PersistGate persistor={persistor}>
+        <Authentication />
+        <Notification theme={AppTheme} />
+        <Screen theme={AppTheme} />
+        <PoetModal theme={AppTheme} />
+        <AddCollectionModal theme={AppTheme} />
+        <FinishReciteModal theme={AppTheme} />
+      </PersistGate>
     </Provider>
   );
 }

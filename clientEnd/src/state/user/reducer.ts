@@ -11,7 +11,6 @@ type UserReducer = User & {
 
 const initUserState: UserReducer = {
   username: '',
-  roles: [],
   loading: false,
   error: false,
 };
@@ -25,26 +24,14 @@ export const userReducer = (state: UserReducer = initUserState, action: UserActi
     case getType(authActions.userRegisterSuccess):
     case getType(authActions.userLoginSuccess): {
       const {
-        user: { username, roles },
+        user: { username },
       } = action.payload;
       return {
         ...state,
         username,
-        roles,
       };
     }
 
-    case getType(authActions.userLogoutSuccess): {
-      return {
-        ...initUserState,
-      };
-    }
-    // case getType(userActions.selectUserProfileReciteCollection): {
-    //   return {
-    //     ...state,
-    //     selectedReciteCollection: action.payload.collection,
-    //   };
-    // }
     default:
       return state;
   }

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Stack } from '..';
 import { routes } from 'src/screen/routes';
 import { ProfilePage } from './profile-page';
-import { LogoutButton } from './component/logout-button';
+import { LoginAndLogoutButton } from './component/login-and-logout';
 
 export const ProfileScreen: FC = () => (
   <Stack.Navigator>
@@ -15,7 +15,7 @@ export const ProfileScreen: FC = () => (
         headerStyle: {
           shadowColor: 'transparent',
         },
-        headerRight: () => <LogoutButton />,
+        headerRight: () => <LoginAndLogoutButton />,
       }}
     />
   </Stack.Navigator>

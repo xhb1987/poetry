@@ -28,30 +28,33 @@ export const CollectionListPage: FC = () => {
   return (
     <PageView style={{ padding: 8 }}>
       <ScrollView>
-        {unfinishedCollections.map((collection: Collection) => (
-          <View key={collection.id}>
-            <CollectionItem
-              disabled={loading}
-              collection={collection}
-              onPress={() => addPoetToCollection(collection)}
-            />
-            {loading && (
-              <Indicator
-                color={theme.colors.primary}
-                style={{ maxWidth: 24, position: 'absolute', right: 10, top: 14 }}
+        {unfinishedCollections.map((collection: Collection) => {
+          const alreadyHas = collection.poets.some((poet) => poet.id === selectedPoet?.id);
+          return (
+            <View key={collection.id}>
+              <CollectionItem
+                disabled={loading || alreadyHas}
+                collection={collection}
+                onPress={() => addPoetToCollection(collection)}
               />
-            )}
+              {loading && (
+                <Indicator
+                  color={theme.colors.primary}
+                  style={{ maxWidth: 24, position: 'absolute', right: 10, top: 14 }}
+                />
+              )}
 
-            {!loading && collection.poets.find((poet) => poet.id === selectedPoet?.id) && (
-              <Icon
-                name="check"
-                color={theme.colors.primary}
-                size={24}
-                style={{ maxWidth: 24, position: 'absolute', right: 10, top: 10 }}
-              />
-            )}
-          </View>
-        ))}
+              {!loading && alreadyHas && (
+                <Icon
+                  name="check"
+                  color={theme.colors.primary}
+                  size={24}
+                  style={{ maxWidth: 24, position: 'absolute', right: 10, top: 10 }}
+                />
+              )}
+            </View>
+          );
+        })}
       </ScrollView>
     </PageView>
   );

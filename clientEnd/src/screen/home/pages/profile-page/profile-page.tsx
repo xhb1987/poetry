@@ -20,18 +20,15 @@ export const ProfilePage = () => {
   const theme = useTheme();
   return (
     <PageView>
-      {!isAuthenticated && (
-        <View style={{ justifyContent: 'center' }}>
-          <MyButton type="primary" title="登录" onPress={goToLogin} />
-        </View>
-      )}
-
-      {isAuthenticated && (
-        <View style={{ height: '100%', alignContent: 'center', justifyContent: 'center' }}>
-          <UserName />
-          <CollectionSection />
-        </View>
-      )}
+      <View style={{ height: '100%', alignContent: 'center', justifyContent: 'center' }}>
+        <UserName />
+        <CollectionSection />
+        {!isAuthenticated && (
+          <View style={{ justifyContent: 'center' }}>
+            <MyButton type="primary" title="登录" onPress={goToLogin} />
+          </View>
+        )}
+      </View>
     </PageView>
   );
 };

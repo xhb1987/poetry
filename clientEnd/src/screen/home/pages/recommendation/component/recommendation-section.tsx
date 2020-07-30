@@ -18,6 +18,7 @@ export const RecommendationSection: FC<{ recommendationPoet: RecommendationPoet 
   const style = getStyle(theme);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const onClickOnAdd = () => {
     dispatch(poetActions.selectPoet(poet));
     navigation.navigate(routes.collectionList);
