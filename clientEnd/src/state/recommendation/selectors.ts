@@ -2,8 +2,8 @@ import { RootState } from '../reducer';
 import { createSelector } from 'reselect';
 
 export const selectRecommendation = (state: RootState) => state.recommendation;
-export const selectRecommendationPoet = createSelector(selectRecommendation, (recommendation) => {
-  return recommendation.recommendationPoets.filter((recommendationPoet) => !!recommendationPoet.poet);
+export const selectRecommendationPoetry = createSelector(selectRecommendation, (recommendation) => {
+  return recommendation.recommendationPoetries.filter((recommendationPoetry) => !!recommendationPoetry.poetry);
 });
 
 export const selectRecommendationLoading = createSelector(

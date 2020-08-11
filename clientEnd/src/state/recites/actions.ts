@@ -6,20 +6,19 @@ import {
   ADD_COLLECTION_SUCCESS,
   ADD_COLLECTION_ERROR,
   ADD_COLLECTION,
-  ADD_POET_TO_COLLECTION,
-  ADD_POET_TO_COLLECTION_SUCCESS,
-  ADD_POET_TO_COLLECTION_ERROR,
+  ADD_POETRY_TO_COLLECTION,
+  ADD_POETRY_TO_COLLECTION_SUCCESS,
+  ADD_POETRY_TO_COLLECTION_ERROR,
   FINISH_COLLECTION_SUCCESS,
   FINISH_COLLECTION_ERROR,
   FINISH_COLLECTION,
   DELETE_COLLECTIONS,
   DELETE_COLLECTIONS_SUCCESS,
   DELETE_COLLECTIONS_ERROR,
-  DELETE_POET_FROM_COLLECTION_SUCCESS,
-  DELETE_POET_FROM_COLLECTION_ERROR,
-  DELETE_POET_FROM_COLLECTION,
+  DELETE_POETRY_FROM_COLLECTION_SUCCESS,
+  DELETE_POETRY_FROM_COLLECTION_ERROR,
+  DELETE_POETRY_FROM_COLLECTION,
 } from 'src/common/rest/actions/reciteActions';
-import { Poet } from '../poet/types';
 
 export const SELECT_RECITE_COLLECTION = 'recite/SELECT_RECITE_COLLECTION';
 export const OPEN_ADD_COLLECTION_DIALOG = 'recite/OPEN_ADD_COLLECTION_DIALOG';
@@ -41,25 +40,25 @@ export const recitesRestActions = {
     error: AjaxError;
   }>(),
 
-  addPoetToCollectionSuccess: createAction(
-    ADD_POET_TO_COLLECTION_SUCCESS,
+  addPoetryToCollectionSuccess: createAction(
+    ADD_POETRY_TO_COLLECTION_SUCCESS,
     (responseMessage: ResponseMessage<Collection>) => ({
       collection: responseMessage.data,
     })
   )<{
     collection: Collection;
   }>(),
-  addPoetToCollectionError: createAction(ADD_POET_TO_COLLECTION_ERROR)(),
+  addPoetryToCollectionError: createAction(ADD_POETRY_TO_COLLECTION_ERROR)(),
 
-  deletePoetFromCollectionSuccess: createAction(
-    DELETE_POET_FROM_COLLECTION_SUCCESS,
+  deletePoetryFromCollectionSuccess: createAction(
+    DELETE_POETRY_FROM_COLLECTION_SUCCESS,
     (responseMessage: ResponseMessage<Collection>) => ({
       collection: responseMessage.data,
     })
   )<{
     collection: Collection;
   }>(),
-  deletePoetFromCollectionError: createAction(DELETE_POET_FROM_COLLECTION_ERROR)(),
+  deletePoetryFromCollectionError: createAction(DELETE_POETRY_FROM_COLLECTION_ERROR)(),
 
   finishCollectionSuccess: createAction(FINISH_COLLECTION_SUCCESS, (responseMessage: ResponseMessage<Collection>) => ({
     collection: responseMessage.data,
@@ -100,22 +99,22 @@ export const recitesActions = {
     onError: recitesRestActions.addCollectionError,
   }))(),
 
-  addPoetToCollection: createAction(ADD_POET_TO_COLLECTION, (collectionId: number, poetId: number) => ({
+  addPoetryToCollection: createAction(ADD_POETRY_TO_COLLECTION, (collectionId: number, poetryId: number) => ({
     request: {
-      url: `http://localhost:3001/profile/collection/${collectionId}/addPoet/${poetId}`,
+      url: `http://localhost:3001/profile/collection/${collectionId}/addPoet/${poetryId}`,
       method: 'PATCH',
     },
-    onSuccess: recitesRestActions.addPoetToCollectionSuccess,
-    onError: recitesRestActions.addPoetToCollectionError,
+    onSuccess: recitesRestActions.addPoetryToCollectionSuccess,
+    onError: recitesRestActions.addPoetryToCollectionError,
   }))(),
 
-  deletePoetFromCollection: createAction(DELETE_POET_FROM_COLLECTION, (collectionId: number, poetId: number) => ({
+  deletePoetFromCollection: createAction(DELETE_POETRY_FROM_COLLECTION, (collectionId: number, poetryId: number) => ({
     request: {
-      url: `http://localhost:3001/profile/collection/${collectionId}/deletePoet/${poetId}`,
+      url: `http://localhost:3001/profile/collection/${collectionId}/deletePoet/${poetryId}`,
       method: 'DELETE',
     },
-    onSuccess: recitesRestActions.deletePoetFromCollectionSuccess,
-    onError: recitesRestActions.deletePoetFromCollectionError,
+    onSuccess: recitesRestActions.deletePoetryFromCollectionSuccess,
+    onError: recitesRestActions.deletePoetryFromCollectionError,
   }))(),
 
   finishCollection: createAction(FINISH_COLLECTION, (collectionId: number) => ({

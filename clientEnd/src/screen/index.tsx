@@ -1,23 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 
 import { HomeTab } from './home';
-import { RootRouteParamProps, routes } from './routes';
+import { RootRouteParamProps } from './routes';
 import { AppTheme as Theme } from 'src/common/types/types';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SearchModal } from './home/modal/search-modal';
 import { SearchInput } from './home/component/search-input';
-import { CollectionPoetPage } from './home/pages/recite-page/collection-poet';
+import { CollectionPoetryPage } from './home/pages/recite-page/collection-poetry';
 import { navigationRef } from 'src/common/navigation/root-navigation';
 import { RegisterButton } from './home/pages/profile-page/component/register-button';
 import { LoginPage } from './home/pages/auth/login-page';
 import { RegisterPage } from './home/pages/auth/register-page';
-import { Authentication } from 'src/common/component/authentication';
-import { useSelector } from 'react-redux';
-import { selectCurrentCollection } from 'src/state/recites/selectors';
 import { SearchButton } from './home/component/search-button';
-import { RecitePoetDetail } from './home/pages/recite-page/recite-poet-detail';
+import { RecitePoetryDetail } from './home/pages/recite-page/recite-poetry-detail';
 import { CollectionListPage } from './home/pages/recommendation/component/collection-list-page';
 
 const Stack = createStackNavigator<RootRouteParamProps>();
@@ -37,8 +34,8 @@ export const Screen: FC<{ theme: Theme }> = ({ theme }) => {
           {() => <HomeTab theme={theme} />}
         </Stack.Screen>
         <Stack.Screen
-          name="CollectionPoet"
-          component={CollectionPoetPage}
+          name="CollectionPoetry"
+          component={CollectionPoetryPage}
           options={({ route }) => ({
             headerTransparent: false,
             headerTitle: route.params.collectionName,
@@ -47,8 +44,8 @@ export const Screen: FC<{ theme: Theme }> = ({ theme }) => {
           })}
         />
         <Stack.Screen
-          name="RecitePoetDetail"
-          component={RecitePoetDetail}
+          name="RecitePoetryDetail"
+          component={RecitePoetryDetail}
           options={({ route }) => ({
             headerTitle: route.params.collectionName,
             headerTransparent: false,

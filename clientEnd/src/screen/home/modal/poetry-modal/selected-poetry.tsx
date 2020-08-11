@@ -2,21 +2,21 @@ import React, { FC } from 'react';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import MyText from 'src/common/component/text';
-import { selectSelectedPoet } from 'src/state/poet/selectors';
-import { PoetAuthor } from '../../component/poet-author';
-import { PoetParagraph } from '../../component/poet-paragraph';
-import { PoetTitle } from '../../component/poet-title';
+import { selectSelectedPoetry } from 'src/state/poetry/selectors';
+import { PoetryAuthor } from '../../component/poetry-author';
+import { PoetryParagraph } from '../../component/poetry-paragraph';
+import { PoetryTitle } from '../../component/poetry-title';
 
-export const SelectedPoet: FC = () => {
-  const selectedPoet = useSelector(selectSelectedPoet);
+export const SelectedPoetry: FC = () => {
+  const selectedPoetry = useSelector(selectSelectedPoetry);
 
   return (
     <ScrollView contentContainerStyle={style.contentContainer}>
-      {selectedPoet && (
+      {selectedPoetry && (
         <>
-          <PoetTitle title={selectedPoet.title} />
-          <PoetAuthor author={selectedPoet.author} />
-          <PoetParagraph paragraph={selectedPoet.paragraphs} />
+          <PoetryTitle title={selectedPoetry.title} />
+          <PoetryAuthor author={selectedPoetry.author} />
+          <PoetryParagraph paragraph={selectedPoetry.paragraphs} />
         </>
       )}
     </ScrollView>

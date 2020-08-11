@@ -34,7 +34,7 @@ export const ReciteCollectionPage = () => {
     const selectedCollection = unfinishedCollections.find((coll) => coll.id === collection.id);
 
     selectedCollection && dispatch(recitesActions.selectReciteCollection(selectedCollection));
-    selectedCollection && navigation.navigate(routes.collectionPoet, { collectionName: selectedCollection.name });
+    selectedCollection && navigation.navigate(routes.collectionPoetry, { collectionName: selectedCollection.name });
   };
 
   const onCollectionCheck = (collections: Collection[]) => {

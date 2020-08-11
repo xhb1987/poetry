@@ -3,7 +3,6 @@ import { getType } from 'typesafe-actions';
 import { recitesActions, RecitesActions, recitesRestActions, RecitesRestActions } from './actions';
 import { AuthActions } from '../auth/types';
 import { authActions } from '../auth/actions';
-import { uniqBy } from 'lodash';
 
 const initReciteState: ReciteCollectionsReducer = {
   collections: [],
@@ -62,7 +61,7 @@ export const reciteCollectionsReducer = (
 
     case getType(recitesActions.deleteCollections):
     case getType(recitesActions.finishCollection):
-    case getType(recitesActions.addPoetToCollection):
+    case getType(recitesActions.addPoetryToCollection):
     case getType(recitesActions.addCollection): {
       return {
         ...state,
@@ -93,8 +92,8 @@ export const reciteCollectionsReducer = (
       };
     }
 
-    case getType(recitesRestActions.deletePoetFromCollectionSuccess):
-    case getType(recitesRestActions.addPoetToCollectionSuccess): {
+    case getType(recitesRestActions.deletePoetryFromCollectionSuccess):
+    case getType(recitesRestActions.addPoetryToCollectionSuccess): {
       const { collection } = action.payload;
       const { collections } = state;
 
@@ -127,9 +126,9 @@ export const reciteCollectionsReducer = (
         collections: action.payload.collections,
       };
     }
-    case getType(recitesRestActions.deletePoetFromCollectionError):
+    case getType(recitesRestActions.deletePoetryFromCollectionError):
     case getType(recitesRestActions.deleteCollectionsError):
-    case getType(recitesRestActions.addPoetToCollectionError):
+    case getType(recitesRestActions.addPoetryToCollectionError):
     case getType(recitesRestActions.addCollectionError): {
       return {
         ...state,

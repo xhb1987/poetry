@@ -2,16 +2,13 @@ import React, { FC } from 'react';
 import MyText from 'src/common/component/text';
 import { useSelector } from 'react-redux';
 import { selectUserState } from 'src/state/user/selector';
-import { selectAuthState } from 'src/state/auth/selectors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '@react-navigation/native';
 import { View } from 'react-native';
 
 export const UserName: FC = () => {
   const user = useSelector(selectUserState);
-  const auth = useSelector(selectAuthState);
   const { username } = user;
-  const { isAuthenticated } = auth;
   const theme = useTheme();
 
   return (

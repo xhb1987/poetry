@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectPoetDialog } from 'src/state/poet/selectors';
+import { selectPoetryDialog } from 'src/state/poetry/selectors';
 import Modal from 'react-native-modal';
-import { poetActions } from 'src/state/poet/actions';
+import { poetryActions } from 'src/state/poetry/actions';
 import { AppTheme } from 'src/common/types/types';
 
-export const RootPoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) => {
+export const RootPoetryModal: FC<{ theme: AppTheme }> = ({ theme, children }) => {
   const dispatch = useDispatch();
-  const poetDialog = useSelector(selectPoetDialog);
+  const poetDialog = useSelector(selectPoetryDialog);
 
   const deviceWidth = Dimensions.get('window').width;
   const deviceHeight = Dimensions.get('window').height;
@@ -16,7 +16,7 @@ export const RootPoetModal: FC<{ theme: AppTheme }> = ({ theme, children }) => {
   const style = getStyle(theme);
 
   const closeDialog = () => {
-    dispatch(poetActions.closePoetDialog());
+    dispatch(poetryActions.closePoetryDialog());
   };
 
   return (

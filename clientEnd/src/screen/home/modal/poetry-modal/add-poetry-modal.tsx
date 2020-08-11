@@ -2,29 +2,28 @@ import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MyButton } from 'src/common/component/button';
 import { AppTheme } from 'src/common/types/types';
-import { poetActions } from 'src/state/poet/actions';
-import { selectSelectedPoet } from 'src/state/poet/selectors';
+import { poetryActions } from 'src/state/poetry/actions';
+import { selectSelectedPoetry } from 'src/state/poetry/selectors';
 import { recitesActions } from 'src/state/recites/actions';
 import { selectCurrentCollection } from 'src/state/recites/selectors';
-import { PoetModal } from './poet-modal';
-import { RootPoetModal } from './root-poet-modal';
-import { SelectedPoet } from './selected-poet';
+import { RootPoetryModal } from './root-poetry-modal';
+import { SelectedPoetry } from './selected-poetry';
 
 export const AddPoetModal: FC<{ theme: AppTheme }> = ({ theme }) => {
   const dispatch = useDispatch();
   const collection = useSelector(selectCurrentCollection);
-  const selectedPoet = useSelector(selectSelectedPoet);
+  const selectedPoetry = useSelector(selectSelectedPoetry);
 
-  const isSelectedPoetInCollection = collection?.poets.some((poet) => poet.id === selectedPoet?.id);
+  const isSelectedPoetInCollection = collection?.poetries.some((poetry) => poetry.id === selectedPoetry?.id);
 
   const addPoet = () => {
-    selectedPoet && collection && dispatch(recitesActions.addPoetToCollection(collection.id, selectedPoet.id));
+    selectedPoetry && collection && dispatch(recitesActions.addPoetryToCollection(collection.id, selectedPoetry.id));
   };
 
   return (
-    <RootPoetModal theme={theme}>
-      <SelectedPoet />
+    <RootPoetryModal theme={theme}>
+      <SelectedPoetry />
       <MyButton disabled={isSelectedPoetInCollection} type="primary" title="添加" onPress={addPoet} theme={theme} />
-    </RootPoetModal>
+    </RootPoetryModal>
   );
 };

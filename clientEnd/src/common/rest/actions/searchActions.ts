@@ -1,3 +1,3 @@
-export const SEARCH_POET = 'poet/SEARCH_POET';
-export const SEARCH_POET_SUCCESS = 'poet/SEARCH_POET_SUCCESS';
-export const SEARCH_POET_ERROR = 'poet/SEARCH_POET_ERROR';
+export const SEARCH_POETRY = 'poetry/SEARCH_POETRY';
+export const SEARCH_POETRY_SUCCESS = 'poetry/SEARCH_POETRY_SUCCESS';
+export const SEARCH_POETRY_ERROR = 'poetry/SEARCH_POETRY_ERROR';

@@ -6,27 +6,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MyButton } from 'src/common/component/button';
 import { PageView } from 'src/common/component/page-view';
 import { AppTheme } from 'src/common/types/types';
-import { selectCurrentCollection, selectReciteCollectionPoets } from 'src/state/recites/selectors';
+import { selectCurrentCollection, selectReciteCollectionPoetries } from 'src/state/recites/selectors';
 import Swiper from 'react-native-swiper';
-import { PoetTitle } from '../../component/poet-title';
-import { PoetAuthor } from '../../component/poet-author';
-import { PoetParagraph } from '../../component/poet-paragraph';
+import { PoetryTitle } from '../../component/poetry-title';
+import { PoetryAuthor } from '../../component/poetry-author';
+import { PoetryParagraph } from '../../component/poetry-paragraph';
 import { recitesActions } from 'src/state/recites/actions';
 
-export const RecitePoetDetail: FC = () => {
+export const RecitePoetryDetail: FC = () => {
   const dispatch = useDispatch();
-  const poets = useSelector(selectReciteCollectionPoets);
+  const poetries = useSelector(selectReciteCollectionPoetries);
   const currentCollection = useSelector(selectCurrentCollection);
 
-  const [isViewPoet, setIsViewPoet] = useState(false);
+  const [isViewPoetry, setIsViewPoetry] = useState(false);
 
   const theme = useTheme() as AppTheme;
 
-  const viewButtText = isViewPoet ? '背诵' : '查看';
-  const buttonType = isViewPoet ? 'primary' : 'secondary';
+  const viewButtText = isViewPoetry ? '背诵' : '查看';
+  const buttonType = isViewPoetry ? 'primary' : 'secondary';
 
   const switchReciteAndView = () => {
-    setIsViewPoet(!isViewPoet);
+    setIsViewPoetry(!isViewPoetry);
   };
 
   const onFinishRecite = () => {
@@ -34,7 +34,7 @@ export const RecitePoetDetail: FC = () => {
   };
 
   const onIndexChangedHandler = () => {
-    setIsViewPoet(false);
+    setIsViewPoetry(false);
   };
 
   const style = getStyle(theme);
@@ -43,9 +43,9 @@ export const RecitePoetDetail: FC = () => {
     <PageView>
       <View style={style.container}>
         <Swiper showsHorizontalScrollIndicator loop={false} onIndexChanged={onIndexChangedHandler}>
-          {poets.map((poet) => (
-            <React.Fragment key={poet.id}>
-              <View style={style.poetContainer}>
+          {poetries.map((poetry) => (
+            <React.Fragment key={poetry.id}>
+              <View style={style.poetryContainer}>
                 <View style={{ width: '100%', padding: 8, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                   <MyButton theme={theme} title={viewButtText} type={buttonType} onPress={switchReciteAndView} />
                 </View>
@@ -57,15 +57,14 @@ export const RecitePoetDetail: FC = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  <PoetTitle title={poet.title} />
-                  <PoetAuthor author={poet.author} />
-                  {isViewPoet && <PoetParagraph paragraph={poet.paragraphs} />}
+                  <PoetryTitle title={poetry.title} />
+                  <PoetryAuthor author={poetry.author} />
+                  {isViewPoetry && <PoetryParagraph paragraph={poetry.paragraphs} />}
                 </ScrollView>
               </View>
             </React.Fragment>
           ))}
         </Swiper>
-        {/* </ScrollView> */}
       </View>
       <View style={{ width: '100%', padding: 8 }}>
         <MyButton theme={theme} title="完成" type={'primary'} onPress={onFinishRecite} />
@@ -86,7 +85,7 @@ const getStyle = (theme: AppTheme) =>
       alignItems: 'center',
     },
 
-    poetContainer: {
+    poetryContainer: {
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',

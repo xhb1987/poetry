@@ -2,7 +2,7 @@ import React, { useState, FC } from 'react';
 import { View, StyleSheet, Dimensions, Keyboard } from 'react-native';
 import { AppTheme } from 'src/common/types/types';
 import { useDispatch } from 'react-redux';
-import { poetActions } from 'src/state/poet/actions';
+import { poetryActions } from 'src/state/poetry/actions';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { MyButton } from 'src/common/component/button';
 import { routes } from 'src/screen/routes';
@@ -20,7 +20,7 @@ export const SearchInput: FC<{ autoFocus?: boolean; searchButton: boolean }> = (
   };
 
   const onSearch = () => {
-    dispatch(poetActions.searchPoet(inputValue));
+    dispatch(poetryActions.searchPoetry(inputValue));
     Keyboard.dismiss();
   };
 

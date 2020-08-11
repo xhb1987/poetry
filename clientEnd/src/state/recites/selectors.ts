@@ -5,9 +5,9 @@ export const selectRecite = (state: RootState) => state.recites;
 export const selectReciteCollections = (state: RootState) => state.recites.collections || [];
 
 export const selectCurrentCollection = createSelector(selectRecite, (recite) => recite.selectedReciteCollection);
-export const selectReciteCollectionPoets = createSelector(
+export const selectReciteCollectionPoetries = createSelector(
   selectCurrentCollection,
-  (collection) => collection?.poets || []
+  (collection) => collection?.poetries || []
 );
 
 export const selectReciteCollectionLoading = createSelector(selectRecite, (recite) => recite.loading);

@@ -3,8 +3,8 @@ import { combineReducers } from 'redux';
 import { userReducer } from './user/reducer';
 import { UserActions } from './user/actions';
 import { UserRootState } from './user/types';
-import { poetReducer } from './poet/reducer';
-import { PoetRootAction, PoetRootState } from './poet/types';
+import { poetryReducer } from './poetry/reducer';
+import { PoetryRootAction, PoetryRootState } from './poetry/types';
 import { FinishedRootState } from './finished/types';
 import { ReciteCollectionRootAction, ReciteCollectionRootState } from './recites/types';
 import { AuthRootAction, AuthState } from './auth/types';
@@ -20,12 +20,12 @@ export type RootActions =
   | UserActions
   | AuthRootAction
   | NotificationRootActions
-  | PoetRootAction
+  | PoetryRootAction
   | ReciteCollectionRootAction;
 
 export type RootState = {
   user: UserRootState;
-  poet: PoetRootState;
+  poetry: PoetryRootState;
   finished: FinishedRootState;
   recites: ReciteCollectionRootState;
   auth: AuthState;
@@ -36,7 +36,7 @@ export type RootState = {
 // Redux: Root Reducer
 const rootReducer = combineReducers({
   user: userReducer,
-  poet: poetReducer,
+  poetry: poetryReducer,
   finished: finishedReducer,
   recites: reciteCollectionsReducer,
   auth: authReducer,

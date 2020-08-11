@@ -6,7 +6,7 @@ import { recommendationActions, recommendationRestActions } from './actions';
 const initUserState: RecommendationReducer = {
   loading: false,
   error: false,
-  recommendationPoets: [],
+  recommendationPoetries: [],
 };
 
 export const recommendationReducer = (
@@ -27,7 +27,7 @@ export const recommendationReducer = (
         ...state,
         loading: false,
         error: false,
-        recommendationPoets: action.payload.recommendationPoets,
+        recommendationPoetries: action.payload.recommendationPoetries,
       };
     }
 

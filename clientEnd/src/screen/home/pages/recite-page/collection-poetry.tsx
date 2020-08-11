@@ -3,44 +3,44 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import MyText from 'src/common/component/text';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { poetActions } from 'src/state/poet/actions';
-import { Poet } from 'src/state/poet/types';
+import { poetryActions } from 'src/state/poetry/actions';
+import { Poetry } from 'src/state/poetry/types';
 import { EmptyPrompt } from '../../component/empty-prompt';
-import { PoetItem } from '../../component/poet-item';
+import { PoetryItem } from '../../component/poetry-item';
 import {
   selectCurrentCollection,
   selectReciteCollectionLoading,
-  selectReciteCollectionPoets,
+  selectReciteCollectionPoetries,
 } from 'src/state/recites/selectors';
 import { PageView } from 'src/common/component/page-view';
 import { MyButton } from 'src/common/component/button';
 import { routes } from 'src/screen/routes';
 
-export const CollectionPoetPage = () => {
+export const CollectionPoetryPage = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const currentCollection = useSelector(selectCurrentCollection);
-  const userReciteCollectionPoet = useSelector(selectReciteCollectionPoets);
+  const userReciteCollectionPoetries = useSelector(selectReciteCollectionPoetries);
   const isLoading = useSelector(selectReciteCollectionLoading);
 
   const { isFinished, name } = currentCollection || {};
 
-  const onPoetItemPress = (poet: Poet) => {
-    dispatch(poetActions.openPoetDialog('delete'));
-    dispatch(poetActions.selectPoet(poet));
+  const onPoetryItemPress = (poetry: Poetry) => {
+    dispatch(poetryActions.openPoetryDialog('delete'));
+    dispatch(poetryActions.selectPoetry(poetry));
   };
 
-  const navigateToRecitePage = () => navigation.navigate(routes.recitePoetDetail, { collectionName: name });
+  const navigateToRecitePage = () => navigation.navigate(routes.recitePoetryDetail, { collectionName: name });
 
   return (
     <PageView>
-      {userReciteCollectionPoet.length === 0 ? (
+      {userReciteCollectionPoetries.length === 0 ? (
         <EmptyPrompt />
       ) : (
         <View style={{ height: '100%' }}>
           <ScrollView>
-            {userReciteCollectionPoet.map((poet) => (
-              <PoetItem key={poet.id} poet={poet} onPress={() => onPoetItemPress(poet)} />
+            {userReciteCollectionPoetries.map((poetry) => (
+              <PoetryItem key={poetry.id} poetry={poetry} onPress={() => onPoetryItemPress(poetry)} />
             ))}
           </ScrollView>
           <View style={{ width: '100%', padding: 8 }}>

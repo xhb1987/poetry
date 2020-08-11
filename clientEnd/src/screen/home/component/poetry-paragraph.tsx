@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import MyText from 'src/common/component/text';
 import { StyleSheet } from 'react-native';
-export const PoetParagraph: FC<{ paragraph: string }> = ({ paragraph }) => (
+
+export const PoetryParagraph: FC<{ paragraph: string }> = ({ paragraph }) => (
   <MyText style={style.paragraph}>{paragraph}</MyText>
 );
 

@@ -2,7 +2,7 @@ import { FinishedReducer } from './types';
 import { Action, StateType } from 'typesafe-actions';
 
 const initFinishedState: FinishedReducer = {
-  finishedPoets: [],
+  finishedPoetries: [],
   loading: false,
   error: false,
 };

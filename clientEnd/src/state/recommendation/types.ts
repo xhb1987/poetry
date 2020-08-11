@@ -1,16 +1,16 @@
-import { Poet } from 'src/state/poet/types';
+import { Poetry } from 'src/state/poetry/types';
 import { StateType } from 'typesafe-actions';
 import { RecommendationActions, RecommendationRestActions } from './actions';
 import { recommendationReducer } from './reducer';
 
-export type RecommendationPoet = {
+export type RecommendationPoetries = {
   id: number;
   name: string;
-  poet: Poet;
+  poetry: Poetry;
 };
 
 export type RecommendationReducer = {
-  recommendationPoets: RecommendationPoet[];
+  recommendationPoetries: RecommendationPoetries[];
   loading: boolean;
   error: boolean;
 };

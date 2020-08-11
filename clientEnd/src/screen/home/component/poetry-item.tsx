@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions, GestureResponderEvent } from 'react-native';
-import { Poet } from 'src/state/poet/types';
+import { Poetry } from 'src/state/poetry/types';
 import { useTheme } from '@react-navigation/native';
 import { AppTheme } from 'src/common/types/types';
 import MyText from 'src/common/component/text';
 
-type PoetItemProps = {
+type PoetryItemProps = {
   isSelected?: boolean;
-  poet: Poet;
+  poetry: Poetry;
   onPress?: (e: GestureResponderEvent) => void;
   onLongPress?: (e: GestureResponderEvent) => void;
 };
 
-export const PoetItem: FC<PoetItemProps> = ({ poet, onPress, onLongPress }) => {
-  const { id, title, author } = poet;
+export const PoetryItem: FC<PoetryItemProps> = ({ poetry, onPress, onLongPress }) => {
+  const { id, title, author } = poetry;
 
   const theme = useTheme() as AppTheme;
   const style = getStyle(theme);

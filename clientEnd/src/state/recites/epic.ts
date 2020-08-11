@@ -4,8 +4,8 @@ import { filter, map, mergeMap, pluck } from 'rxjs/operators';
 import { isActionOf } from 'typesafe-actions';
 import { RootState } from '../reducer';
 import { recitesActions, recitesRestActions } from './actions';
-import { poetActions } from '../poet/actions';
-import { PoetRootAction } from '../poet/types';
+import { poetryActions } from '../poetry/actions';
+import { PoetryRootAction } from '../poetry/types';
 import { asapScheduler, scheduled } from 'rxjs';
 import { notificationActions } from '../notification/actions';
 import { NotificationRootActions } from '../notification/types';
@@ -27,19 +27,25 @@ export const reciteDeleteCollections: Epic<
     map(() => notificationActions.setNotification('info', '诗单删除成功'))
   );
 
-export const reciteUpdatePoetEpic: Epic<
-  ReciteCollectionRootAction | PoetRootAction | NotificationRootActions,
-  ReciteCollectionRootAction | PoetRootAction | NotificationRootActions,
+export const reciteUpdatePoetryEpic: Epic<
+  ReciteCollectionRootAction | PoetryRootAction | NotificationRootActions,
+  ReciteCollectionRootAction | PoetryRootAction | NotificationRootActions,
   RootState
 > = (action$) =>
   action$.pipe(
     filter(
-      isActionOf([recitesRestActions.addPoetToCollectionSuccess, recitesRestActions.deletePoetFromCollectionSuccess])
+      isActionOf([
+        recitesRestActions.addPoetryToCollectionSuccess,
+        recitesRestActions.deletePoetryFromCollectionSuccess,
+      ])
     ),
     pluck('payload'),
     mergeMap(({ collection }) =>
       scheduled(
-        [poetActions.closePoetDialog(), notificationActions.setNotification('info', `${collection.name} 更新成功啦`)],
+        [
+          poetryActions.closePoetryDialog(),
+          notificationActions.setNotification('info', `${collection.name} 更新成功啦`),
+        ],
         asapScheduler
       )
     )
@@ -52,16 +58,16 @@ export const reciteFinishCollectionEpic: Epic<ReciteCollectionRootAction, Recite
   );
 
 export const reciteRestErrorEpic: Epic<
-  ReciteCollectionRootAction | PoetRootAction | NotificationRootActions,
-  ReciteCollectionRootAction | PoetRootAction | NotificationRootActions
+  ReciteCollectionRootAction | PoetryRootAction | NotificationRootActions,
+  ReciteCollectionRootAction | PoetryRootAction | NotificationRootActions
 > = (action$) =>
   action$.pipe(
     filter(
       isActionOf([
         recitesRestActions.addCollectionError,
-        recitesRestActions.addPoetToCollectionError,
+        recitesRestActions.addPoetryToCollectionError,
         recitesRestActions.deleteCollectionsError,
-        recitesRestActions.deletePoetFromCollectionError,
+        recitesRestActions.deletePoetryFromCollectionError,
         recitesRestActions.finishCollectionError,
       ])
     ),
@@ -70,7 +76,7 @@ export const reciteRestErrorEpic: Epic<
 
 export default combineEpics(
   reciteAddCollectionEpic,
-  reciteUpdatePoetEpic,
+  reciteUpdatePoetryEpic,
   reciteFinishCollectionEpic,
   reciteDeleteCollections,
   reciteRestErrorEpic

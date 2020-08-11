@@ -1,9 +1,9 @@
-import { Poet } from 'src/state/poet/types';
+import { Poetry } from 'src/state/poetry/types';
 import { StateType } from 'typesafe-actions';
 import { finishedReducer } from './reducer';
 
 export type FinishedReducer = {
-  finishedPoets: Poet[];
+  finishedPoetries: Poetry[];
   loading: boolean;
   error: boolean;
 };

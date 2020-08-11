@@ -5,16 +5,16 @@ import {
 } from 'src/common/rest/actions/recommendationActions';
 import { ResponseMessage } from 'src/common/types/types';
 import { createAction, ActionType } from 'typesafe-actions';
-import { RecommendationPoet } from './types';
+import { RecommendationPoetries } from './types';
 
 export const recommendationRestActions = {
   fetchRecommendationSuccess: createAction(
     FETCH_RECOMMENDATION_SUCCESS,
-    (responseMessage: ResponseMessage<RecommendationPoet[]>) => ({
-      recommendationPoets: responseMessage.data,
+    (responseMessage: ResponseMessage<RecommendationPoetries[]>) => ({
+      recommendationPoetries: responseMessage.data,
     })
   )<{
-    recommendationPoets: RecommendationPoet[];
+    recommendationPoetries: RecommendationPoetries[];
   }>(),
   fetchRecommendationError: createAction(FETCH_RECOMMENDATION_ERROR)(),
 };
@@ -29,7 +29,6 @@ export const recommendationActions = {
     onSuccess: recommendationRestActions.fetchRecommendationSuccess,
     onError: recommendationRestActions.fetchRecommendationError,
   }))(),
-  selectRecommendationPoet: createAction,
 };
 
 export type RecommendationActions = ActionType<typeof recommendationActions>;

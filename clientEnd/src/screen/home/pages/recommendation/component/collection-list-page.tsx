@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Indicator } from 'src/common/component/indicator';
 import { PageView } from 'src/common/component/page-view';
 import { CollectionItem } from 'src/screen/home/component/collection-item';
-import { selectSelectedPoet } from 'src/state/poet/selectors';
+import { selectSelectedPoetry } from 'src/state/poetry/selectors';
 import { recitesActions } from 'src/state/recites/actions';
 import { selectReciteCollectionLoading, selectUnfinishedCollections } from 'src/state/recites/selectors';
 import { Collection } from 'src/state/recites/types';
@@ -15,12 +15,12 @@ Icon.loadFont();
 
 export const CollectionListPage: FC = () => {
   const unfinishedCollections = useSelector(selectUnfinishedCollections);
-  const selectedPoet = useSelector(selectSelectedPoet);
+  const selectedPoetry = useSelector(selectSelectedPoetry);
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const addPoetToCollection = (collection: Collection) => {
-    selectedPoet && dispatch(recitesActions.addPoetToCollection(collection.id, selectedPoet.id));
+  const addPoetryToCollection = (collection: Collection) => {
+    selectedPoetry && dispatch(recitesActions.addPoetryToCollection(collection.id, selectedPoetry.id));
   };
 
   const loading = useSelector(selectReciteCollectionLoading);
@@ -29,13 +29,13 @@ export const CollectionListPage: FC = () => {
     <PageView style={{ padding: 8 }}>
       <ScrollView>
         {unfinishedCollections.map((collection: Collection) => {
-          const alreadyHas = collection.poets.some((poet) => poet.id === selectedPoet?.id);
+          const alreadyHas = collection.poetries.some((poetry) => poetry.id === selectedPoetry?.id);
           return (
             <View key={collection.id}>
               <CollectionItem
                 disabled={loading || alreadyHas}
                 collection={collection}
-                onPress={() => addPoetToCollection(collection)}
+                onPress={() => addPoetryToCollection(collection)}
               />
               {loading && (
                 <Indicator

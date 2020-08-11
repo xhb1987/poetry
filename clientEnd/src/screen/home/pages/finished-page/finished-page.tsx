@@ -26,7 +26,7 @@ export const FinishedPage = () => {
 
   const goToCollection = (collection: Collection) => {
     dispatch(recitesActions.selectReciteCollection(collection));
-    navigation.navigate(routes.collectionPoet, { collectionName: collection.name });
+    navigation.navigate(routes.collectionPoetry, { collectionName: collection.name });
   };
 
   const onDeleteClick = () => {

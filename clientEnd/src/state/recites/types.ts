@@ -1,4 +1,4 @@
-import { Poet } from 'src/state/poet/types';
+import { Poetry } from 'src/state/poetry/types';
 import { StateType } from 'typesafe-actions';
 import { reciteCollectionsReducer } from './reducer';
 import { RecitesActions } from './actions';
@@ -6,7 +6,7 @@ import { RecitesActions } from './actions';
 export type Collection = {
   id: number;
   name: string;
-  poets: Poet[];
+  poetries: Poetry[];
   isFinished: boolean;
 };
 

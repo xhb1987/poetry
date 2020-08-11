@@ -9,11 +9,11 @@ export const routes = {
   reciteCollection: 'ReciteCollection',
   recommendation: 'Recommendation',
   collectionList: 'CollectionList',
-  collectionPoet: 'CollectionPoet',
-  recitePoetDetail: 'RecitePoetDetail',
+  collectionPoetry: 'CollectionPoetry',
+  recitePoetryDetail: 'RecitePoetryDetail',
   finished: 'Finished',
   aboutUs: 'AboutUs',
-  poetModal: 'PoetModal',
+  poetryModal: 'PoetryModal',
   searchModal: 'SearchModal',
   login: 'Login',
   register: 'Register',
@@ -25,10 +25,10 @@ export type RootRouteParamProps = {
   Register: undefined;
   SearchModal: undefined;
   CollectionList: undefined;
-  RecitePoetDetail: {
+  RecitePoetryDetail: {
     collectionName?: string;
   };
-  CollectionPoet: {
+  CollectionPoetry: {
     collectionName?: string;
   };
 };

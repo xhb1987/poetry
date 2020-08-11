@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { routes } from '../../routes';
 import { useDispatch } from 'react-redux';
-import { poetActions } from 'src/state/poet/actions';
+import { poetryActions } from 'src/state/poetry/actions';
 
 export const SearchButton: FC<{ iconSize?: number }> = ({ iconSize = 20 }) => {
   const theme = useTheme();
@@ -13,7 +13,7 @@ export const SearchButton: FC<{ iconSize?: number }> = ({ iconSize = 20 }) => {
   const dispatch = useDispatch();
 
   const onPress = () => {
-    dispatch(poetActions.clearSearchResult());
+    dispatch(poetryActions.clearSearchResult());
     navigator.navigate(routes.searchModal);
   };
   return (
