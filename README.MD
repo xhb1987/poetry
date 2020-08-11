@@ -25,3 +25,6 @@ Once user thinks it is finished, he/she can click the button to **Finish**, and 
 
 1. The backend api is based on nest.js, MySql and Docker
 2. The app is based on react-native
+
+
+*If you have any suggestions or comments, please create an issue, so we can discuss there
