@@ -11,23 +11,11 @@ import { routes } from 'src/screen/routes';
 import { CollectionSection } from './component/collection-section';
 
 export const ProfilePage = () => {
-  const dispatch = useDispatch();
-  const auth = useSelector(selectAuthState);
-  const { isAuthenticated, loading } = auth;
-  const navigation = useNavigation();
-  const goToLogin = () => navigation.navigate(routes.login);
-
-  const theme = useTheme();
   return (
     <PageView>
       <View style={{ height: '100%', alignContent: 'center', justifyContent: 'center' }}>
         <UserName />
         <CollectionSection />
-        {!isAuthenticated && (
-          <View style={{ justifyContent: 'center' }}>
-            <MyButton type="primary" title="登录" onPress={goToLogin} />
-          </View>
-        )}
       </View>
     </PageView>
   );

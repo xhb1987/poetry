@@ -23,10 +23,15 @@ export const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuthState);
   const { loading, error } = auth;
-  const { control, handleSubmit } = useForm<UserRegisterForm>();
+  const { control, handleSubmit, getValues } = useForm<UserRegisterForm>();
+
   const onSubmit = ({ username, password, repeatPassword }: UserRegisterForm) => {
     dispatch(authActions.userRegister(username, password));
   };
+
+  const invalidForm = error || getValues().password !== getValues().repeatPassword;
+  const repeatPasswordErrorMessage =
+    getValues().password !== getValues().repeatPassword ? '请输入相同的密码' : undefined;
   return (
     <PageView style={{ paddingHorizontal: 8, paddingVertical: 8 }}>
       <Controller
@@ -73,7 +78,7 @@ export const RegisterPage: FC = () => {
         )}
       />
       <MyButton loading={loading} title="注册" type="primary" onPress={handleSubmit(onSubmit)} />
-      {error && <ErrorMessage />}
+      {invalidForm && <ErrorMessage message={repeatPasswordErrorMessage} />}
     </PageView>
   );
 };

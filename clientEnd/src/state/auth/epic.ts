@@ -25,7 +25,7 @@ export const authLogoutEpic: Epic<AuthRootAction | CommonNavigationAction, AuthR
   action$
 ) =>
   action$.pipe(
-    filter(isActionOf([authActions.userLogoutSuccess, authActions.userLoginError])),
+    filter(isActionOf(authActions.userLogoutSuccess)),
     tap(async () => await AsyncStorage.removeItem(AccessTokenKey)),
     mergeMap(() => scheduled([CommonActions.navigate(routes.home), authActions.clearError()], asapScheduler))
   );

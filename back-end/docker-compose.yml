@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+    main:
+        container_name: poet
+        build:
+            context: .
+            target: dev
+        volumes:
+            - .:/usr/src/poet
+            - /usr/src/poet/node_modules
+        ports:
+            - 3001:3001
+        command: yarn dev
+        env_file:
+            - .env
+        depends_on:
+            - mysql
+        links:
+            - 'mysql:database'
+    mysql:
+        container_name: mysql
+        image: mysql:8.0.11
+        restart: always
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: asdfghjkl
+            MYSQL_DATABASE: chinese_poet
+            MYSQL_USER: test
+            MYSQL_PASSWORD: asdfghjkl
+        ports:
+            - 3306:3306
