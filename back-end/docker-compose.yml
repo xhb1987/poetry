@@ -25,7 +25,7 @@ services:
         command: --default-authentication-plugin=mysql_native_password
         environment:
             MYSQL_ROOT_PASSWORD: asdfghjkl
-            MYSQL_DATABASE: chinese_poet
+            MYSQL_DATABASE: chinese_poetry
             MYSQL_USER: test
             MYSQL_PASSWORD: asdfghjkl
         ports:

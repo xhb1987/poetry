@@ -56,7 +56,6 @@ export class AuthController {
     @Post('/logout')
     async logout() {
         // TODO black list current token
-        console.log('xx');
         return this.authService.logout();
     }
 

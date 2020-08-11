@@ -5,14 +5,12 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UserDto } from '../../user/dto/user.dto';
 import RoleService from '../../user/service/role-services';
-import ProfileService from '../../profile/service/profile.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UserService,
         private roleService: RoleService,
-        private profileService: ProfileService,
         private jwtService: JwtService
     ) {}
 
