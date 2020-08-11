@@ -6,7 +6,7 @@ User can create collections, and add poetise to the collection. <br > <br >
 
 # Current functionality
 
-### Show recommendation poet
+### Show recommendation poetry
 
 In the first screen, this app will show the recommendation poet, and user can
 add that poet to his/her own collections.
