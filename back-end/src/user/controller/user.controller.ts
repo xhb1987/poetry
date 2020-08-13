@@ -1,28 +1,17 @@
 import UserService from '../service/user-service';
-import { Inject } from 'typedi';
 import generateResponseMessage from '../../common/response-messge/response-message';
-import { Message, ResponseMessage } from '../../common/response-messge/types';
+import { ResponseMessage } from '../../common/response-messge/types';
 
-import { hash, compare } from 'bcrypt';
-import { sign, verify } from 'jsonwebtoken';
-import { Controller, Get, Param, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { Logger } from '../../common/logging/logging';
-import { UserDto } from '../dto/user.dto';
 import RoleService from '../service/role-services';
-import { User } from '../entity/user.entity';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard';
-import { Roles } from '../../common/decorator/roles.decorator';
 import { RolesGuard } from '../../common/guard/roles.guard';
 import ProfileService from '../../profile/service/profile.service';
 
 @Controller('user')
 class UserController {
-    constructor(
-        private userService: UserService,
-        private roleService: RoleService,
-        private profileService: ProfileService,
-        private logger: Logger
-    ) {}
+    constructor(private userService: UserService, private logger: Logger) {}
 
     @Get('/all')
     async getAllUser(): Promise<ResponseMessage<string[]>> {

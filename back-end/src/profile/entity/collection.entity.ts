@@ -8,7 +8,7 @@ import {
     DeleteDateColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { Poet } from '../../poet/entity/poet.entity';
+import { Poetry } from '../../poetry/entity/poetry.entity';
 import { User } from '../../user/entity/user.entity';
 
 @Entity()
@@ -19,9 +19,9 @@ export class Collection {
     @Column()
     name: string;
 
-    @ManyToMany((type) => Poet, (poet) => poet.collections)
+    @ManyToMany((type) => Poetry, (poetry) => poetry.collections)
     @JoinTable()
-    poets: Poet[];
+    poetries: Poetry[];
 
     @ManyToMany((type) => User, (user) => user.collections, { cascade: true })
     @JoinTable()

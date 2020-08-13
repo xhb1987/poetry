@@ -4,15 +4,13 @@ import {
     Column,
     Index,
     ManyToOne,
-    OneToOne,
 } from 'typeorm';
 import { Collection } from '../../profile/entity/collection.entity';
-import { RecommendationPoet } from '../../recommendation/entity/recommendation.entity';
 
 @Entity()
 @Index(['title'], { fulltext: true, sparse: true })
 @Index(['paragraphs'], { fulltext: true, sparse: true })
-export class Poet {
+export class Poetry {
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -52,6 +50,6 @@ export class Poet {
     @Column()
     create_time: Date;
 
-    @ManyToOne((type) => Collection, (collection) => collection.poets)
+    @ManyToOne((type) => Collection, (collection) => collection.poetries)
     collections: Collection[];
 }

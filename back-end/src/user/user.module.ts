@@ -11,7 +11,7 @@ import { JwtStrategy } from '../auth/strategy/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import ProfileService from '../profile/service/profile.service';
 import { CollectionRepository } from '../profile/repository/collection.repository';
-import PoetRepository from '../poet/repository/poet.repository';
+import PoetryRepository from '../poetry/repository/poetry.repository';
 
 @Module({
     imports: [
@@ -19,7 +19,7 @@ import PoetRepository from '../poet/repository/poet.repository';
             UserRepository,
             RoleRepository,
             CollectionRepository,
-            PoetRepository,
+            PoetryRepository,
         ]),
         LoggerModule,
         ConfigModule,

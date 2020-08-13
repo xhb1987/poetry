@@ -6,8 +6,6 @@ import {
     UseGuards,
     Body,
     Patch,
-    UsePipes,
-    ValidationPipe,
     Delete,
 } from '@nestjs/common';
 import ProfileService from '../service/profile.service';
@@ -17,21 +15,16 @@ import { User } from '../../user/entity/user.entity';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard';
 import { RolesGuard } from '../../common/guard/roles.guard';
 import { Roles } from '../../common/decorator/roles.decorator';
-import { Poet } from '../../poet/entity/poet.entity';
 import { ResponseMessage } from '../../common/response-messge/types';
-import { PoetDto } from '../../poet/dto/poet.dto';
-import PoetService from '../../poet/service/poet.service';
 import generateResponseMessage from '../../common/response-messge/response-message';
 import { Collection } from '../entity/collection.entity';
 import { CollectionDto } from '../dto/collection.dto';
-import { UpdateResult } from 'typeorm';
 
 @Controller('/profile')
 export class ProfileController {
     constructor(
         private profileService: ProfileService,
-        private userService: UserService,
-        private poetService: PoetService
+        private userService: UserService
     ) {}
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -74,14 +67,14 @@ export class ProfileController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('USER')
-    @Patch('/collection/:collectionId/addPoet/:poetId')
+    @Patch('/collection/:collectionId/addPoetry/:poetryId')
     async updateCollection(
         @Param('collectionId') collectionId: number,
-        @Param('poetId') poetId: number
+        @Param('poetryId') poetryId: number
     ): Promise<ResponseMessage<Collection>> {
-        const updatedCollection = await this.profileService.addPoetToCollection(
+        const updatedCollection = await this.profileService.addPoetryToCollection(
             collectionId,
-            poetId
+            poetryId
         );
 
         const responseMessage = generateResponseMessage<Collection>(
@@ -98,13 +91,13 @@ export class ProfileController {
         @Param('collectionId') collectionId: number,
         @Param('poetId') poetId: number
     ): Promise<ResponseMessage<Collection>> {
-        const updatedCollection = await this.profileService.deletePoetFromCollection(
+        const updatedCollection = await this.profileService.deletePoetryFromCollection(
             collectionId,
             poetId
         );
 
         if (!updatedCollection) {
-            throw new Error('something wrong with delete poet from collection');
+            throw new Error();
         }
 
         const responseMessage = generateResponseMessage<Collection>(

@@ -16,7 +16,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import RoleService from '../user/service/role-services';
 import ProfileService from '../profile/service/profile.service';
 import { CollectionRepository } from '../profile/repository/collection.repository';
-import PoetRepository from '../poet/repository/poet.repository';
+import PoetRepository from '../poetry/repository/poetry.repository';
 
 @Module({
     imports: [

@@ -10,10 +10,10 @@ import configuration from './config/configuration';
 import { Role } from './user/entity/role.entity';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
-import { PoetModule } from './poet/poet.module';
-import { Poet } from './poet/entity/poet.entity';
+import { PoetryModule } from './poetry/poetry.module';
+import { Poetry } from './poetry/entity/poetry.entity';
 import { Collection } from './profile/entity/collection.entity';
-import { RecommendationPoet } from './recommendation/entity/recommendation.entity';
+import { RecommendationPoetry } from './recommendation/entity/recommendation.entity';
 import { RecommendationModule } from './recommendation/recommendation.module';
 @Module({
     providers: [
@@ -35,14 +35,20 @@ import { RecommendationModule } from './recommendation/recommendation.module';
                 database: config.get('database.name'),
                 autoLoadEntities: true,
                 synchronize: true,
-                entities: [User, Role, Poet, Collection, RecommendationPoet],
+                entities: [
+                    User,
+                    Role,
+                    Poetry,
+                    Collection,
+                    RecommendationPoetry,
+                ],
             }),
             inject: [ConfigService],
         }),
         UserModule,
         AuthModule,
         ProfileModule,
-        PoetModule,
+        PoetryModule,
         RecommendationModule,
     ],
 })

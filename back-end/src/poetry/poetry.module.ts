@@ -4,10 +4,10 @@ import { LoggerModule } from '../common/logging/logging.module';
 import UserService from '../user/service/user-service';
 import UserRepository from '../user/repository/user.repository';
 import { UserModule } from '../user/user.module';
-import { PoetController } from './controller/poet.controller';
+import { PoetryController } from './controller/poetry.controller';
 import ProfileService from '../profile/service/profile.service';
-import PoetService from './service/poet.service';
-import PoetRepository from './repository/poet.repository';
+import PoetryService from './service/poetry.service';
+import PoetryRepository from './repository/poetry.repository';
 import { CollectionRepository } from '../profile/repository/collection.repository';
 
 @Module({
@@ -15,12 +15,12 @@ import { CollectionRepository } from '../profile/repository/collection.repositor
         TypeOrmModule.forFeature([
             CollectionRepository,
             UserRepository,
-            PoetRepository,
+            PoetryRepository,
         ]),
         LoggerModule,
         UserModule,
     ],
-    controllers: [PoetController],
-    providers: [ProfileService, UserService, PoetService],
+    controllers: [PoetryController],
+    providers: [ProfileService, UserService, PoetryService],
 })
-export class PoetModule {}
+export class PoetryModule {}

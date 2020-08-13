@@ -6,10 +6,10 @@ import {
     OneToOne,
     JoinColumn,
 } from 'typeorm';
-import { Poet } from '../../poet/entity/poet.entity';
+import { Poetry } from '../../poetry/entity/poetry.entity';
 
 @Entity()
-export class RecommendationPoet {
+export class RecommendationPoetry {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,7 +19,7 @@ export class RecommendationPoet {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @OneToOne((type) => Poet)
+    @OneToOne((type) => Poetry)
     @JoinColumn()
-    poet: Poet;
+    poetry: Poetry;
 }

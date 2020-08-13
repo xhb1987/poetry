@@ -11,7 +11,7 @@ class UserRepository extends Repository<User> {
         const user = await this.findOne({ username });
 
         return this.findOne({
-            relations: ['roles', 'collections', 'collections.poets'],
+            relations: ['roles', 'collections', 'collections.poetries'],
             where: { id: user?.id },
             withDeleted: false,
         });

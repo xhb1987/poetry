@@ -18,9 +18,8 @@ import { Logger } from '../../common/logging/logging';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard';
 import { Roles } from '../../common/decorator/roles.decorator';
 import { RolesGuard } from '../../common/guard/roles.guard';
-import ProfileService from '../../profile/service/profile.service';
 import RecommendationPoetService from '../service/recommendation.service';
-import { RecommendationPoet } from '../entity/recommendation.entity';
+import { RecommendationPoetry } from '../entity/recommendation.entity';
 import { UpdateResult } from 'typeorm';
 
 @Controller('recommendation')
@@ -32,12 +31,12 @@ class RecommendationController {
 
     @Get('/all')
     async getRecommendationPoet(): Promise<
-        ResponseMessage<RecommendationPoet[] | undefined>
+        ResponseMessage<RecommendationPoetry[] | undefined>
     > {
         const recommendationPoets = await this.recommendationPoetService.findAllRecommendationPoet();
 
         const responseMessage = generateResponseMessage<
-            RecommendationPoet[] | undefined
+            RecommendationPoetry[] | undefined
         >(recommendationPoets);
         return responseMessage;
     }
@@ -47,13 +46,13 @@ class RecommendationController {
     @Post('/create')
     async createRecommendationPoet(
         @Body() data: { name: string }
-    ): Promise<ResponseMessage<RecommendationPoet>> {
+    ): Promise<ResponseMessage<RecommendationPoetry>> {
         const { name } = data;
         const recommendationPoet = await this.recommendationPoetService.createAndSave(
             name
         );
 
-        const responseMessage = generateResponseMessage<RecommendationPoet>(
+        const responseMessage = generateResponseMessage<RecommendationPoetry>(
             recommendationPoet
         );
         return responseMessage;

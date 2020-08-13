@@ -10,8 +10,8 @@ import UserService from '../user/service/user-service';
 import UserRepository from '../user/repository/user.repository';
 import { UserModule } from '../user/user.module';
 import { ProfileController } from './controller/profile.controller';
-import PoetService from '../poet/service/poet.service';
-import PoetRepository from '../poet/repository/poet.repository';
+import PoetryService from '../poetry/service/poetry.service';
+import PoetryRepository from '../poetry/repository/poetry.repository';
 import { CollectionRepository } from './repository/collection.repository';
 
 @Module({
@@ -19,13 +19,13 @@ import { CollectionRepository } from './repository/collection.repository';
         TypeOrmModule.forFeature([
             CollectionRepository,
             UserRepository,
-            PoetRepository,
+            PoetryRepository,
         ]),
         LoggerModule,
         ConfigModule,
         UserModule,
     ],
     controllers: [ProfileController],
-    providers: [ProfileService, UserService, PoetService, JwtStrategy],
+    providers: [ProfileService, UserService, PoetryService, JwtStrategy],
 })
 export class ProfileModule {}

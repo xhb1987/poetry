@@ -1,11 +1,11 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Poet } from '../entity/poet.entity';
+import { Poetry } from '../entity/poetry.entity';
 
-@EntityRepository(Poet)
-class PoetRepository extends Repository<Poet> {
-    async findPoetByTitleOrParagraphs(
+@EntityRepository(Poetry)
+class PoetryRepository extends Repository<Poetry> {
+    async findPoetryByTitleOrParagraphs(
         content: string
-    ): Promise<Poet[] | undefined> {
+    ): Promise<Poetry[] | undefined> {
         return this.createQueryBuilder()
             .select()
             .where(`title like '%${content}%'`)
@@ -13,16 +13,16 @@ class PoetRepository extends Repository<Poet> {
             .getMany();
     }
 
-    async findPoetByAuthor(author: string): Promise<Poet[] | undefined> {
+    async findPoetryByAuthor(author: string): Promise<Poetry[] | undefined> {
         return this.createQueryBuilder()
             .select()
             .where(`author like '%${author}%'`)
             .getMany();
     }
 
-    async findPoetById(id: number): Promise<Poet | undefined> {
+    async findPoetryById(id: number): Promise<Poetry | undefined> {
         return this.findOne(id);
     }
 }
 
-export default PoetRepository;
+export default PoetryRepository;
