@@ -29,7 +29,7 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/reselect": "^2.2.0",
     "intl": "^1.2.5",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "react": "16.11.0",
     "react-hook-form": "^6.0.1",
     "react-intl": "^4.6.9",
