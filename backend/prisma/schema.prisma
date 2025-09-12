@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Poetry {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  author    String?  // Optional for classical texts like Shijing
+  chapter   String?  // For organizational categorization (e.g., "国风")
+  section   String?  // For sub-categorization (e.g., "周南")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Optional: Add indexes for better performance
+  @@index([author])
+  @@index([chapter])
+  @@index([section])
+  @@index([createdAt])
+  @@map("poems")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
