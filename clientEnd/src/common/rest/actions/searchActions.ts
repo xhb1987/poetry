@@ -1,3 +1,0 @@
-export const SEARCH_POETRY = 'poetry/SEARCH_POETRY';
-export const SEARCH_POETRY_SUCCESS = 'poetry/SEARCH_POETRY_SUCCESS';
-export const SEARCH_POETRY_ERROR = 'poetry/SEARCH_POETRY_ERROR';
