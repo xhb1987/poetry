@@ -106,31 +106,26 @@ export class PoetryRepository {
           {
             title: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             content: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             author: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             chapter: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             section: {
               contains: query,
-              mode: 'insensitive',
             },
           },
         ],
@@ -149,31 +144,26 @@ export class PoetryRepository {
           {
             title: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             content: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             author: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             chapter: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             section: {
               contains: query,
-              mode: 'insensitive',
             },
           },
         ],
