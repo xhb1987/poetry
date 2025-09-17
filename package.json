@@ -1,1 +1,30 @@
-{}
+{
+  "name": "poetry-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack Chinese Poetry Application with NestJS backend and React frontend",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm run start:dev",
+    "start:frontend": "cd frontend && npm run dev",
+    "start:backend-only": "cd backend && npm run start:dev",
+    "start:frontend-only": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "db:setup": "cd backend && docker-compose up -d && npm run db:migrate && npm run db:seed",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:studio": "cd backend && npm run db:studio",
+    "docker:up": "cd backend && docker-compose up -d",
+    "docker:down": "cd backend && docker-compose down",
+    "status": "echo 'Checking application status...' && curl -s http://localhost:3000 > /dev/null && echo '✅ Backend running on http://localhost:3000' || echo '❌ Backend not running' && curl -s http://localhost:3001 > /dev/null && echo '✅ Frontend running on http://localhost:3001' || echo '❌ Frontend not running'",
+    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules backend/dist frontend/dist"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "author": "",
+  "license": "MIT"
+}

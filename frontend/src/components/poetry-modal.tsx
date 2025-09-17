@@ -1,4 +1,14 @@
-import { X } from "lucide-react";
+import React from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography,
+  IconButton,
+  Box,
+  Divider,
+} from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 interface PoetryModalProps {
   poetry: {
@@ -17,86 +27,66 @@ const PoetryModal: React.FC<PoetryModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  if (!isOpen || !poetry) return null;
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+  if (!poetry) return null;
 
   return (
-    <div
-      className="modal-backdrop"
-      onClick={handleBackdropClick}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 1000,
-        padding: "1rem",
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          minHeight: 400,
+        },
       }}
     >
-      <div
-        className="modal-content"
-        style={{
-          backgroundColor: "var(--color-paper)",
-          borderRadius: "var(--radius-lg)",
-          padding: "var(--spacing-xl)",
-          maxWidth: "600px",
-          width: "100%",
-          maxHeight: "80vh",
-          overflow: "auto",
-          position: "relative",
-          boxShadow: "var(--shadow-medium)",
-        }}
-      >
-        <button
+      <DialogTitle sx={{ m: 0, p: 3, pb: 1 }}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          {poetry.title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          诗经 · {poetry.chapter || "未知章节"} · {poetry.section || "未知篇目"}
+        </Typography>
+        <IconButton
           onClick={onClose}
-          style={{
+          sx={{
             position: "absolute",
-            top: "var(--spacing-md)",
-            right: "var(--spacing-md)",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "var(--color-gray-medium)",
-            padding: "var(--spacing-xs)",
+            right: 8,
+            top: 8,
+            color: "grey.500",
           }}
         >
-          <X size={24} />
-        </button>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
 
-        <div className="poetry-modal-header mb-lg">
-          <h2 className="title-medium chinese-text mb-sm">{poetry.title}</h2>
-          <div className="text-muted chinese-text">
-            詩經 · {poetry.chapter || "未知章節"} ·{" "}
-            {poetry.section || "未知篇目"}
-          </div>
-        </div>
+      <Divider />
 
-        <div className="poetry-modal-content">
-          <div
-            className="poetry-content chinese-text"
-            style={{
-              fontSize: "1.3rem",
-              lineHeight: "2.5",
-              textAlign: "center",
+      <DialogContent sx={{ p: 4 }}>
+        <Box
+          sx={{
+            textAlign: "center",
+            py: 4,
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: "1.4rem",
+              lineHeight: 2.5,
               whiteSpace: "pre-line",
-              margin: "var(--spacing-lg) 0",
+              fontWeight: 400,
+              letterSpacing: "0.05em",
+              color: "text.primary",
             }}
           >
-            {poetry.content || "內容暫缺"}
-          </div>
-        </div>
-      </div>
-    </div>
+            {poetry.content || "内容暂缺"}
+          </Typography>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 };
 

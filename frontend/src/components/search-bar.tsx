@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import {
+  TextField,
+  Button,
+  Box,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material";
+import { Search as SearchIcon } from "@mui/icons-material";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -9,7 +16,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
-  placeholder = "搜索詩詞、作者或內容...",
+  placeholder = "搜索诗词、作者或内容...",
   loading = false,
 }) => {
   const [query, setQuery] = useState("");
@@ -26,26 +33,55 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="search-container">
-      <div className="search-box">
-        <Search className="search-icon" size={20} />
-        <input
-          type="text"
-          className="input input-search chinese-text"
-          placeholder={placeholder}
-          value={query}
-          onChange={handleInputChange}
-          disabled={loading}
-        />
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={loading || !query.trim()}
-        >
-          {loading ? <div className="loading" /> : "搜索"}
-        </button>
-      </div>
-    </form>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: "flex",
+        gap: 2,
+        maxWidth: 600,
+        mx: "auto",
+        alignItems: "center",
+      }}
+    >
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder={placeholder}
+        value={query}
+        onChange={handleInputChange}
+        disabled={loading}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon color="action" />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: "background.paper",
+            "& fieldset": {
+              borderColor: "divider",
+            },
+            "&:hover fieldset": {
+              borderColor: "primary.main",
+            },
+          },
+        }}
+      />
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={loading || !query.trim()}
+        sx={{
+          minWidth: 100,
+          height: 56,
+        }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : "搜索"}
+      </Button>
+    </Box>
   );
 };
 

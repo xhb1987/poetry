@@ -199,6 +199,30 @@ export class PoetryRepository {
   }
 
   async findRandom(): Promise<Poetry | null> {
+    // First try to find poetry with content
+    const countWithContent = await this.prisma.poetry.count({
+      where: {
+        content: {
+          not: '',
+        },
+      },
+    });
+
+    if (countWithContent > 0) {
+      const randomIndex = Math.floor(Math.random() * countWithContent);
+      const result = await this.prisma.poetry.findMany({
+        where: {
+          content: {
+            not: '',
+          },
+        },
+        skip: randomIndex,
+        take: 1,
+      });
+      return result[0] || null;
+    }
+
+    // Fallback to any poetry if no content is available
     const count = await this.count();
     if (count === 0) return null;
 

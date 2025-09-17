@@ -39,7 +39,11 @@ export const poetryService = {
   // Get daily poetry
   getDailyPoetry: async (): Promise<Poetry> => {
     const response = await api.get("/poetry/daily");
-    return response.data;
+    console.log("Daily poetry API response:", response.data);
+    // Backend returns { message, date, poetry }, we need just the poetry
+    const poetry = response.data.poetry || response.data;
+    console.log("Extracted poetry:", poetry);
+    return poetry;
   },
 
   // Search poetry

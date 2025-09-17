@@ -1,10 +1,13 @@
+import React from "react";
+import { Card, CardContent, Typography, Chip, Box } from "@mui/material";
+
 interface PoetryCardProps {
   id: number;
   title: string;
   content: string | undefined;
   chapter: string | undefined;
   section: string | undefined;
-  category: "風" | "雅" | "頌";
+  category: "风" | "雅" | "颂";
   onClick?: () => void;
 }
 
@@ -16,43 +19,93 @@ const PoetryCard: React.FC<PoetryCardProps> = ({
   category,
   onClick,
 }) => {
-  const getCategoryColor = (cat: string) => {
+  const getCategoryColor = (cat: string): "primary" | "secondary" | "error" => {
     switch (cat) {
-      case "風":
-        return "text-accent";
+      case "风":
+        return "primary";
       case "雅":
-        return "text-red";
-      case "頌":
-        return "text-bamboo";
+        return "secondary";
+      case "颂":
+        return "error";
       default:
-        return "text-accent";
+        return "primary";
     }
   };
 
+  const formatContent = (text: string | undefined) => {
+    if (!text) return "内容暂缺";
+    const lines = text.split("\n");
+    const preview = lines.slice(0, 2).join("\n");
+    return lines.length > 2 ? `${preview}...` : preview;
+  };
+
   return (
-    <div className="card card-poetry" onClick={onClick}>
-      <div className="poetry-meta mb-sm">
-        <span className={`chinese-text ${getCategoryColor(category)}`}>
-          {category}
-        </span>
-        <span className="text-muted"> · </span>
-        <span className="text-muted chinese-text">{title}</span>
-      </div>
-      <div className="poetry-content chinese-text">
-        {content ? (
-          <>
-            {content.split("\n").slice(0, 2).join("\n")}
-            {content.split("\n").length > 2 && "..."}
-          </>
-        ) : (
-          "內容暫缺"
-        )}
-      </div>
-      <div className="poetry-footer text-muted text-sm">
-        詩經 · {chapter || "未知章節"} · {section || "未知篇目"}
-      </div>
-    </div>
+    <Card
+      onClick={onClick}
+      sx={{
+        cursor: "pointer",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        transition: "all 0.2s ease-in-out",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: 4,
+        },
+      }}
+    >
+      <CardContent sx={{ flexGrow: 1, p: 3 }}>
+        {/* Category and Title */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+          <Chip
+            label={category}
+            color={getCategoryColor(category)}
+            size="small"
+            sx={{ fontWeight: 600 }}
+          />
+          <Typography variant="body2" color="text.secondary">
+            ·
+          </Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ flexGrow: 1 }}>
+            {title}
+          </Typography>
+        </Box>
+
+        {/* Poetry Content */}
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 2,
+            lineHeight: 2,
+            fontSize: "1.1rem",
+            textAlign: "center",
+            whiteSpace: "pre-line",
+            minHeight: 80,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {formatContent(content)}
+        </Typography>
+
+        {/* Footer */}
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
+            display: "block",
+            textAlign: "center",
+            borderTop: 1,
+            borderColor: "divider",
+            pt: 1,
+            mt: 2,
+          }}
+        >
+          诗经 · {chapter || "未知章节"} · {section || "未知篇目"}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
-
 export default PoetryCard;

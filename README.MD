@@ -1,33 +1,133 @@
-# What is this?
+# Poetry Full-Stack Application
 
-This is a small app that help user to recite Classical Chinese poetry.
+A full-stack Chinese poetry application for browsing and searching classical Chinese poetry (Shijing collection).
 
-User can create collections, and add poetise to the collection. <br > <br >
+## Quick Start
 
-# Current functionality
+### Prerequisites
 
-### Show recommendation poetry
+- Node.js (v18 or higher)
+- npm
+- Docker (for PostgreSQL database)
 
-In the first screen, this app will show the recommendation poet, and user can
-add that poet to his/her own collections.
+### Installation & Setup
 
-### Poetry collections
+```bash
+# Install all dependencies for root, backend, and frontend
+npm run install:all
 
-User can create collection, and add poetise to that collection.
+# Set up the database (starts Docker, runs migrations, seeds data)
+npm run db:setup
+```
 
-If user start to recite one collection, he/she just click on the button to
-start.
+### Development
 
-In the recite mode, only poet title and author will be shown, user has to
-explicitly click on show button to display the whole poet paragraph.
+#### Start Both Applications (Recommended)
 
-Once user thinks it is finished, he/she can click the button to **Finish**, and
-this collection will be moved to finished page. <br > <br >
+```bash
+# Start both backend and frontend simultaneously
+npm start
+```
 
-# Tech stack
+This will start:
 
--   The backend api is based on nest.js, MySql and Docker
--   The app is based on react-native
+- Backend API server on http://localhost:3000
+- Frontend development server on http://localhost:3001
 
-_If you have any suggestions or comments, please create an issue, so we can
-discuss there_
+#### Start Applications Individually
+
+```bash
+# Start only the backend (NestJS API)
+npm run start:backend-only
+
+# Start only the frontend (React + Vite)
+npm run start:frontend-only
+```
+
+## Available Scripts
+
+#### Development
+
+- `npm start` - Start both backend and frontend
+- `npm run start:backend` - Start backend only
+- `npm run start:frontend` - Start frontend only
+
+#### Database Management
+
+- `npm run db:setup` - Complete database setup (Docker + migrate + seed)
+- `npm run db:seed` - Seed the database with Chinese poetry data
+- `npm run db:migrate` - Run Prisma migrations
+- `npm run db:studio` - Open Prisma Studio for database management
+
+#### Docker
+
+- `npm run docker:up` - Start PostgreSQL container
+- `npm run docker:down` - Stop PostgreSQL container
+
+#### Build & Deployment
+
+- `npm run build` - Build both applications for production
+- `npm run build:backend` - Build backend only
+- `npm run build:frontend` - Build frontend only
+
+#### Utilities
+
+- `npm run install:all` - Install dependencies for all projects
+- `npm run status` - Check if both servers are running
+- `npm run clean` - Remove all node_modules and build folders
+
+## Project Structure
+
+```
+poetry/
+├── package.json          # Root package.json with convenience scripts
+├── backend/              # NestJS API server
+│   ├── src/
+│   ├── prisma/
+│   ├── docker-compose.yml
+│   └── package.json
+└── frontend/             # React + Vite application
+    ├── src/
+    ├── public/
+    └── package.json
+```
+
+## Current Features
+
+- 📚 Browse Chinese classical poetry (Shijing collection - 305 poems)
+- 🔍 Full-text search functionality across title, content, author, chapter, and section
+- 📅 Daily poetry feature with random poem selection
+- 💾 PostgreSQL database with Prisma ORM
+- ⚡ Hot reload for development
+- 🎨 Modern React UI with TypeScript
+- 🔄 State management with Zustand
+
+## API Endpoints
+
+- `GET /poetry/all-poetry` - Get all poetry
+- `GET /poetry/search?q=term` - Search poetry
+- `GET /poetry/daily` - Get daily poetry
+- `GET /poetry/:id` - Get specific poetry by ID
+
+## Tech Stack
+
+### Backend
+
+- **NestJS** - Node.js framework with TypeScript
+- **PostgreSQL** - Database with Docker containerization
+- **Prisma ORM** - Type-safe database access
+
+### Frontend
+
+- **React 19** - UI library with TypeScript
+- **Vite** - Fast build tool and dev server
+- **Zustand** - Lightweight state management
+
+## Development Tips
+
+1. **First time setup**: Run `npm run db:setup` to initialize everything
+2. **Daily development**: Use `npm start` to run both servers
+3. **Database issues**: Use `npm run docker:down` then `npm run db:setup`
+4. **View database**: Use `npm run db:studio` to open Prisma Studio
+
+_If you have any suggestions or comments, please create an issue for discussion._

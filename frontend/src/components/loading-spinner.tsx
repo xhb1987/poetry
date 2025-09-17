@@ -1,41 +1,37 @@
+import React from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
+
 interface LoadingSpinnerProps {
-  size?: "small" | "medium" | "large";
+  size?: number;
   message?: string;
 }
 
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
-  size = "medium",
-  message = "載入中...",
+  size = 40,
+  message = "载入中...",
 }) => {
-  const getSpinnerStyle = () => {
-    const baseSize =
-      size === "small" ? "16px" : size === "large" ? "48px" : "32px";
-    return {
-      width: baseSize,
-      height: baseSize,
-    };
-  };
-
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "var(--spacing-xl) 0",
+        py: 6,
+        gap: 2,
       }}
     >
-      <div className="loading" style={getSpinnerStyle()} />
+      <CircularProgress
+        size={size}
+        thickness={4}
+        sx={{ color: "primary.main" }}
+      />
       {message && (
-        <p
-          className="text-muted chinese-text"
-          style={{ marginTop: "var(--spacing-sm)" }}
-        >
+        <Typography variant="body2" color="text.secondary" textAlign="center">
           {message}
-        </p>
+        </Typography>
       )}
-    </div>
+    </Box>
   );
 };
 
