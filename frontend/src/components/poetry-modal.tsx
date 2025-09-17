@@ -9,15 +9,10 @@ import {
   Divider,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
+import { Poetry } from "../services/api";
 
 interface PoetryModalProps {
-  poetry: {
-    id: number;
-    title: string;
-    content: string | undefined;
-    chapter: string | undefined;
-    section: string | undefined;
-  } | null;
+  poetry: Poetry | null;
   isOpen: boolean;
   onClose: () => void;
 }

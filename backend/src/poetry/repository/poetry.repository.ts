@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Poetry } from '@prisma/client';
 import { CreatePoetryDto, UpdatePoetryDto } from '../dto/poetry.dto';
+import { PoetryCategory } from '../enums/poetry-category.enum';
 
 // Define Poetry type based on Prisma model
 
@@ -172,8 +173,22 @@ export class PoetryRepository {
   }
 
   async create(data: CreatePoetryDto): Promise<Poetry> {
+    const createData: CreatePoetryDto = {
+      title: data.title,
+      content: data.content,
+      author: data.author,
+      chapter: data.chapter,
+      section: data.section,
+      rhythmic: data.rhythmic,
+    };
+
+    // Handle paragraphs - convert array to JSON
+    if (data.paragraphs) {
+      createData.paragraphs = data.paragraphs;
+    }
+
     const result = await this.prisma.poetry.create({
-      data,
+      data: createData,
     });
     return result;
   }
@@ -199,30 +214,6 @@ export class PoetryRepository {
   }
 
   async findRandom(): Promise<Poetry | null> {
-    // First try to find poetry with content
-    const countWithContent = await this.prisma.poetry.count({
-      where: {
-        content: {
-          not: '',
-        },
-      },
-    });
-
-    if (countWithContent > 0) {
-      const randomIndex = Math.floor(Math.random() * countWithContent);
-      const result = await this.prisma.poetry.findMany({
-        where: {
-          content: {
-            not: '',
-          },
-        },
-        skip: randomIndex,
-        take: 1,
-      });
-      return result[0] || null;
-    }
-
-    // Fallback to any poetry if no content is available
     const count = await this.count();
     if (count === 0) return null;
 
@@ -241,5 +232,140 @@ export class PoetryRepository {
       select: { id: true },
     });
     return !!poetry;
+  }
+
+  // Category-based methods
+  async findByCategory(
+    category: PoetryCategory,
+    limit?: number,
+    offset?: number,
+  ): Promise<Poetry[]> {
+    const where = this.getCategoryFilter(category);
+    return await this.prisma.poetry.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
+    });
+  }
+
+  async searchByCategory(
+    query: string,
+    category: PoetryCategory,
+    limit?: number,
+    offset?: number,
+  ): Promise<Poetry[]> {
+    const categoryFilter = this.getCategoryFilter(category);
+    return await this.prisma.poetry.findMany({
+      where: {
+        ...categoryFilter,
+        OR: [
+          { title: { contains: query, mode: 'insensitive' } },
+          { content: { contains: query, mode: 'insensitive' } },
+          { author: { contains: query, mode: 'insensitive' } },
+          { chapter: { contains: query, mode: 'insensitive' } },
+          { section: { contains: query, mode: 'insensitive' } },
+          { rhythmic: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
+    });
+  }
+
+  async searchCountByCategory(
+    query: string,
+    category: PoetryCategory,
+  ): Promise<number> {
+    const categoryFilter = this.getCategoryFilter(category);
+    return await this.prisma.poetry.count({
+      where: {
+        ...categoryFilter,
+        OR: [
+          { title: { contains: query, mode: 'insensitive' } },
+          { content: { contains: query, mode: 'insensitive' } },
+          { author: { contains: query, mode: 'insensitive' } },
+          { chapter: { contains: query, mode: 'insensitive' } },
+          { section: { contains: query, mode: 'insensitive' } },
+          { rhythmic: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+    });
+  }
+
+  async findRandomByCategory(
+    category?: PoetryCategory,
+  ): Promise<Poetry | null> {
+    const where = category ? this.getCategoryFilter(category) : {};
+
+    // Get total count with filter
+    const count = await this.prisma.poetry.count({ where });
+    if (count === 0) return null;
+
+    // Generate random skip value
+    const skip = Math.floor(Math.random() * count);
+
+    const result = await this.prisma.poetry.findMany({
+      where,
+      skip,
+      take: 1,
+    });
+
+    return result[0] || null;
+  }
+
+  async countByCategory(category: PoetryCategory): Promise<number> {
+    const where = this.getCategoryFilter(category);
+    return await this.prisma.poetry.count({ where });
+  }
+
+  async getRhythmicPatterns(
+    limit?: number,
+  ): Promise<{ rhythmic: string; count: number }[]> {
+    const result = await this.prisma.poetry.groupBy({
+      by: ['rhythmic'],
+      where: {
+        rhythmic: { not: null },
+      },
+      _count: {
+        rhythmic: true,
+      },
+      orderBy: {
+        _count: {
+          rhythmic: 'desc',
+        },
+      },
+      take: limit,
+    });
+
+    return result.map((item) => ({
+      rhythmic: item.rhythmic as string,
+      count: item._count?.rhythmic || 0,
+    }));
+  }
+
+  async findByRhythmic(
+    rhythmic: string,
+    limit?: number,
+    offset?: number,
+  ): Promise<Poetry[]> {
+    return await this.prisma.poetry.findMany({
+      where: {
+        rhythmic: {
+          equals: rhythmic,
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
+    });
+  }
+
+  // Helper method to get category filter
+  private getCategoryFilter(category: PoetryCategory): Record<string, any> {
+    return {
+      category: category,
+    };
   }
 }

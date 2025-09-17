@@ -11,58 +11,146 @@ const api = axios.create({
 
 // Types for API responses
 export interface Poetry {
-  id: number;
-  title: string;
-  content: string | undefined;
-  chapter: string | undefined;
-  section: string | undefined;
+  id: string;
+  title?: string;
+  content?: string;
+  paragraphs?: string[] | null;
+  rhythmic?: string | null;
+  author?: string | null;
+  chapter?: string | null;
+  section?: string | null;
+  category?: string | null; // Add the category field from backend
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PoetryCategory {
+  value: string;
+  label: string;
+  description: string;
 }
 
 export interface SearchParams {
   query?: string;
+  category?: string;
   chapter?: string;
   section?: string;
   limit?: number;
   offset?: number;
 }
 
+export interface SearchResponse {
+  results: Poetry[];
+  total: number;
+  query: string;
+  category?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface DailyPoetryResponse {
+  message: string;
+  date: string;
+  category: string;
+  poetry: Poetry;
+}
+
+export interface CategoryStats {
+  category: string;
+  count: number;
+  name: string;
+}
+
+export interface RhythmicPattern {
+  rhythmic: string;
+  count: number;
+}
+
 // API service functions
 export const poetryService = {
-  // Get all poetry with pagination
-  getAllPoetry: async (limit = 20, offset = 0): Promise<Poetry[]> => {
-    const response = await api.get(
-      `/poetry/all-poetry?limit=${limit}&offset=${offset}`
-    );
+  // Get available categories
+  getCategories: async (): Promise<PoetryCategory[]> => {
+    const response = await api.get("/poetry/categories");
+    return response.data.categories;
+  },
+
+  // Get category statistics
+  getCategoryStats: async (category: string): Promise<CategoryStats> => {
+    const response = await api.get(`/poetry/categories/${category}/stats`);
     return response.data;
   },
 
-  // Get daily poetry
-  getDailyPoetry: async (): Promise<Poetry> => {
-    const response = await api.get("/poetry/daily");
-    console.log("Daily poetry API response:", response.data);
-    // Backend returns { message, date, poetry }, we need just the poetry
-    const poetry = response.data.poetry || response.data;
-    console.log("Extracted poetry:", poetry);
-    return poetry;
+  // Get all categories statistics
+  getAllCategoriesStats: async (): Promise<CategoryStats[]> => {
+    const categories = await poetryService.getCategories();
+    const statsPromises = categories.map((cat) =>
+      poetryService.getCategoryStats(cat.value)
+    );
+    return await Promise.all(statsPromises);
   },
 
-  // Search poetry
-  searchPoetry: async (params: SearchParams): Promise<Poetry[]> => {
-    const { query, chapter, section, limit = 20, offset = 0 } = params;
+  // Get all poetry with pagination and optional category filter
+  getAllPoetry: async (
+    limit = 20,
+    offset = 0,
+    category?: string
+  ): Promise<Poetry[]> => {
+    let url = `/poetry/all-poetry?limit=${limit}&offset=${offset}`;
+    if (category && category !== "all") {
+      url += `&category=${category}`;
+    }
+    const response = await api.get(url);
+    return response.data;
+  },
+
+  // Get daily poetry with optional category filter
+  getDailyPoetry: async (category?: string): Promise<DailyPoetryResponse> => {
+    let url = "/poetry/daily";
+    if (category && category !== "all") {
+      url += `?category=${category}`;
+    }
+    const response = await api.get(url);
+    console.log("Daily poetry API response:", response.data);
+    return response.data;
+  },
+
+  // Get random poetry with optional category filter
+  getRandomPoetry: async (category?: string): Promise<DailyPoetryResponse> => {
+    let url = "/poetry/random";
+    if (category && category !== "all") {
+      url += `?category=${category}`;
+    }
+    const response = await api.get(url);
+    return response.data;
+  },
+
+  // Search poetry with category support
+  searchPoetry: async (params: SearchParams): Promise<SearchResponse> => {
+    const {
+      query,
+      category,
+      chapter,
+      section,
+      limit = 20,
+      offset = 0,
+    } = params;
 
     if (query) {
-      console.log("API: Making search request with query:", query);
-      const response = await api.get(
-        `/poetry/search?q=${encodeURIComponent(
-          query
-        )}&limit=${limit}&offset=${offset}`
+      console.log(
+        "API: Making search request with query:",
+        query,
+        "category:",
+        category
       );
+      let url = `/poetry/search?q=${encodeURIComponent(
+        query
+      )}&limit=${limit}&offset=${offset}`;
+      if (category && category !== "all") {
+        url += `&category=${category}`;
+      }
+      const response = await api.get(url);
       console.log("API: Search response received:", response.data);
-      // Backend returns { results: Poetry[], total: number, ... }
-      // We need to return just the results array
-      const results = response.data.results || response.data;
-      console.log("API: Returning results:", results);
-      return results;
+      return response.data;
     }
 
     if (chapter) {
@@ -71,7 +159,13 @@ export const poetryService = {
           chapter
         )}?limit=${limit}&offset=${offset}`
       );
-      return response.data;
+      return {
+        results: response.data,
+        total: response.data.length,
+        query: `chapter:${chapter}`,
+        limit,
+        offset,
+      };
     }
 
     if (section) {
@@ -80,11 +174,25 @@ export const poetryService = {
           section
         )}?limit=${limit}&offset=${offset}`
       );
-      return response.data;
+      return {
+        results: response.data,
+        total: response.data.length,
+        query: `section:${section}`,
+        limit,
+        offset,
+      };
     }
 
     // Fallback to all poetry
-    return await poetryService.getAllPoetry(limit, offset);
+    const results = await poetryService.getAllPoetry(limit, offset, category);
+    return {
+      results,
+      total: results.length,
+      query: "",
+      category,
+      limit,
+      offset,
+    };
   },
 
   // Get single poetry by ID
@@ -117,6 +225,26 @@ export const poetryService = {
       `/poetry/search/section/${encodeURIComponent(
         section
       )}?limit=${limit}&offset=${offset}`
+    );
+    return response.data;
+  },
+
+  // Get rhythmic patterns (for Song Ci)
+  getRhythmicPatterns: async (limit = 20): Promise<RhythmicPattern[]> => {
+    const response = await api.get(`/poetry/rhythmic-patterns?limit=${limit}`);
+    return response.data;
+  },
+
+  // Get poetry by rhythmic pattern
+  getPoetryByRhythmic: async (
+    rhythmic: string,
+    page = 1,
+    limit = 10
+  ): Promise<Poetry[]> => {
+    const response = await api.get(
+      `/poetry/rhythmic/${encodeURIComponent(
+        rhythmic
+      )}?page=${page}&limit=${limit}`
     );
     return response.data;
   },

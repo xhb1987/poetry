@@ -12,11 +12,14 @@ datasource db {
 
 model Poetry {
   id        String   @id @default(cuid())
-  title     String
-  content   String
+  title     String?  // Make title optional since ci.song data might not have titles
+  content   String?  // Keep for backward compatibility, make optional
+  paragraphs Json?   // New field: array of poem lines/paragraphs
+  rhythmic  String?  // New field: rhythm/meter of the poem (词牌名)
   author    String?  // Optional for classical texts like Shijing
   chapter   String?  // For organizational categorization (e.g., "国风")
   section   String?  // For sub-categorization (e.g., "周南")
+  category  String?  // New field: poetry category (shijing, song_ci, etc.)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -24,6 +27,8 @@ model Poetry {
   @@index([author])
   @@index([chapter])
   @@index([section])
+  @@index([rhythmic])
+  @@index([category])
   @@index([createdAt])
   @@map("poems")
 }

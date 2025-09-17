@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import PoetryCard from "../components/poetry-card";
 import LoadingSpinner from "../components/loading-spinner";
 import { useAppStore } from "../store/app-store";
+import { getDisplayCategory } from "../types/poetry";
 
 interface SearchResultsPageProps {
   onPoetryClick: (poetry: any) => void;
@@ -12,16 +13,25 @@ const SearchResultsPage = ({ onPoetryClick }: SearchResultsPageProps) => {
   const searchResults = useAppStore((state) => state.searchResults);
   const searchLoading = useAppStore((state) => state.isSearchLoading);
   const hasSearched = useAppStore((state) => state.hasSearched);
+  const selectedCategory = useAppStore((state) => state.selectedCategory);
 
-  const getCategoryFromChapter = useCallback((
-    chapter: string | undefined
-  ): "风" | "雅" | "颂" => {
-    if (!chapter) return "风";
-    if (chapter.includes("風") || chapter.includes("风")) return "风";
-    if (chapter.includes("雅")) return "雅";
-    if (chapter.includes("頌") || chapter.includes("颂")) return "颂";
-    return "风";
+  const getCategoryFromPoetry = useCallback((poetry: any) => {
+    return getDisplayCategory(poetry);
   }, []);
+
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case "shijing":
+        return "诗经";
+      case "song_ci":
+        return "宋词";
+      case "all":
+      case "":
+        return "全部";
+      default:
+        return category;
+    }
+  };
 
   return (
     <Box>
@@ -33,6 +43,9 @@ const SearchResultsPage = ({ onPoetryClick }: SearchResultsPageProps) => {
         sx={{ mb: 4 }}
       >
         搜索结果
+        {selectedCategory &&
+          selectedCategory !== "all" &&
+          ` · ${getCategoryLabel(selectedCategory)}`}
       </Typography>
 
       {searchLoading ? (
@@ -49,12 +62,14 @@ const SearchResultsPage = ({ onPoetryClick }: SearchResultsPageProps) => {
             {searchResults.map((poem: any) => (
               <PoetryCard
                 key={poem.id}
-                id={poem.id}
-                title={poem.title}
+                id={parseInt(poem.id)}
+                title={poem.title || ""}
                 content={poem.content}
-                chapter={poem.chapter}
-                section={poem.section}
-                category={getCategoryFromChapter(poem.chapter)}
+                chapter={poem.chapter || undefined}
+                section={poem.section || undefined}
+                category={getCategoryFromPoetry(poem)}
+                poetryCategory={poem.category || undefined}
+                rhythmic={poem.rhythmic || undefined}
                 onClick={() => onPoetryClick(poem)}
               />
             ))}
@@ -66,9 +81,7 @@ const SearchResultsPage = ({ onPoetryClick }: SearchResultsPageProps) => {
         )
       ) : (
         <Box textAlign="center" sx={{ py: 8 }}>
-          <Typography color="text.secondary">
-            请输入关键词搜索诗词
-          </Typography>
+          <Typography color="text.secondary">请输入关键词搜索诗词</Typography>
         </Box>
       )}
     </Box>

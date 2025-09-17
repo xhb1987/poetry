@@ -3,6 +3,7 @@ import { PoetryRepository } from '../repository/poetry.repository';
 import { ExceptionHelper } from '../../common/exceptions/exception-helper';
 import { Poetry } from '@prisma/client';
 import { CreatePoetryDto, UpdatePoetryDto } from '../dto/poetry.dto';
+import { PoetryCategory } from '../enums/poetry-category.enum';
 
 @Injectable()
 export class PoetryService {
@@ -44,6 +45,39 @@ export class PoetryService {
     return true;
   }
 
+  // Alias for delete to match controller
+  async remove(id: string): Promise<boolean> {
+    return await this.delete(id);
+  }
+
+  // Alias for findRandom
+  async findRandom(): Promise<Poetry | null> {
+    const poetry = await this.poetryRepository.findRandom();
+    if (!poetry) {
+      throw ExceptionHelper.emptyPoetryCollection();
+    }
+    return poetry;
+  }
+
+  async findRandomByCategory(
+    category?: PoetryCategory,
+  ): Promise<Poetry | null> {
+    const poetry = await this.poetryRepository.findRandomByCategory(category);
+    if (!poetry) {
+      throw ExceptionHelper.emptyPoetryCollection();
+    }
+    return poetry;
+  }
+
+  // Alias for searchPoetry to match controller
+  async search(
+    query: string,
+    limit?: number,
+    offset?: number,
+  ): Promise<{ results: Poetry[]; total: number }> {
+    return await this.searchPoetry(query, limit, offset);
+  }
+
   async getDailyPoetry(): Promise<Poetry | null> {
     const poetry = await this.poetryRepository.findRandom();
     if (!poetry) {
@@ -82,5 +116,82 @@ export class PoetryService {
     offset?: number,
   ): Promise<Poetry[]> {
     return await this.poetryRepository.findBySection(section, limit, offset);
+  }
+
+  // Category-based methods
+  async findByCategory(
+    category: PoetryCategory,
+    limit?: number,
+    offset?: number,
+  ): Promise<Poetry[]> {
+    return await this.poetryRepository.findByCategory(category, limit, offset);
+  }
+
+  async searchByCategory(
+    query: string,
+    category: PoetryCategory,
+    limit?: number,
+    offset?: number,
+  ): Promise<{ results: Poetry[]; total: number }> {
+    const [results, total] = await Promise.all([
+      this.poetryRepository.searchByCategory(query, category, limit, offset),
+      this.poetryRepository.searchCountByCategory(query, category),
+    ]);
+    return { results, total };
+  }
+
+  async getDailyPoetryByCategory(
+    category?: PoetryCategory,
+  ): Promise<Poetry | null> {
+    const poetry = await this.poetryRepository.findRandomByCategory(category);
+    if (!poetry) {
+      throw ExceptionHelper.emptyPoetryCollection();
+    }
+    return poetry;
+  }
+
+  async getRhythmicPatterns(
+    limit?: number,
+  ): Promise<{ rhythmic: string; count: number }[]> {
+    return await this.poetryRepository.getRhythmicPatterns(limit);
+  }
+
+  async findByRhythmic(
+    rhythmic: string,
+    limit?: number,
+    offset?: number,
+  ): Promise<Poetry[]> {
+    return await this.poetryRepository.findByRhythmic(rhythmic, limit, offset);
+  }
+
+  async getCategoryStats(category?: PoetryCategory): Promise<any> {
+    if (category) {
+      // Return stats for specific category
+      const count = await this.poetryRepository.countByCategory(category);
+      return {
+        category,
+        count,
+        name: category === PoetryCategory.SHIJING ? '诗经' : '宋词',
+      };
+    }
+
+    // Return stats for all categories
+    const [shijingCount, songCiCount, total] = await Promise.all([
+      this.poetryRepository.countByCategory(PoetryCategory.SHIJING),
+      this.poetryRepository.countByCategory(PoetryCategory.SONG_CI),
+      this.poetryRepository.count(),
+    ]);
+
+    return {
+      [PoetryCategory.SHIJING]: {
+        count: shijingCount,
+        name: '诗经',
+      },
+      [PoetryCategory.SONG_CI]: {
+        count: songCiCount,
+        name: '宋词',
+      },
+      total,
+    };
   }
 }

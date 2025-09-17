@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { Poetry } from "../services/api";
+import { Poetry, PoetryCategory, CategoryStats } from "../services/api";
 
 // Define the application state interface
 interface AppState {
@@ -13,6 +13,8 @@ interface AppState {
   isLoading: boolean;
   isSearchLoading: boolean;
   isDailyLoading: boolean;
+  hasLoadedPoetry: boolean; // Track if poetry has been loaded at least once
+  hasLoadedDaily: boolean; // Track if daily poetry has been loaded at least once
 
   // Error States
   error: string | null;
@@ -24,6 +26,12 @@ interface AppState {
   searchResults: Poetry[];
   dailyPoetry: Poetry | null;
   hasSearched: boolean;
+
+  // Category Data
+  categories: PoetryCategory[];
+  selectedCategory: string;
+  categoryStats: CategoryStats[];
+  isCategoriesLoading: boolean;
 
   // Pagination
   hasMore: boolean;
@@ -37,6 +45,8 @@ interface AppState {
   setLoading: (loading: boolean) => void;
   setSearchLoading: (loading: boolean) => void;
   setDailyLoading: (loading: boolean) => void;
+  setHasLoadedPoetry: (hasLoaded: boolean) => void;
+  setHasLoadedDaily: (hasLoaded: boolean) => void;
 
   setError: (error: string | null) => void;
   setSearchError: (error: string | null) => void;
@@ -47,6 +57,11 @@ interface AppState {
   setSearchResults: (results: Poetry[]) => void;
   setDailyPoetry: (poetry: Poetry | null) => void;
   setHasSearched: (hasSearched: boolean) => void;
+
+  setCategories: (categories: PoetryCategory[]) => void;
+  setSelectedCategory: (category: string) => void;
+  setCategoryStats: (stats: CategoryStats[]) => void;
+  setCategoriesLoading: (loading: boolean) => void;
 
   setHasMore: (hasMore: boolean) => void;
   setOffset: (offset: number) => void;
@@ -71,6 +86,8 @@ const initialState = {
   isLoading: false,
   isSearchLoading: false,
   isDailyLoading: false,
+  hasLoadedPoetry: false,
+  hasLoadedDaily: false,
 
   // Error States
   error: null,
@@ -82,6 +99,12 @@ const initialState = {
   searchResults: [],
   dailyPoetry: null,
   hasSearched: false,
+
+  // Category Data
+  categories: [],
+  selectedCategory: "all",
+  categoryStats: [],
+  isCategoriesLoading: false,
 
   // Pagination
   hasMore: true,
@@ -103,6 +126,8 @@ export const useAppStore = create<AppState>()(
       setLoading: (loading) => set({ isLoading: loading }),
       setSearchLoading: (loading) => set({ isSearchLoading: loading }),
       setDailyLoading: (loading) => set({ isDailyLoading: loading }),
+      setHasLoadedPoetry: (hasLoaded) => set({ hasLoadedPoetry: hasLoaded }),
+      setHasLoadedDaily: (hasLoaded) => set({ hasLoadedDaily: hasLoaded }),
 
       // Error Actions
       setError: (error) => set({ error }),
@@ -118,6 +143,12 @@ export const useAppStore = create<AppState>()(
       setSearchResults: (results) => set({ searchResults: results }),
       setDailyPoetry: (poetry) => set({ dailyPoetry: poetry }),
       setHasSearched: (hasSearched) => set({ hasSearched }),
+
+      // Category Actions
+      setCategories: (categories) => set({ categories }),
+      setSelectedCategory: (category) => set({ selectedCategory: category }),
+      setCategoryStats: (stats) => set({ categoryStats: stats }),
+      setCategoriesLoading: (loading) => set({ isCategoriesLoading: loading }),
 
       // Pagination Actions
       setHasMore: (hasMore) => set({ hasMore }),

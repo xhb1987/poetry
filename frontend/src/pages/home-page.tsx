@@ -4,6 +4,7 @@ import PoetryCard from "../components/poetry-card";
 import LoadingSpinner from "../components/loading-spinner";
 import { useAppStore } from "../store/app-store";
 import { poetryActions } from "../store/poetry-actions";
+import { getDisplayCategory } from "../types/poetry";
 
 interface HomePageProps {
   onPoetryClick: (poetry: any) => void;
@@ -13,26 +14,42 @@ const HomePage = ({ onPoetryClick }: HomePageProps) => {
   const poetry = useAppStore((state) => state.poetry);
   const poetryLoading = useAppStore((state) => state.isLoading);
   const poetryError = useAppStore((state) => state.error);
+  const hasLoadedPoetry = useAppStore((state) => state.hasLoadedPoetry);
+  const selectedCategory = useAppStore((state) => state.selectedCategory);
 
-  // Load poetry when component mounts
+  // Load poetry when component mounts or category changes
   useEffect(() => {
-    console.log("HomePage useEffect - checking poetry data");
-    if (poetry.length === 0 && !poetryLoading) {
-      console.log("HomePage - loading poetry");
+    console.log("HomePage useEffect - checking poetry data", {
+      hasLoadedPoetry,
+      poetryLoading,
+      poetryLength: poetry.length,
+      selectedCategory,
+    });
+
+    // Only load if we haven't loaded poetry before AND we're not currently loading
+    if (!hasLoadedPoetry && !poetryLoading) {
+      console.log("HomePage - loading poetry for category:", selectedCategory);
       poetryActions.loadPoetry(8);
     }
-  }, [poetry.length, poetryLoading]);
+  }, [hasLoadedPoetry, poetryLoading, selectedCategory]);
 
-  const getCategoryFromChapter = useCallback(
-    (chapter: string | undefined): "风" | "雅" | "颂" => {
-      if (!chapter) return "风";
-      if (chapter.includes("風") || chapter.includes("风")) return "风";
-      if (chapter.includes("雅")) return "雅";
-      if (chapter.includes("頌") || chapter.includes("颂")) return "颂";
-      return "风";
-    },
-    []
-  );
+  const getCategoryFromPoetry = useCallback((poetry: any) => {
+    return getDisplayCategory(poetry);
+  }, []);
+
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case "shijing":
+        return "诗经";
+      case "song_ci":
+        return "宋词";
+      case "all":
+      case "":
+        return "全部";
+      default:
+        return category;
+    }
+  };
 
   return (
     <Box>
@@ -44,6 +61,9 @@ const HomePage = ({ onPoetryClick }: HomePageProps) => {
         sx={{ mb: 4 }}
       >
         精选诗词
+        {selectedCategory &&
+          selectedCategory !== "all" &&
+          ` · ${getCategoryLabel(selectedCategory)}`}
       </Typography>
 
       {poetryLoading ? (
@@ -57,6 +77,15 @@ const HomePage = ({ onPoetryClick }: HomePageProps) => {
             重新载入
           </Button>
         </Box>
+      ) : poetry.length === 0 && hasLoadedPoetry ? (
+        <Box textAlign="center" sx={{ py: 8 }}>
+          <Typography variant="h6" color="text.secondary" gutterBottom>
+            当前分类暂无诗词
+          </Typography>
+          <Typography color="text.secondary">
+            请尝试选择其他分类或查看全部诗词
+          </Typography>
+        </Box>
       ) : (
         <Box
           sx={{
@@ -68,12 +97,14 @@ const HomePage = ({ onPoetryClick }: HomePageProps) => {
           {poetry.map((poem) => (
             <PoetryCard
               key={poem.id}
-              id={poem.id}
-              title={poem.title}
+              id={parseInt(poem.id)}
+              title={poem.title || ""}
               content={poem.content}
-              chapter={poem.chapter}
-              section={poem.section}
-              category={getCategoryFromChapter(poem.chapter)}
+              chapter={poem.chapter || undefined}
+              section={poem.section || undefined}
+              category={getCategoryFromPoetry(poem)}
+              poetryCategory={poem.category || undefined}
+              rhythmic={poem.rhythmic || undefined}
               onClick={() => onPoetryClick(poem)}
             />
           ))}

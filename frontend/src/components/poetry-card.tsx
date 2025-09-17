@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Chip, Box } from "@mui/material";
+import { DisplayCategory } from "../types/poetry";
 
 interface PoetryCardProps {
   id: number;
@@ -7,7 +8,9 @@ interface PoetryCardProps {
   content: string | undefined;
   chapter: string | undefined;
   section: string | undefined;
-  category: "风" | "雅" | "颂";
+  category: DisplayCategory;
+  poetryCategory?: string; // Main category from database
+  rhythmic?: string; // For Song Ci
   onClick?: () => void;
 }
 
@@ -17,6 +20,8 @@ const PoetryCard: React.FC<PoetryCardProps> = ({
   chapter,
   section,
   category,
+  poetryCategory,
+  rhythmic,
   onClick,
 }) => {
   const getCategoryColor = (cat: string): "primary" | "secondary" | "error" => {
@@ -102,7 +107,11 @@ const PoetryCard: React.FC<PoetryCardProps> = ({
             mt: 2,
           }}
         >
-          诗经 · {chapter || "未知章节"} · {section || "未知篇目"}
+          {poetryCategory === "shijing"
+            ? `诗经 · ${chapter || "未知章节"} · ${section || "未知篇目"}`
+            : poetryCategory === "song_ci"
+            ? `宋词 · ${rhythmic || "未知词牌"}`
+            : `古典诗词 · ${chapter || "未知来源"}`}
         </Typography>
       </CardContent>
     </Card>

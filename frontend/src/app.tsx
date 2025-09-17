@@ -21,6 +21,7 @@ import "./app.css";
 import SearchBar from "./components/search-bar";
 import PoetryModal from "./components/poetry-modal";
 import StoreDebugger from "./components/store-debugger";
+import CategorySelector from "./components/category-selector";
 
 // Pages
 import HomePage from "./pages/home-page";
@@ -42,6 +43,8 @@ function App() {
   const openPoetryModal = useAppStore((state) => state.openPoetryModal);
   const closePoetryModal = useAppStore((state) => state.closePoetryModal);
   const searchLoading = useAppStore((state) => state.isSearchLoading);
+  const categories = useAppStore((state) => state.categories);
+  const selectedCategory = useAppStore((state) => state.selectedCategory);
 
   // Load initial data on mount
   useEffect(() => {
@@ -49,6 +52,7 @@ function App() {
     const loadData = async () => {
       try {
         await Promise.all([
+          poetryActions.loadCategories(),
           poetryActions.loadPoetry(8),
           poetryActions.loadDailyPoetry(),
         ]);
@@ -114,7 +118,7 @@ function App() {
               textAlign: "left",
             }}
           >
-            诗经雅集
+            古典诗词
           </Typography>
           <Box sx={{ display: "flex", gap: 1 }}>
             <Button
@@ -168,7 +172,7 @@ function App() {
               gutterBottom
               sx={{ fontWeight: 600, color: "primary.main" }}
             >
-              诗经雅集
+              古典诗词
             </Typography>
             <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
               探索中华古典诗词之美，品味千年文化底蕴
@@ -177,6 +181,16 @@ function App() {
             {/* Search Bar */}
             <Box sx={{ mb: 4 }}>
               <SearchBar onSearch={handleSearch} loading={searchLoading} />
+            </Box>
+
+            {/* Category Selection */}
+            <Box sx={{ mb: 4, display: "flex", justifyContent: "center" }}>
+              <CategorySelector
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategoryChange={poetryActions.selectCategory}
+                size="medium"
+              />
             </Box>
 
             {/* Quick Actions */}
@@ -257,15 +271,15 @@ function App() {
           >
             <Box sx={{ p: 3 }}>
               <Typography variant="h3" color="primary.main" fontWeight="bold">
-                305
+                1305
               </Typography>
-              <Typography color="text.secondary">诗经篇章</Typography>
+              <Typography color="text.secondary">古典诗词</Typography>
             </Box>
             <Box sx={{ p: 3 }}>
               <Typography variant="h3" color="primary.main" fontWeight="bold">
-                15
+                2
               </Typography>
-              <Typography color="text.secondary">国风地区</Typography>
+              <Typography color="text.secondary">诗词分类</Typography>
             </Box>
             <Box sx={{ p: 3 }}>
               <Typography variant="h3" color="primary.main" fontWeight="bold">
@@ -284,7 +298,7 @@ function App() {
       >
         <Container maxWidth="lg">
           <Typography textAlign="center" color="inherit">
-            © 2024 诗经雅集 · 传承中华文化，品味古典诗词之美
+            © 2024 古典诗词 · 传承中华文化，品味古典诗词之美
           </Typography>
         </Container>
       </Box>

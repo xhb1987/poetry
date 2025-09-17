@@ -4,6 +4,7 @@ import PoetryCard from "../components/poetry-card";
 import LoadingSpinner from "../components/loading-spinner";
 import { useAppStore } from "../store/app-store";
 import { poetryActions } from "../store/poetry-actions";
+import { getDisplayCategory } from "../types/poetry";
 
 interface DailyPageProps {
   onPoetryClick: (poetry: any) => void;
@@ -13,28 +14,32 @@ const DailyPage = ({ onPoetryClick }: DailyPageProps) => {
   const dailyPoetry = useAppStore((state) => state.dailyPoetry);
   const dailyLoading = useAppStore((state) => state.isDailyLoading);
   const dailyError = useAppStore((state) => state.dailyError);
+  const hasLoadedDaily = useAppStore((state) => state.hasLoadedDaily);
 
   // Debug logging
-  console.log("DailyPage render:", { dailyPoetry, dailyLoading, dailyError });
+  console.log("DailyPage render:", {
+    dailyPoetry,
+    dailyLoading,
+    dailyError,
+    hasLoadedDaily,
+  });
 
-  // Load daily poetry when component mounts
+  // Load daily poetry when component mounts - only if we haven't loaded before
   useEffect(() => {
-    console.log("DailyPage useEffect - loading daily poetry");
-    if (!dailyPoetry && !dailyLoading) {
+    console.log("DailyPage useEffect - checking daily poetry", {
+      hasLoadedDaily,
+      dailyLoading,
+    });
+
+    if (!hasLoadedDaily && !dailyLoading) {
+      console.log("DailyPage - loading daily poetry for the first time");
       poetryActions.loadDailyPoetry();
     }
-  }, [dailyPoetry, dailyLoading]);
+  }, [hasLoadedDaily, dailyLoading]);
 
-  const getCategoryFromChapter = useCallback(
-    (chapter: string | undefined): "风" | "雅" | "颂" => {
-      if (!chapter) return "风";
-      if (chapter.includes("風") || chapter.includes("风")) return "风";
-      if (chapter.includes("雅")) return "雅";
-      if (chapter.includes("頌") || chapter.includes("颂")) return "颂";
-      return "风";
-    },
-    []
-  );
+  const getCategoryFromPoetry = useCallback((poetry: any) => {
+    return getDisplayCategory(poetry);
+  }, []);
 
   return (
     <Box>
@@ -60,20 +65,22 @@ const DailyPage = ({ onPoetryClick }: DailyPageProps) => {
       ) : dailyPoetry ? (
         <Box sx={{ maxWidth: 600, mx: "auto" }}>
           <PoetryCard
-            id={dailyPoetry.id}
-            title={dailyPoetry.title}
+            id={parseInt(dailyPoetry.id)}
+            title={dailyPoetry.title || ""}
             content={dailyPoetry.content}
-            chapter={dailyPoetry.chapter}
-            section={dailyPoetry.section}
-            category={getCategoryFromChapter(dailyPoetry.chapter)}
+            chapter={dailyPoetry.chapter || undefined}
+            section={dailyPoetry.section || undefined}
+            category={getCategoryFromPoetry(dailyPoetry)}
+            poetryCategory={dailyPoetry.category || undefined}
+            rhythmic={dailyPoetry.rhythmic || undefined}
             onClick={() => onPoetryClick(dailyPoetry)}
           />
         </Box>
-      ) : (
+      ) : hasLoadedDaily ? (
         <Box textAlign="center" sx={{ py: 8 }}>
           <Typography color="text.secondary">暂无每日诗词</Typography>
         </Box>
-      )}
+      ) : null}
     </Box>
   );
 };
